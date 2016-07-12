@@ -33,6 +33,31 @@ namespace level
             return System.Text.Encoding.ASCII.GetString(textAsset.bytes);
         }
 
+        public string GetName()
+        {
+            if (jsonNode == null)
+                LoadAndParse();
+
+            return jsonNode["name"];
+        }
+
+        public float GetLength()
+        {
+            if (jsonNode == null)
+                LoadAndParse();
+
+            return jsonNode["length"].AsFloat;
+        }
+
+        public float GetHeight()
+        {
+            if (jsonNode == null)
+                LoadAndParse();
+
+            return jsonNode["height"].AsFloat;
+        }
+
+
         public GeomData[] GetGeomData()
         {
             if (jsonNode == null)
@@ -49,11 +74,12 @@ namespace level
 
         private GeomData ParseGeomNode(JSONNode node)
         {
+            string name = node["name"];
             GeomType type = node["type"].AsEnum<GeomType>();
             GeomPosition position = node["position"].AsEnum<GeomPosition>();
             Vector2[] points = node["points"].AsArrayVector2();
 
-            return new GeomData(type, position, points);
+            return new GeomData(name, type, position, points);
         }
 
         public SpriteData[] GetSpriteData()
@@ -62,7 +88,7 @@ namespace level
                 LoadAndParse();
 
             List<SpriteData> spriteDataList = new List<SpriteData>();
-            foreach (JSONNode node in jsonNode["sprite"].AsArray)
+            foreach (JSONNode node in jsonNode["sprites"].AsArray)
             {
                 spriteDataList.Add(ParseSpriteNode(node));
             }
@@ -72,13 +98,14 @@ namespace level
 
         private SpriteData ParseSpriteNode(JSONNode node)
         {
+            string name = node["name"];
             string filePath = node["filePath"];
             Vector2 position = node["position"].AsVector2();
             Vector2 scale = node["scale"].AsVector2();
             float rotation = node["rotation"].AsFloat;
             Vector2[] collision = node["collision"].AsArrayVector2();
 
-            return new SpriteData(filePath, position, scale, rotation, collision);
+            return new SpriteData(name, filePath, position, scale, rotation, collision);
         }
 
         public EnvironmentData GetEnvironmentData()

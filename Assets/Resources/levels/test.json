@@ -1,0 +1,10 @@
+{
+	"name":"Level Name",
+	"length":1000,
+	"height":25,
+	"environment":{"wind":0.1,"shadowAngle":0.1,"palate":"day"}
+	"geom":[{"name":"hills","type":"hills", "position":"bottom", "points":[[0,5],[4,6],[10,5]]},
+			{"name":"cave","type":"cave", "position":"top", "points":[[20,20],[25,20],[30,20]]}
+			{"name":"background","type":"background", "position":"bottom", "points":[[0,5],[4,6],[10,5]]}],
+	"sprites":[{"name":"test","filePath":"balloon","position":[10,10],"scale":[1,1], "rotation":0, "collision":[[0,0],[1,0],[1,1],[0,1]]}]
+}	

@@ -9,11 +9,16 @@ namespace level
         float edgeY;
         const float geomBottomEdge = -10;
         const float geomTopEdge = 100;
+        const float backgroundZPosition = 10;
+        const float defaultZPosition = 0;
+
+        private float zPosition = 0;
 
         public GeomMeshBuilder(GeomData geomData)
         {
             this.geomData = geomData;
             SetEdge();
+            SetZ();
         }
 
         private void SetEdge()
@@ -29,26 +34,50 @@ namespace level
             }
         }
 
-        public Vector2[] Mesh()
+        private void SetZ()
         {
-            Vector2[] mesh = new Vector2[geomData.points.Length * 2];
+            if (geomData.geomType == GeomType.Background)
+                zPosition = backgroundZPosition;
+            else
+                zPosition = defaultZPosition;
+        }
+
+        public Vector3[] Vertices()
+        {
+            Vector3[] mesh = new Vector3[geomData.points.Length * 2];
             for (int i = 0; i < geomData.points.Length; i++)
             {
-                mesh[i * 2] = geomData.points[i];
-                mesh[i * 2 + 1] = new Vector2(mesh[i * 2].x, edgeY); 
+                mesh[i * 2] = new Vector3(geomData.points[i].x,geomData.points[i].y,zPosition);
+                mesh[i * 2 + 1] = new Vector3(mesh[i * 2].x, edgeY,zPosition); 
             }
 
             return mesh;
         }
 
-        public int[] Tris()
+        public int[] Triangles()
         {
-            int[] tris = new int[geomData.points.Length];
+             bool odd = false;
+             switch (geomData.geomPosition)
+             {
+                 case GeomPosition.Bottom:
+                     odd = true;
+                     break;
+                 case GeomPosition.Top:
+                     odd = false;
+                     break;
+             }
+
+            int[] tris = new int[geomData.points.Length*3];
+           
             for (int i = 0; i < geomData.points.Length; i++)
             {
                 for (int j=0;j<3;j++)
                 {
-                    tris[i * 3 + j] = i+j;
+                    if (odd)
+                        tris[i * 3 + j] = i + 2 - j;
+                    else
+                        tris[i * 3 + j] = i + j;
+                    odd = !odd;
                 }
             }
             return tris;
