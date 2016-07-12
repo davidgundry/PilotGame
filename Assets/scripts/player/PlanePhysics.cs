@@ -9,7 +9,7 @@ namespace player
         private const float maxYVelocity = 1f;
 
         // For aeroplane physics
-        private const float density = 6;
+        private const float density = 10;
         private const float angle = 6;
 
         public float SpeedMultiplier { get; set; }

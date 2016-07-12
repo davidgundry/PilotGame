@@ -38,7 +38,7 @@ namespace player
         private Vector2 KeyboardInput(PlanePhysics planePhysics, float deltaTime)
         {
             if (Input.GetKeyDown("space"))
-                return (new Vector2(100f, 0) * 100 * deltaTime);
+                return (new Vector2(100f, 0) * 50 * deltaTime);
             return new Vector2(0, 0);
         }
 

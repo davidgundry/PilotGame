@@ -8,7 +8,7 @@ namespace level
         GeomData geomData;
         float edgeY;
         const float geomBottomEdge = -10;
-        const float geomTopEdge = 100;
+        const float geomTopEdge = 30;
         const float backgroundZPosition = 10;
         const float defaultZPosition = 0;
 

@@ -3,20 +3,19 @@ using System.Collections;
 
 namespace player
 {
+    [RequireComponent(typeof(Camera))]
     public class FollowCamera : MonoBehaviour
     {
 
-        public Transform target;
-        public Vector3 offset;
-        public float minY;
+        public Transform Target {get; set;}
+        public Vector3 Offset {get; set;}
+        public float MinY {get; set;}
+        public float MaxY {get; set;}
+        public float MinX { get; set; }
 
-        void Start()
-        {
-
-        }
         void Update()
         {
-            transform.position = new Vector3(target.position.x + offset.x, Mathf.Max(target.position.y + offset.y, minY), target.position.z + offset.z);
+            transform.position = new Vector3(Mathf.Max(Target.position.x + Offset.x,MinX), Mathf.Min(Mathf.Max(Target.position.y + Offset.y, MinY),MaxY), Target.position.z + Offset.z);
         }
     }
 }
