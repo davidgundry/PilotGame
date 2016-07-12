@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoadLevel : MonoBehaviour {
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
+public class GeomBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

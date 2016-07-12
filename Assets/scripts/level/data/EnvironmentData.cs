@@ -1,4 +1,4 @@
-﻿namespace level
+﻿namespace level.data
 {
 
     public enum LevelPalate
@@ -9,9 +9,9 @@
 
     public class EnvironmentData
     {
-        readonly float wind;
-        readonly float shadowAngle;
-        readonly LevelPalate palate;
+        public readonly float wind;
+        public readonly float shadowAngle;
+        public readonly LevelPalate palate;
 
         public EnvironmentData(float wind, float shadowAngle, LevelPalate palate)
         {

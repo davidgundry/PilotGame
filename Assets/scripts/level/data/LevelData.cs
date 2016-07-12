@@ -1,4 +1,5 @@
-﻿namespace level
+﻿using level;
+namespace level.data
 {
     public class LevelData
     {
@@ -10,7 +11,7 @@
         readonly SpriteData[] spriteData;
         readonly EnvironmentData environmentData;
 
-        LevelData(LevelFileLoader levelFileLoader)
+        public LevelData(LevelFileLoader levelFileLoader)
         {
             this.geomData = levelFileLoader.GetGeomData();
             this.spriteData = levelFileLoader.GetSpriteData();
