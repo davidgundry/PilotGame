@@ -5,6 +5,8 @@ using level.data;
 [RequireComponent(typeof(SpriteRenderer))]
 public class SpriteBehaviour : MonoBehaviour {
 
+    private Vector3 Movement { get; set; }
+
     public void Create(SpriteData spriteData)
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -24,8 +26,14 @@ public class SpriteBehaviour : MonoBehaviour {
         }
     }
 
+    void Update()
+    {
+        transform.position += Movement;
+    }
+
     public void OnTriggerEnter2D(Collider2D collider)
     {
         Debug.Log("Trigger");
+        Movement = new Vector3(0, 0.1f, 0);
     }
 }

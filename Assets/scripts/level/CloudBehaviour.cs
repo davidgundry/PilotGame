@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using level.data;
 namespace level
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class CloudBehaviour : MonoBehaviour
     {
 
-        public void Create(LevelBounds levelBounds)
+        private Vector3 Movement { get; set; }
+
+        public void Create(LevelBounds levelBounds, EnvironmentData environmentData)
         {
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = Resources.Load<Sprite>("sprites/cloud");
@@ -16,6 +18,12 @@ namespace level
             transform.localScale = RandomCloudScale();
 
             gameObject.name = "Cloud";
+            Movement = new Vector3(environmentData.wind, 0, 0);
+        }
+
+        void Update()
+        {
+            this.transform.position += Movement*Time.deltaTime;
         }
 
         private Vector3 RandomCloudPosition(LevelBounds levelBounds)

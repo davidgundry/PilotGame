@@ -5,12 +5,13 @@ namespace player
     public class PlanePhysics
     {
 
-        private const float minXSpeed = 1.5f; //0.5f
-        private const float maxYVelocity = 1f;
+        private const float minXSpeed = 1f; //0.5f
+        private const float maxYVelocity = 3.5f;
+        private const float minYVelocity = -100f;
 
         // For aeroplane physics
-        private const float density = 10;
-        private const float angle = 6;
+        private const float density = 5;
+        private const float angle = 5;
 
         public float SpeedMultiplier { get; set; }
 
@@ -29,7 +30,7 @@ namespace player
 
         public Vector2 BoundVelocity(Vector2 velocity)
         {
-            return new Vector2(Mathf.Max(velocity.x, minXSpeed * SpeedMultiplier), Mathf.Min(velocity.y, maxYVelocity));
+            return new Vector2(Mathf.Max(velocity.x, minXSpeed * SpeedMultiplier), Mathf.Max(Mathf.Min(velocity.y, maxYVelocity),minYVelocity));
         }
 
     }

@@ -5,7 +5,7 @@
 	"playerStart":[1,10],
 	"environment":
 	{
-		"wind":0.1,
+		"wind":0.7,
 		"shadowAngle":0.1,
 		"palate":"day"
 	}
@@ -15,6 +15,8 @@
 			"name":"hills",
 			"type":"hills",
 			"position":"bottom", 
+			"pivotStartPoints":0,
+			"pivotEndPoints":0,
 			"points":
 			[
 				[0,10],
@@ -24,6 +26,17 @@
 				[31,1],
 				[32,2],
 				[33,5],
+				[90,2],
+			]
+		},
+				{
+			"name":"desert",
+			"type":"desert",
+			"position":"bottom", 
+			"pivotStartPoints":0,
+			"pivotEndPoints":0,
+			"points":
+			[
 				[90,2],
 				[120,4],
 				[150,10],
@@ -36,16 +49,17 @@
 			"name":"cave",
 			"type":"cave",
 			"position":"top",
+			"pivotStartPoints":2,
+			"pivotEndPoints":2,
 			"points":
 			[
-				[10,25],
-				[25,15],
-				[50,25],
-				[51,26],
-				[52,10],
-				[53,15],
-				[60,20],
-				[100,30]
+				[20,25],
+				[23,22],
+				[25,20],
+				[50,15],
+				[55,20],
+				[63,19],
+				[65,30]
 			]
 		},
 			
@@ -53,23 +67,25 @@
 			"name":"background",
 			"type":"background",
 			"position":"bottom",
+			"pivotStartPoints":0,
+			"pivotEndPoints":0,
 			"points":
 			[
-				[0,4],
-				[4,6],
-				[10,2],
-				[20,3],
-				[25,2],
-				[40,8],
+				[0,7],
+				[4,9],
+				[10,5],
+				[20,8],
+				[25,7],
+				[40,11],
 				[60,6],
-				[80,7],
-				[100,1],
-				[120,5],
-				[130,10],
-				[200,4],
-				[300,10],
-				[350,10],
-				[600,20]
+				[80,10],
+				[100,4],
+				[120,8],
+				[130,13],
+				[200,7],
+				[300,13],
+				[350,13],
+				[600,23]
 			]
 		}
 	],	 
@@ -79,9 +95,9 @@
 			"name":"test",
 			"filePath":"balloon",
 			"position":[10,10],
-			"scale":[1,1],
+			"scale":[0.5,0.5],
 			"rotation":0,
-			"collision":[[0,0],[1,0],[1,1],[0,1]]
+			"collision":[[-6,6],[6,6],[6,-6],[-6,-6]]
 		}
 	]
 }	

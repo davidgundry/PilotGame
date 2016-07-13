@@ -86,8 +86,10 @@ namespace level
             GeomType type = node["type"].AsEnum<GeomType>();
             GeomPosition position = node["position"].AsEnum<GeomPosition>();
             Vector2[] points = node["points"].AsArrayVector2();
+            int pivotStartPoints = node["pivotStartPoints"].AsInt;
+            int pivotEndPoints = node["pivotStartPoints"].AsInt;
 
-            return new GeomData(name, type, position, points);
+            return new GeomData(name, type, position, points,pivotStartPoints,pivotEndPoints);
         }
 
         public SpriteData[] GetSpriteData()

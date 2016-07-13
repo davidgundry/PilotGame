@@ -34,25 +34,25 @@ namespace level
 
         public void Create(LevelData levelData)
         {
-            CreatePlayer();
-            CreateCamera(player);
-            CreateLevelBounds(levelData, camera);
+            player = CreatePlayer();
+            camera = CreateCamera(player);
+            levelBounds = CreateLevelBounds(levelData, camera);
             camera.SetCameraBounds(levelBounds);
 
-            CreateGeom(levelData.geomData, levelBounds);
-            CreateSprites(levelData.spriteData);
+            geomBehaviours = CreateGeom(levelData.geomData, levelBounds);
+            spriteBehaviours  = CreateSprites(levelData.spriteData);
 
-            CreateFinishLine(levelData);
+            CreateFinishLine(levelData,levelBounds);
             CreateCloudLine(levelData);
-            CreateClouds(levelBounds);
+            CreateClouds(levelBounds,levelData.environmentData);
 
             SetPlayerPosition(levelData);
             created = true;
         }
 
-        private void CreateGeom(GeomData[] geomData, LevelBounds levelBounds)
+        private static GeomBehaviour[] CreateGeom(GeomData[] geomData, LevelBounds levelBounds)
         {
-            geomBehaviours = new GeomBehaviour[geomData.Length];
+            GeomBehaviour[] geomBehaviours = new GeomBehaviour[geomData.Length];
             for (int i = 0; i < geomData.Length; i++)
             {
                 GameObject g = new GameObject();
@@ -61,11 +61,12 @@ namespace level
                 g.name = geomData[i].name;
                 geomBehaviours[i] = g.GetComponent<GeomBehaviour>();
             }
+            return geomBehaviours;
         }
 
-        private void CreateSprites(SpriteData[] spriteData)
+        private static SpriteBehaviour[] CreateSprites(SpriteData[] spriteData)
         {
-            spriteBehaviours = new SpriteBehaviour[spriteData.Length];
+            SpriteBehaviour[] spriteBehaviours = new SpriteBehaviour[spriteData.Length];
             for (int i = 0; i < spriteData.Length; i++)
             {
                 GameObject g = new GameObject();
@@ -74,17 +75,18 @@ namespace level
                 g.name = spriteData[i].name;
                 spriteBehaviours[i] = g.GetComponent<SpriteBehaviour>();
             }
+            return spriteBehaviours;
         }
 
-        private void CreateFinishLine(LevelData levelData)
+        private static void CreateFinishLine(LevelData levelData,LevelBounds levelBounds)
         {
             GameObject finishLine = new GameObject();
             finishLine.name = "FinishLine";
             finishLine.AddComponent<FinishLineBehaviour>();
-            finishLine.GetComponent<FinishLineBehaviour>().Create(levelData);
+            finishLine.GetComponent<FinishLineBehaviour>().Create(levelData,levelBounds);
         }
 
-        private void CreateCloudLine(LevelData levelData)
+        private static void CreateCloudLine(LevelData levelData)
         {
             float zPosition = 1;
             GameObject cloudLine = new GameObject();
@@ -93,26 +95,27 @@ namespace level
             cloudLine.GetComponent<CloudLineBehaviour>().Create(levelData, zPosition);
         }
 
-        private void CreatePlayer()
+        private static PlaneController CreatePlayer()
         {
             GameObject plane = Instantiate(Resources.Load<GameObject>("prefabs/player"));
-            player = plane.GetComponent<PlaneController>();
+            return plane.GetComponent<PlaneController>();
         }
 
-        private void CreateCamera(PlaneController player)
+        private static FollowCamera CreateCamera(PlaneController player)
         {
             GameObject g = new GameObject();
             g.AddComponent<FollowCamera>();
-            camera = g.GetComponent<FollowCamera>();
+            FollowCamera camera = g.GetComponent<FollowCamera>();
             camera.Create(player.transform);
+            return camera;
         }
 
-        private void CreateLevelBounds(LevelData levelData, FollowCamera camera)
+        private static LevelBounds CreateLevelBounds(LevelData levelData, FollowCamera camera)
         {
-            levelBounds = new LevelBounds(levelData.length, 0, 0, levelData.height, levelData.height+0.5f, camera.Camera.orthographicSize, camera.Camera.orthographicSize*camera.Camera.aspect);
+            return new LevelBounds(levelData.length, 0, 0, levelData.height, levelData.height+0.5f, camera.Camera.orthographicSize, camera.Camera.orthographicSize*camera.Camera.aspect);
         }
 
-        private void CreateClouds(LevelBounds levelBounds)
+        private static void CreateClouds(LevelBounds levelBounds,EnvironmentData environmentData)
         {
             int cloudCount = 10;
             for (int i = 0; i < cloudCount; i++)
@@ -120,7 +123,7 @@ namespace level
                 GameObject g = new GameObject();
                 g.AddComponent<CloudBehaviour>();
                 CloudBehaviour cloud = g.GetComponent<CloudBehaviour>();
-                cloud.Create(levelBounds);
+                cloud.Create(levelBounds,environmentData);
             }
         }
 

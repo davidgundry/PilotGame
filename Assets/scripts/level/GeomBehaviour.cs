@@ -13,14 +13,33 @@ namespace level
         public void Create(GeomData geomData, LevelBounds levelBounds)
         {
             MakeMesh(geomData, levelBounds);
+
             if (geomData.geomType != GeomType.Background)
+            {
                 MakeCollider(geomData, levelBounds);
+                SetPhysicsMaterial(LoadPhysicsMaterial("GroundPhysics"));
+            }
+
             SetMaterial(LoadMaterial(geomData.geomType.ToString()));
+
+
+            if (geomData.geomType != GeomType.Background)
+                DuplicateMeshForOutline(geomData);
         }
 
         private Material LoadMaterial(string materialName)
         {
             return Resources.Load("materials/" + materialName, typeof(Material)) as Material;
+        }
+
+        private PhysicsMaterial2D LoadPhysicsMaterial(string materialName)
+        {
+            return Resources.Load("materials/" + materialName, typeof(PhysicsMaterial2D)) as PhysicsMaterial2D;
+        }
+
+        private void SetPhysicsMaterial(PhysicsMaterial2D material)
+        {
+            GetComponent<PolygonCollider2D>().sharedMaterial = material;
         }
 
         private void MakeMesh(GeomData geomData, LevelBounds levelBounds)
@@ -31,6 +50,48 @@ namespace level
             mf.mesh.triangles = gmb.Triangles();
             mf.mesh.RecalculateBounds();
             mf.mesh.RecalculateNormals();
+        }
+
+        private void DuplicateMeshForOutline(GeomData geomData)
+        {
+            MeshFilter mf = GetComponent<MeshFilter>();
+            float lineThickness = 0.5f;
+
+            GameObject outline = new GameObject();
+            outline.name = "Line";
+            outline.transform.SetParent(this.transform);
+            outline.AddComponent<MeshFilter>();
+            outline.AddComponent<MeshRenderer>();
+            MeshFilter outlineChildMF = outline.GetComponent<MeshFilter>();
+            outlineChildMF.mesh = mf.mesh;
+
+            if (geomData.geomPosition == GeomPosition.Bottom)
+                outline.transform.localPosition = new Vector3(0, -lineThickness, -0.1f);
+            else if (geomData.geomPosition == GeomPosition.Top)
+                outline.transform.localPosition = new Vector3(0, lineThickness, -0.1f);
+
+            MeshRenderer outlineMR = outline.GetComponent<MeshRenderer>();
+            outlineMR.material = LoadMaterial(geomData.geomType.ToString() + "Line");
+
+
+            GameObject inner = new GameObject();
+            inner.name = "Inner";
+            inner.transform.SetParent(this.transform);
+            inner.AddComponent<MeshFilter>();
+            inner.AddComponent<MeshRenderer>();
+            MeshFilter innerChildMF = inner.GetComponent<MeshFilter>();
+            innerChildMF.mesh = mf.mesh;
+
+            if (geomData.geomPosition == GeomPosition.Bottom)
+                inner.transform.localPosition = new Vector3(0, -2 * lineThickness, -0.2f);
+            else if (geomData.geomPosition == GeomPosition.Top)
+                inner.transform.localPosition = new Vector3(0, 2 * lineThickness, -0.2f);
+
+            MeshRenderer innerMR = inner.GetComponent<MeshRenderer>();
+            if (geomData.geomType != GeomType.Desert)
+                innerMR.material = LoadMaterial("Inner");
+            else
+                innerMR.material = LoadMaterial("DesertInner");
         }
 
         private void SetMaterial(Material material)
@@ -46,7 +107,6 @@ namespace level
                 edgeY = levelBounds.GeomTopEdge;
             else if (geomData.geomPosition == GeomPosition.Bottom)
                 edgeY = levelBounds.GeomBottomEdge;
-
 
 
             gameObject.AddComponent<PolygonCollider2D>();

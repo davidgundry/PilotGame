@@ -26,11 +26,11 @@ namespace player
         {
             gameObject.name = "Camera";
             Target = target;
-            Offset = new Vector3(0, 0, -10);
             Camera.orthographic = true;
             Camera.orthographicSize = 15;
             Camera.clearFlags = CameraClearFlags.SolidColor;
             Camera.backgroundColor = new Color(0.75f,0.93f,0.98f,1);
+            Offset = new Vector3(Camera.orthographicSize/1.5f, 0, -10);
         }
 
         public void SetCameraBounds(LevelBounds levelBounds)

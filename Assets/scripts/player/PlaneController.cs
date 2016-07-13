@@ -12,19 +12,27 @@ namespace player
         PlayerInputManager playerInputManager;
         Rigidbody2D rb;
 
+        Vector3 weightedOldPosition;
+
         void Awake()
         {
             planePhysics = new PlanePhysics();
             playerInputManager = GetComponent<PlayerInputManager>();
             rb = GetComponent<Rigidbody2D>();
+            
+        }
+
+        void Start()
+        {
+            weightedOldPosition = transform.position -  new Vector3(1f, 0f, 0f);
         }
 
 
         void Update()
         {
+            RotateToDirection();
             PhysicalForces();
             PlayerForces();
-            RotateToDirection();
         }
 
         private void PhysicalForces()
@@ -35,13 +43,15 @@ namespace player
 
         private void PlayerForces()
         {
-            rb.AddForce(playerInputManager.PlayerForce(planePhysics,Time.deltaTime));
+            rb.AddForce(playerInputManager.PlayerForce(planePhysics,Time.deltaTime),ForceMode2D.Impulse);
         }
 
         private void RotateToDirection()
         {
-            transform.rotation = Quaternion.LookRotation(rb.velocity);
+            transform.rotation = Quaternion.LookRotation(transform.position - weightedOldPosition);
             transform.Rotate(Vector3.up, -90);
+
+            weightedOldPosition = (weightedOldPosition * 6 + transform.position) / 7;
         }
 
     }
