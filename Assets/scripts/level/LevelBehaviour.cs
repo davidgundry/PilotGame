@@ -44,6 +44,7 @@ namespace level
 
             CreateFinishLine(levelData);
             CreateCloudLine(levelData);
+            CreateClouds(levelBounds);
 
             SetPlayerPosition(levelData);
             created = true;
@@ -109,6 +110,18 @@ namespace level
         private void CreateLevelBounds(LevelData levelData, FollowCamera camera)
         {
             levelBounds = new LevelBounds(levelData.length, 0, 0, levelData.height, levelData.height+0.5f, camera.Camera.orthographicSize, camera.Camera.orthographicSize*camera.Camera.aspect);
+        }
+
+        private void CreateClouds(LevelBounds levelBounds)
+        {
+            int cloudCount = 10;
+            for (int i = 0; i < cloudCount; i++)
+            {
+                GameObject g = new GameObject();
+                g.AddComponent<CloudBehaviour>();
+                CloudBehaviour cloud = g.GetComponent<CloudBehaviour>();
+                cloud.Create(levelBounds);
+            }
         }
 
         private void SetPlayerPosition(LevelData levelData)

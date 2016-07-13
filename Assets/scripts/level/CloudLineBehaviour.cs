@@ -38,10 +38,10 @@ namespace level
         {
             return new Vector3[]
             {
-                new Vector3(0,1f,zPosition),
-                new Vector3(levelWidth,1f,zPosition),
-                new Vector3(levelWidth,-1f,zPosition),
-                new Vector3(0,-1f,zPosition)
+                new Vector3(0,2f,zPosition),
+                new Vector3(levelWidth,2f,zPosition),
+                new Vector3(levelWidth,-2f,zPosition),
+                new Vector3(0,-2f,zPosition)
             };
         }
 
