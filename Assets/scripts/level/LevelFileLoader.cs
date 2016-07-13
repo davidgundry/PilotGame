@@ -57,6 +57,14 @@ namespace level
             return jsonNode["height"].AsFloat;
         }
 
+        public Vector2 GetPlayerStart()
+        {
+            if (jsonNode == null)
+                LoadAndParse();
+
+            return jsonNode["playerStart"].AsVector2();
+        }
+
 
         public GeomData[] GetGeomData()
         {

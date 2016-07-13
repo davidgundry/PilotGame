@@ -1,4 +1,5 @@
-﻿using level;
+﻿using UnityEngine;
+using level;
 namespace level.data
 {
     public class LevelData
@@ -6,6 +7,7 @@ namespace level.data
         public readonly string name;
         public readonly float length;
         public readonly float height;
+        public readonly Vector2 playerStart;
 
         public readonly GeomData[] geomData;
         public readonly SpriteData[] spriteData;
@@ -19,6 +21,7 @@ namespace level.data
             this.name = levelFileLoader.GetName();
             this.length = levelFileLoader.GetLength();
             this.height = levelFileLoader.GetHeight();
+            this.playerStart = levelFileLoader.GetPlayerStart();
             this.geomData = levelFileLoader.GetGeomData();
             this.spriteData = levelFileLoader.GetSpriteData();
             this.environmentData = levelFileLoader.GetEnvironmentData();

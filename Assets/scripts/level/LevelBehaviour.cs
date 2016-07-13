@@ -44,6 +44,8 @@ namespace level
 
             CreateFinishLine(levelData);
             CreateCloudLine(levelData);
+
+            SetPlayerPosition(levelData);
             created = true;
         }
 
@@ -107,6 +109,11 @@ namespace level
         private void CreateLevelBounds(LevelData levelData, FollowCamera camera)
         {
             levelBounds = new LevelBounds(levelData.length, 0, 0, levelData.height, levelData.height+0.5f, camera.Camera.orthographicSize, camera.Camera.orthographicSize*camera.Camera.aspect);
+        }
+
+        private void SetPlayerPosition(LevelData levelData)
+        {
+            player.transform.position = levelData.playerStart;
         }
     }
 }

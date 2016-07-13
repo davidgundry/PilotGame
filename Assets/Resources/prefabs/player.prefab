@@ -14,6 +14,7 @@ GameObject:
   - 50: {fileID: 5023426}
   - 114: {fileID: 11498150}
   - 212: {fileID: 21243596}
+  - 61: {fileID: 6165624}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 126094}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 41.9498444, y: -19.2372131, z: 0}
   m_LocalScale: {x: .300000012, y: .300000012, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -49,6 +50,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &6165624
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126094}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: -.376396179, y: .250930786}
+  serializedVersion: 2
+  m_Size: {x: 11.2472115, y: 5.28534746}
 --- !u!114 &11407170
 MonoBehaviour:
   m_ObjectHideFlags: 1

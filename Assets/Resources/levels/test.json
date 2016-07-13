@@ -2,6 +2,7 @@
 	"name":"Level Name",
 	"length":100,
 	"height":20,
+	"playerStart":[1,10],
 	"environment":
 	{
 		"wind":0.1,
