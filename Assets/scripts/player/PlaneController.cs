@@ -17,21 +17,8 @@ namespace player
             planePhysics = new PlanePhysics();
             playerInputManager = GetComponent<PlayerInputManager>();
             rb = GetComponent<Rigidbody2D>();
-
-            CreateCamera();
         }
 
-        private void CreateCamera()
-        {
-            GameObject g = new GameObject();
-            g.AddComponent<FollowCamera>();
-            FollowCamera camera = g.GetComponent<FollowCamera>();
-            camera.Target = this.transform;
-            camera.Offset = new Vector3(10, 2, -20);
-            camera.MinY = 1.5f;
-            camera.MaxY = 20;
-            camera.MinX = 18.5f;
-        }
 
         void Update()
         {

@@ -9,8 +9,11 @@ namespace level
     public class CloudLineBehaviour : MonoBehaviour
     {
 
-        public void Create(LevelData levelData)
+        float zPosition;
+
+        public void Create(LevelData levelData, float zPosition)
         {
+            this.zPosition = zPosition;
             MakeMesh(levelData.length);
             SetMaterial(LoadMaterial());
             transform.position = new Vector3(0, levelData.height, 0);
@@ -35,10 +38,10 @@ namespace level
         {
             return new Vector3[]
             {
-                new Vector3(0,1f,0),
-                new Vector3(levelWidth,1f,0),
-                new Vector3(levelWidth,-1f,0),
-                new Vector3(0,-1f,0)
+                new Vector3(0,1f,zPosition),
+                new Vector3(levelWidth,1f,zPosition),
+                new Vector3(levelWidth,-1f,zPosition),
+                new Vector3(0,-1f,zPosition)
             };
         }
 

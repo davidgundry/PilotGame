@@ -7,29 +7,27 @@ namespace level
     {
         GeomData geomData;
         float edgeY;
-        const float geomBottomEdge = -10;
-        const float geomTopEdge = 30;
         const float backgroundZPosition = 10;
         const float defaultZPosition = 0;
 
         private float zPosition = 0;
 
-        public GeomMeshBuilder(GeomData geomData)
+        public GeomMeshBuilder(GeomData geomData, LevelBounds levelBounds)
         {
             this.geomData = geomData;
-            SetEdge();
+            SetEdge(levelBounds);
             SetZ();
         }
 
-        private void SetEdge()
+        private void SetEdge(LevelBounds levelBounds)
         {
-            switch (geomData.geomPosition)
+            switch (geomData.geomPosition)  
             {
                 case GeomPosition.Bottom:
-                    edgeY = geomBottomEdge;
+                    edgeY = levelBounds.GeomBottomEdge;
                     break;
                 case GeomPosition.Top:
-                    edgeY = geomTopEdge;
+                    edgeY = levelBounds.GeomTopEdge;
                     break;
             }
         }
@@ -67,9 +65,10 @@ namespace level
                      break;
              }
 
-            int[] tris = new int[geomData.points.Length*3];
+            int triangleCount = (geomData.points.Length - 1) * 2;
+            int[] tris = new int[triangleCount*3];
            
-            for (int i = 0; i < geomData.points.Length; i++)
+            for (int i = 0; i < triangleCount; i++)
             {
                 for (int j=0;j<3;j++)
                 {
@@ -77,8 +76,8 @@ namespace level
                         tris[i * 3 + j] = i + 2 - j;
                     else
                         tris[i * 3 + j] = i + j;
-                    odd = !odd;
                 }
+                odd = !odd;
             }
             return tris;
         }

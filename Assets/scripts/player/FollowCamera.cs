@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using level;
+
 namespace player
 {
     [RequireComponent(typeof(Camera))]
@@ -12,6 +14,31 @@ namespace player
         public float MinY {get; set;}
         public float MaxY {get; set;}
         public float MinX { get; set; }
+
+        public Camera Camera { get; private set; }
+
+        void Awake()
+        { 
+            Camera = GetComponent<Camera>();
+        }
+
+        public void Create(Transform target)
+        {
+            gameObject.name = "Camera";
+            Target = target;
+            Offset = new Vector3(0, 0, -10);
+            Camera.orthographic = true;
+            Camera.orthographicSize = 15;
+            Camera.clearFlags = CameraClearFlags.SolidColor;
+            Camera.backgroundColor = new Color(0.75f,0.93f,0.98f,1);
+        }
+
+        public void SetCameraBounds(LevelBounds levelBounds)
+        {
+            MinY = levelBounds.BottomEdge;
+            MaxY = levelBounds.HardMaxHeight;
+            MinX = levelBounds.LeftEdge + Camera.orthographicSize*Camera.aspect;
+        }
 
         void Update()
         {

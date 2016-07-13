@@ -10,9 +10,9 @@ namespace level
     public class GeomBehaviour : MonoBehaviour
     {
 
-        public void Create(GeomData geomData)
+        public void Create(GeomData geomData, LevelBounds levelBounds)
         {
-            MakeMesh(geomData);
+            MakeMesh(geomData, levelBounds);
             SetMaterial(LoadMaterial(geomData.geomType.ToString()));
         }
 
@@ -21,10 +21,10 @@ namespace level
             return Resources.Load("materials/" + materialName, typeof(Material)) as Material;
         }
 
-        private void MakeMesh(GeomData geomData)
+        private void MakeMesh(GeomData geomData, LevelBounds levelBounds)
         {
             MeshFilter mf = GetComponent<MeshFilter>();
-            GeomMeshBuilder gmb = new GeomMeshBuilder(geomData);
+            GeomMeshBuilder gmb = new GeomMeshBuilder(geomData, levelBounds);
             mf.mesh.vertices = gmb.Vertices();
             mf.mesh.triangles = gmb.Triangles();
             mf.mesh.RecalculateBounds();
