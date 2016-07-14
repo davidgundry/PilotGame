@@ -13,13 +13,14 @@ namespace player
         Rigidbody2D rb;
 
         Vector3 weightedOldPosition;
+        public bool AutoPilot { get; set; }
 
         void Awake()
         {
             planePhysics = new PlanePhysics();
             playerInputManager = GetComponent<PlayerInputManager>();
             rb = GetComponent<Rigidbody2D>();
-            
+            AutoPilot = false;
         }
 
         void Start()
@@ -32,7 +33,17 @@ namespace player
         {
             RotateToDirection();
             PhysicalForces();
-            PlayerForces();
+            if (!AutoPilot)
+                PlayerForces();
+            else
+                rb.AddForce(new Vector3(200,0,0)*Time.deltaTime);
+        }
+
+        public bool HasCrashed()
+        {
+            if (rb.velocity.magnitude < 0.1f)
+                return true;
+            return false;
         }
 
         private void PhysicalForces()

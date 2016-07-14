@@ -9,16 +9,22 @@ namespace level
     {
         GeomBehaviour[] geomBehaviours;
         SpriteBehaviour[] spriteBehaviours;
+        CloudBehaviour[] cloudBehaviours;
         LevelBounds levelBounds;
         PlaneController player;
         FollowCamera camera;
         private bool created;
+        LevelSession levelSession;
 
         void Update()
         {
             if (created)
             {
                 CheckLevelBounds();
+                if (player.HasCrashed())
+                {
+                    levelSession.PlayerCrashed();
+                }
             }
         }
 
@@ -28,12 +34,20 @@ namespace level
             levelBounds.ApplySoftHeightLimit(player.transform.position, player.GetComponent<Rigidbody2D>(), Time.deltaTime);
             if (levelBounds.CheckLevelComplete(player.transform.position))
             {
-                // Level is complete
+                player.AutoPilot = true;
+                levelSession.LevelEnd();
+            }
+            if (player.transform.position.y < levelBounds.GeomBottomEdge)
+            {
+                levelSession.FallOffBottomOfScreen();
             }
         }
 
-        public void Create(LevelData levelData)
+
+
+        public void Create(LevelSession levelSession, LevelData levelData)
         {
+            this.levelSession = levelSession;
             player = CreatePlayer();
             camera = CreateCamera(player);
             levelBounds = CreateLevelBounds(levelData, camera);
@@ -44,7 +58,7 @@ namespace level
 
             CreateFinishLine(levelData,levelBounds);
             CreateCloudLine(levelData);
-            CreateClouds(levelBounds,levelData.environmentData);
+            cloudBehaviours = CreateClouds(levelBounds, levelData.environmentData);
 
             SetPlayerPosition(levelData);
             created = true;
@@ -115,21 +129,45 @@ namespace level
             return new LevelBounds(levelData.length, 0, 0, levelData.height, levelData.height+0.5f, camera.Camera.orthographicSize, camera.Camera.orthographicSize*camera.Camera.aspect);
         }
 
-        private static void CreateClouds(LevelBounds levelBounds,EnvironmentData environmentData)
+        private static CloudBehaviour[] CreateClouds(LevelBounds levelBounds,EnvironmentData environmentData)
         {
             int cloudCount = 10;
-            for (int i = 0; i < cloudCount; i++)
+            CloudBehaviour[] cloudBehaviours = new CloudBehaviour[cloudCount];
+            for (int i = 0; i < cloudBehaviours.Length; i++)
             {
                 GameObject g = new GameObject();
                 g.AddComponent<CloudBehaviour>();
-                CloudBehaviour cloud = g.GetComponent<CloudBehaviour>();
-                cloud.Create(levelBounds,environmentData);
+                cloudBehaviours[i] = g.GetComponent<CloudBehaviour>();
+                cloudBehaviours[i].Create(levelBounds, environmentData);
             }
+            return cloudBehaviours;
         }
 
         private void SetPlayerPosition(LevelData levelData)
         {
             player.transform.position = levelData.playerStart;
+        }
+
+        public void FreezePlay(bool frozen)
+        {
+            if (frozen)
+            {
+                player.GetComponent<Rigidbody2D>().Sleep();
+                player.enabled = false;
+                foreach (CloudBehaviour cloud in cloudBehaviours)
+                {
+                    cloud.enabled = false;
+                }
+            }
+            else
+            {
+                player.GetComponent<Rigidbody2D>().WakeUp();
+                player.enabled = true;
+                foreach (CloudBehaviour cloud in cloudBehaviours)
+                {
+                    cloud.enabled = true;
+                }
+            }
         }
     }
 }
