@@ -49,8 +49,8 @@
 			"name":"cave",
 			"type":"cave",
 			"position":"top",
-			"pivotStartPoints":2,
-			"pivotEndPoints":2,
+			"pivotStartPoints":1,
+			"pivotEndPoints":1,
 			"points":
 			[
 				[20,25],

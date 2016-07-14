@@ -93,6 +93,9 @@ namespace level
                     break;
             }
 
+            if (geomData.pivotStartPoints == 1)
+                odd = !odd;
+
             int pivotTriangleCount = geomData.totalPivotPoints;
             int mainTriangleCount = (geomData.points.Length - geomData.totalPivotPoints - 1) * 2;
             int totalTriangleCount = pivotTriangleCount + mainTriangleCount;
