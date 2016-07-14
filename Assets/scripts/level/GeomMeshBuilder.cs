@@ -40,6 +40,11 @@ namespace level
                 zPosition = defaultZPosition;
         }
 
+        public int VerticesCount()
+        {
+            return (geomData.points.Length * 2) - (geomData.totalPivotPoints);
+        }
+
         public Vector3[] Vertices()
         {
             /*Vector3[] mesh = new Vector3[geomData.points.Length * 2];
@@ -50,7 +55,7 @@ namespace level
             }*/
 
 
-            Vector3[] mesh = new Vector3[(geomData.points.Length * 2) - (geomData.totalPivotPoints)];
+            Vector3[] mesh = new Vector3[VerticesCount()];
 
             for (int i = 0; i < geomData.pivotStartPoints; i++)
             {
@@ -161,5 +166,58 @@ namespace level
             return tris;*/
         }
 
+        public Vector2[] UVs(TextureType textureType)
+        {
+            float xOffset = 0;
+            switch (textureType)
+            {
+                case TextureType.OuterLine:
+                    xOffset = 0.25f;
+                    break;
+                case TextureType.InnerLine:
+                    xOffset = 0.5f;
+                    break;
+                case TextureType.InnerFill:
+                    xOffset = 0.75f;
+                    break;
+            }
+            float yOffset = 0;
+            switch (geomData.geomType)
+            {
+                case GeomType.Hills:
+                    yOffset = 0.95f;
+                    break;
+                case GeomType.Mountains:
+                    yOffset = 0.85f;
+                    break;
+                case GeomType.Desert:
+                    yOffset = 0.75f;
+                    break;
+                case GeomType.Cave:
+                    yOffset = 0.65f;
+                    break;
+                case GeomType.Background:
+                    yOffset = 0.55f;
+                    break;
+            }
+
+            Vector2[] uvs = new Vector2[VerticesCount()];
+            for (int i = 0; i < VerticesCount(); i++)
+            {
+                uvs[i] = new Vector2(xOffset, yOffset);
+            }
+            return uvs;
+            
+        }
+
     }
+
+
+    public enum TextureType
+    {
+        OuterLine,
+        InnerLine,
+        InnerFill
+    }
+
 }

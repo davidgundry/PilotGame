@@ -20,11 +20,11 @@ namespace level
                 SetPhysicsMaterial(LoadPhysicsMaterial("GroundPhysics"));
             }
 
-            SetMaterial(LoadMaterial(geomData.geomType.ToString()));
-
+            //SetMaterial(LoadMaterial(geomData.geomType.ToString()));
+            SetMaterial(LoadMaterial("Ground"));
 
             if (geomData.geomType != GeomType.Background)
-                DuplicateMeshForOutline(geomData);
+                DuplicateMeshForOutline(geomData, levelBounds);
         }
 
         private Material LoadMaterial(string materialName)
@@ -48,12 +48,15 @@ namespace level
             GeomMeshBuilder gmb = new GeomMeshBuilder(geomData, levelBounds);
             mf.mesh.vertices = gmb.Vertices();
             mf.mesh.triangles = gmb.Triangles();
+            mf.mesh.uv = gmb.UVs(TextureType.OuterLine);
             mf.mesh.RecalculateBounds();
             mf.mesh.RecalculateNormals();
         }
 
-        private void DuplicateMeshForOutline(GeomData geomData)
+        private void DuplicateMeshForOutline(GeomData geomData, LevelBounds levelBounds)
         {
+            GeomMeshBuilder gmb = new GeomMeshBuilder(geomData, levelBounds);
+
             MeshFilter mf = GetComponent<MeshFilter>();
             float lineThickness = 0.5f;
 
@@ -64,6 +67,7 @@ namespace level
             outline.AddComponent<MeshRenderer>();
             MeshFilter outlineChildMF = outline.GetComponent<MeshFilter>();
             outlineChildMF.mesh = mf.mesh;
+            outlineChildMF.mesh.uv = gmb.UVs(TextureType.InnerLine);
 
             if (geomData.geomPosition == GeomPosition.Bottom)
                 outline.transform.localPosition = new Vector3(0, -lineThickness, -0.1f);
@@ -71,7 +75,8 @@ namespace level
                 outline.transform.localPosition = new Vector3(0, lineThickness, -0.1f);
 
             MeshRenderer outlineMR = outline.GetComponent<MeshRenderer>();
-            outlineMR.material = LoadMaterial(geomData.geomType.ToString() + "Line");
+            outlineMR.material = LoadMaterial("Ground");
+            //outlineMR.material = LoadMaterial(geomData.geomType.ToString() + "Line");
 
 
             GameObject inner = new GameObject();
@@ -81,6 +86,7 @@ namespace level
             inner.AddComponent<MeshRenderer>();
             MeshFilter innerChildMF = inner.GetComponent<MeshFilter>();
             innerChildMF.mesh = mf.mesh;
+            innerChildMF.mesh.uv = gmb.UVs(TextureType.InnerFill);
 
             if (geomData.geomPosition == GeomPosition.Bottom)
                 inner.transform.localPosition = new Vector3(0, -2 * lineThickness, -0.2f);
@@ -88,10 +94,11 @@ namespace level
                 inner.transform.localPosition = new Vector3(0, 2 * lineThickness, -0.2f);
 
             MeshRenderer innerMR = inner.GetComponent<MeshRenderer>();
-            if (geomData.geomType != GeomType.Desert)
-                innerMR.material = LoadMaterial("Inner");
-            else
-                innerMR.material = LoadMaterial("DesertInner");
+            innerMR.material = LoadMaterial("Ground");
+            //if (geomData.geomType != GeomType.Desert)
+            //    innerMR.material = LoadMaterial("Inner");
+            //else
+            //    innerMR.material = LoadMaterial("DesertInner");
         }
 
         private void SetMaterial(Material material)
