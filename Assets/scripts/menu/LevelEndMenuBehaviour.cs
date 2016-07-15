@@ -43,7 +43,7 @@ namespace menu
             RectTransform rt = starsContainer.GetComponent<RectTransform>();
             rt.anchoredPosition = new Vector3(0, 0, 0);
             
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.75f);
 
             while (rt.anchoredPosition.y < 250)
             {
@@ -52,6 +52,7 @@ namespace menu
             }
 
             statsContainer.gameObject.SetActive(true);
+            statsContainer.Create(playerLevelData);
             yield return new WaitForSeconds(1f);
             buttonContainer.gameObject.SetActive(true);
              

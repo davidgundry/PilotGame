@@ -43,7 +43,7 @@ namespace player
 
         public bool HasCrashed()
         {
-            if (rb.velocity.magnitude < 0.1f)
+            if (rb.velocity.x < 0)
                 return true;
             return false;
         }

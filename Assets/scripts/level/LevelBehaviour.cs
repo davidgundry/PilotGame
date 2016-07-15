@@ -169,5 +169,10 @@ namespace level
                 }
             }
         }
+
+        public float PlayerDistance()
+        {
+            return Mathf.Max(0,Mathf.Min(levelBounds.LevelLength,player.transform.position.y));
+        }
     }
 }

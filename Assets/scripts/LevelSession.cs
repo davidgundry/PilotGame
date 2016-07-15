@@ -52,7 +52,7 @@ public class LevelSession : MonoBehaviour {
     {
         if (levelSessionState != LevelSessionState.End)
         {
-            PlayerLevelData.EndTime = Time.time;
+            UpdatePlayerLevelDataAtEnd();
             PlayerLevelData.LevelResult = LevelResult.Complete;
             PlayerLevelData.StarScore = StarScore.scores[0];
             levelSessionState = LevelSessionState.End;
@@ -64,7 +64,7 @@ public class LevelSession : MonoBehaviour {
     {
         if (levelSessionState != LevelSessionState.End)
         {
-            PlayerLevelData.EndTime = Time.time;
+            UpdatePlayerLevelDataAtEnd();
             PlayerLevelData.LevelResult = LevelResult.FellOffBottom;
             levelSessionState = LevelSessionState.End;
             StartCoroutine(ShowEndMenu(PlayerLevelData));
@@ -75,11 +75,17 @@ public class LevelSession : MonoBehaviour {
     {
         if (levelSessionState != LevelSessionState.End)
         {
-            PlayerLevelData.EndTime = Time.time;
+            UpdatePlayerLevelDataAtEnd();
             PlayerLevelData.LevelResult = LevelResult.Crash;
             levelSessionState = LevelSessionState.End;
             StartCoroutine(ShowEndMenu(PlayerLevelData));
         }
+    }
+
+    private void UpdatePlayerLevelDataAtEnd()
+    {
+        PlayerLevelData.EndTime = Time.time;
+        PlayerLevelData.Distance = levelBehaviour.PlayerDistance();
     }
 
     private IEnumerator ShowEndMenu(PlayerLevelData PlayerLevelData)
