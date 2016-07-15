@@ -47,14 +47,6 @@ namespace level
 
         public Vector3[] Vertices()
         {
-            /*Vector3[] mesh = new Vector3[geomData.points.Length * 2];
-            for (int i = 0; i < geomData.points.Length; i++)
-            {
-                mesh[i * 2] = new Vector3(geomData.points[i].x,geomData.points[i].y,zPosition);
-                mesh[i * 2 + 1] = new Vector3(mesh[i * 2].x, edgeY,zPosition); 
-            }*/
-
-
             Vector3[] mesh = new Vector3[VerticesCount()];
 
             for (int i = 0; i < geomData.pivotStartPoints; i++)
@@ -103,26 +95,6 @@ namespace level
             int[] tris = new int[totalTriangleCount * 3];
 
 
-            /*for (int i = 0; i < geomData.pivotStartPoints; i++) // For each starting pivot triangle
-            {
-                if (odd)
-                {
-                    tris[i * 3 + 0] = i + 2;
-                    tris[i * 3 + 1] = geomData.pivotStartPoints;
-                    tris[i * 3 + 2] = i + 0;
-                }
-                else
-                {
-                    tris[i * 3 + 0] = i + 0;
-                    tris[i * 3 + 1] = i + 1;
-                    tris[i * 3 + 2] = geomData.pivotStartPoints;
-                }
-
-                odd = !odd;
-            }*/
-
-
-
             for (int i = 0; i < totalTriangleCount; i++)
             {
                 for (int j = 0; j < 3; j++)
@@ -153,20 +125,6 @@ namespace level
                 }
             }
             return tris;
-
-
-            /*for (int i = 0; i < totalTriangleCount; i++)
-            {
-                for (int j=0;j<3;j++)
-                {
-                    if (odd)
-                        tris[i * 3 + j] = i + 2 - j;
-                    else
-                        tris[i * 3 + j] = i + j;
-                }
-                odd = !odd;
-            }
-            return tris;*/
         }
 
         public Vector2[] UVs(TextureType textureType)
