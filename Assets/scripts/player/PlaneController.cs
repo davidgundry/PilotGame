@@ -14,6 +14,7 @@ namespace player
 
         Vector3 weightedOldPosition;
         public bool AutoPilot { get; set; }
+        private float angle;
 
         void Awake()
         {
@@ -32,11 +33,12 @@ namespace player
         void Update()
         {
             RotateToDirection();
+            ApplyPlayerTurning();
             PhysicalForces();
             if (!AutoPilot)
                 PlayerForces();
             else
-                rb.AddForce(new Vector3(200,0,0)*Time.deltaTime);
+                rb.AddForce((new Vector2(30000f, 0) * Time.deltaTime));
         }
 
         public bool HasCrashed()
@@ -48,13 +50,22 @@ namespace player
 
         private void PhysicalForces()
         {
-            rb.AddForce(planePhysics.PassiveForce(rb.velocity, Time.deltaTime));
+            Vector2 force = planePhysics.PassiveForce(rb.velocity, Time.deltaTime, angle);
+            rb.AddForce(new Vector2(transform.up.x * force.x, transform.up.y * force.y));
             rb.velocity = planePhysics.BoundVelocity(rb.velocity);
+            rb.AddForce(new Vector2(-rb.velocity.x*2, 0));
         }
 
         private void PlayerForces()
         {
-            rb.AddForce(playerInputManager.PlayerForce(planePhysics,Time.deltaTime),ForceMode2D.Impulse);
+            Vector2 force = playerInputManager.PlayerForce(planePhysics,Time.deltaTime);
+            rb.AddForce(new Vector2(transform.right.x * force.x, transform.right.y * force.y));
+        }
+
+        private void ApplyPlayerTurning()
+        {
+           angle = playerInputManager.PlayerTurning();
+
         }
 
         private void RotateToDirection()

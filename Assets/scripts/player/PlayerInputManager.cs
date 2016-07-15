@@ -18,9 +18,18 @@ namespace player
 
         public Vector2 PlayerForce(PlanePhysics planePhysics, float deltaTime)
         {
-            return KeyboardInput(planePhysics, deltaTime);
-            //return MicrophoneLevelInput(planePhysics,deltaTime);
+            return KeyboardInput(planePhysics, deltaTime) + MicrophoneLevelInput(planePhysics,deltaTime);
         }
+
+        public float PlayerTurning()
+        {
+            if (Input.GetKey("up"))
+                return 14f;
+            else if (Input.GetKey("down"))
+                return -8f;
+            return 3;
+        }
+
 
         private Vector2 SyllableInput(PlanePhysics planePhysics, float forceTime, float deltaTime)
         {
@@ -37,15 +46,15 @@ namespace player
 
         private Vector2 KeyboardInput(PlanePhysics planePhysics, float deltaTime)
         {
-            if (Input.GetKeyDown("space"))
-                return (new Vector2(150f, 0) * deltaTime);
+            if (Input.GetKey("space"))
+                return (new Vector2(30000f, 0) * deltaTime);
             return new Vector2(0, 0);
         }
 
         private Vector2 MicrophoneLevelInput(PlanePhysics planePhysics, float deltaTime)
         {
-            if (microphoneInput.Level > 0.005f)
-                return (new Vector2(Mathf.Sqrt(microphoneInput.Level * 10000), 0) * 50 * planePhysics.SpeedMultiplier * deltaTime);
+            if (microphoneInput.Level > 0.003f)
+                return (new Vector2(30000f, 0) * deltaTime);
             return new Vector2(0, 0);
         }
     }
