@@ -24,7 +24,11 @@ namespace level
             SetMaterial(LoadMaterial("Ground"));
 
             if (geomData.geomType != GeomType.Background)
+            {
                 DuplicateMeshForOutline(geomData, levelBounds);
+                //CreateLines(geomData, levelBounds);
+            }
+                //DuplicateMeshForOutline(geomData, levelBounds);
         }
 
         private Material LoadMaterial(string materialName)
@@ -53,6 +57,25 @@ namespace level
             mf.mesh.RecalculateNormals();
         }
 
+        private void CreateLines(GeomData geomData, LevelBounds levelBounds)
+        {
+            float edgeY = levelBounds.GeomBottomEdge;
+            Color color = Color.yellow;
+            LineRenderer lineRenderer = this.gameObject.AddComponent<LineRenderer>();
+            lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+            lineRenderer.SetColors(color, color);
+            lineRenderer.SetWidth(0.5F, 0.5F);
+            lineRenderer.SetVertexCount(geomData.points.Length+2);
+
+            Vector3 startPoint = geomData.points[geomData.pivotStartPoints];
+            lineRenderer.SetPosition(0, new Vector3(startPoint.x, edgeY, startPoint.z - 0.1f));
+            Vector3 endPoint = geomData.points[geomData.points.Length-1-geomData.pivotEndPoints];
+            lineRenderer.SetPosition(geomData.points.Length + 1, new Vector3(endPoint.x, edgeY, endPoint.z-0.1f));
+
+            for (int i = 0; i < geomData.points.Length; i++)
+                lineRenderer.SetPosition(i+1, new Vector3(geomData.points[i].x,geomData.points[i].y,-0.1f));
+        }
+        
         private void DuplicateMeshForOutline(GeomData geomData, LevelBounds levelBounds)
         {
             GeomMeshBuilder gmb = new GeomMeshBuilder(geomData, levelBounds);
