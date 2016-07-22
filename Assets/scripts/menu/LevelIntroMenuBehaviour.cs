@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using level.data;
 
 namespace menu
 {
@@ -13,6 +14,11 @@ namespace menu
         {
             background.gameObject.SetActive(false);
             text.gameObject.SetActive(false);
+        }
+
+        public void Create(LevelData levelData)
+        {
+            text.text = levelData.name;
         }
 
         public void Show()

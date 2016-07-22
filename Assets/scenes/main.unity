@@ -2051,9 +2051,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.29999995
-  m_Text: 'Level 1
-
-    Plane Sailing'
+  m_Text: Level Name
 --- !u!222 &1389631179
 CanvasRenderer:
   m_ObjectHideFlags: 0
