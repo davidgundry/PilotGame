@@ -7,6 +7,7 @@ using menu;
 
 public enum LevelSessionState
 {
+    Intro,
     Playing,
     Paused,
     End
@@ -16,15 +17,21 @@ public class LevelSession : MonoBehaviour {
 
     private PlayerLevelData PlayerLevelData { get; set; }
     public LevelEndMenuBehaviour levelEndMenu;
+    public LevelIntroMenuBehaviour levelIntroMenu;
     public PauseMenuBehaviour pauseMenu;
     private LevelBehaviour levelBehaviour;
 
     private LevelSessionState levelSessionState;
 
-	void Awake () {
+	void Awake() {
         PlayerLevelData = new PlayerLevelData();
-	    CreateLevel(LoadLevel("levels/test"));
+	    CreateLevel(LoadLevel("levels/test"));   
 	}
+
+    void Start()
+    {
+        StartCoroutine(ShowIntroMenu());
+    }
 
     void Update()
     {
@@ -45,7 +52,6 @@ public class LevelSession : MonoBehaviour {
         levelBehaviour.Create(this, levelData);
 
         PlayerLevelData.StartTime = Time.time;
-        //LevelEnd();
     }
 
     public void LevelEnd()
@@ -88,6 +94,17 @@ public class LevelSession : MonoBehaviour {
         PlayerLevelData.Distance = levelBehaviour.PlayerDistance();
     }
 
+    private IEnumerator ShowIntroMenu()
+    {
+        levelSessionState = LevelSessionState.Intro;
+        levelIntroMenu.Show();
+        FreezePlay(true);
+        yield return new WaitForSeconds(1f);
+        levelIntroMenu.Hide();
+        FreezePlay(false);
+        levelSessionState = LevelSessionState.Playing;
+    }
+
     private IEnumerator ShowEndMenu(PlayerLevelData PlayerLevelData)
     {
         yield return new WaitForSeconds(2);
@@ -99,6 +116,7 @@ public class LevelSession : MonoBehaviour {
     private void FreezePlay(bool frozen)
     {
         levelBehaviour.FreezePlay(frozen);
+        PlayerLevelData.FreezeTime(frozen, Time.time);
     }
 
     public void Pause()
