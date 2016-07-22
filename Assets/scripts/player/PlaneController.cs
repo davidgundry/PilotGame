@@ -16,6 +16,7 @@ namespace player
         public bool AutoPilot { get; set; }
         private float angle;
         private bool inOcean;
+        private bool controlBlocked;
 
         void Awake()
         {
@@ -33,11 +34,13 @@ namespace player
 
         void Update()
         {
-            if (!HasCrashed())
+            RotateToDirection();
+            PhysicalForces();
+
+            if (!HasCrashed() && (!controlBlocked))
             {
-                RotateToDirection();
                 ApplyPlayerTurning();
-                PhysicalForces();
+                
                 if (!AutoPilot)
                     PlayerForces();
                 else
@@ -86,6 +89,19 @@ namespace player
         {
             inOcean = true;
             rb.drag = 4;
+        }
+
+        public void SpriteCrash()
+        {
+            rb.velocity = rb.velocity = new Vector2(rb.velocity.x / 2,rb.velocity.y);
+            StartCoroutine(InterruptControl(0.5f));
+        }
+
+        private IEnumerator InterruptControl(float seconds)
+        {
+            controlBlocked = true;
+            yield return new WaitForSeconds(seconds);
+            controlBlocked = false;
         }
 
     }

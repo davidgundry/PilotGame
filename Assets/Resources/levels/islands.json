@@ -1,8 +1,8 @@
 {
-	"name":"Level Name",
+	"name":"Plane Sailing",
 	"length":222,
 	"height":25,
-	"playerStart":[1,10],
+	"playerStart":[1,6],
 	"environment":
 	{
 		"wind":0.7,
@@ -30,13 +30,14 @@
 			"type":"hills",
 			"position":"bottom", 
 			"pivotStartPoints":0,
-			"pivotEndPoints":1,
+			"pivotEndPoints":2,
 			"points":
 			[
 				[0,6],
 				[1,6],
 				[42,6],
 				[44,4],
+				[45,2]
 			]
 		},
 
