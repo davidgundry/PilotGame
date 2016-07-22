@@ -10,7 +10,7 @@
         public int Crashes { get; set; }
         public float Distance { get; set; }
         public float DamageTaken { get; set; }
-
+        public float FuelUsed { get; set; }
 
 
         private float frozenTime;

@@ -57,16 +57,30 @@ namespace player
 
         void Update()
         {
-            CheckGeomCrash();
+            CheckForGeomCrash();
 
             UpdatePlanePhysics();
 
-            if (playerInputManager.IsInput())
-                Fuel -= Time.deltaTime * fuelLossRate;
+            UpdateFuelUsed();
 
-            PlayerLevelData.Distance = transform.position.x;
+            UpdatePlayerLevelData();
 
             oldVelocity = rb.velocity.magnitude;
+        }
+
+        private void UpdateFuelUsed()
+        {
+            if (playerInputManager.IsInput())
+            {
+                float fuelUsed = Time.deltaTime * fuelLossRate;
+                Fuel -= fuelUsed;
+                PlayerLevelData.FuelUsed += fuelUsed;
+            }
+        }
+
+        private void UpdatePlayerLevelData()
+        {
+            PlayerLevelData.Distance = transform.position.x;
         }
 
         private void UpdatePlanePhysics()
@@ -85,7 +99,7 @@ namespace player
             }
         }
 
-        private void CheckGeomCrash()
+        private void CheckForGeomCrash()
         {
             if (oldVelocity - rb.velocity.magnitude > 2f)
             {
