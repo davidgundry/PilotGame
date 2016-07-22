@@ -2,7 +2,7 @@
 	"name":"Plane Sailing",
 	"length":222,
 	"height":25,
-	"playerStart":[1,6],
+	"playerStart":[3,6],
 	"environment":
 	{
 		"wind":0.7,
