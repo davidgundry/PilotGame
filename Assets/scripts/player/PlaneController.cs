@@ -15,6 +15,7 @@ namespace player
         Vector3 weightedOldPosition;
         public bool AutoPilot { get; set; }
         private float angle;
+        private bool inOcean;
 
         void Awake()
         {
@@ -32,17 +33,22 @@ namespace player
 
         void Update()
         {
-            RotateToDirection();
-            ApplyPlayerTurning();
-            PhysicalForces();
-            if (!AutoPilot)
-                PlayerForces();
-            else
-                rb.AddForce((new Vector2(30000f, 0) * Time.deltaTime));
+            if (!HasCrashed())
+            {
+                RotateToDirection();
+                ApplyPlayerTurning();
+                PhysicalForces();
+                if (!AutoPilot)
+                    PlayerForces();
+                else
+                    rb.AddForce((new Vector2(30000f, 0) * Time.deltaTime));
+            }
         }
 
         public bool HasCrashed()
         {
+            if (inOcean)
+                return true;
             if (rb.velocity.x < 0)
                 return true;
             return false;
@@ -74,6 +80,12 @@ namespace player
             transform.Rotate(Vector3.up, -90);
 
             weightedOldPosition = (weightedOldPosition * 6 + transform.position) / 7;
+        }
+
+        public void OceanCrash()
+        {
+            inOcean = true;
+            rb.drag = 4;
         }
 
     }

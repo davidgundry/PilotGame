@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
+using player;
 namespace menu
 {
     public class LevelFailedMenuBehaviour : MonoBehaviour
@@ -16,6 +16,11 @@ namespace menu
             background.gameObject.SetActive(false);
             text.gameObject.SetActive(false);
             buttonContainer.gameObject.SetActive(false);
+        }
+
+        public void Create(PlayerLevelData playerLevelData)
+        {
+            Show();
         }
 
         public void Show()

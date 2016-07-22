@@ -2,6 +2,7 @@
 using System.Collections;
 using level.data;
 using level;
+using player;
 
 namespace level
 {
@@ -150,9 +151,15 @@ namespace level
             collisionPoints[collisionPoints.Length - 1] = newLast;
             System.Array.Copy(geomData.points, 0, collisionPoints, 1, geomData.points.Length);
             pg2d.points = collisionPoints;
-
             if (geomData.geomType == GeomType.Ocean)
-                gameObject.tag = "Ocean";
+                pg2d.isTrigger = true;
+        }
+
+        public void OnTriggerEnter2D(Collider2D collider)
+        {
+            PlaneController pc = collider.GetComponent<PlaneController>();
+            if (pc != null)
+                pc.OceanCrash();
         }
     }
 }

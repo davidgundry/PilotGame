@@ -21,18 +21,12 @@ namespace menu
 
         public void Create(PlayerLevelData playerLevelData)
         {
-            switch (playerLevelData.LevelResult)
-            {
-                case LevelResult.Complete:
+            //switch (playerLevelData.LevelResult)
+            //{
+            //    case LevelResult.Complete:
                     StartCoroutine(LevelCompleteMenu(playerLevelData));
-                    break;
-                case LevelResult.FellOffBottom:
-                    StartCoroutine(LevelFailedMenu(playerLevelData));
-                    break;
-                case LevelResult.Crash:
-                    StartCoroutine(LevelFailedMenu(playerLevelData));
-                    break;
-            }
+            //        break;
+            //}
         }
 
         private IEnumerator LevelCompleteMenu(PlayerLevelData playerLevelData)
@@ -56,12 +50,6 @@ namespace menu
             yield return new WaitForSeconds(1f);
             buttonContainer.gameObject.SetActive(true);
              
-        }
-
-        private IEnumerator LevelFailedMenu(PlayerLevelData playerLevelData)
-        {
-
-            yield return new WaitForSeconds(3f);
         }
     }
 }

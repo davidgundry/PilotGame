@@ -17,6 +17,7 @@ public class LevelSession : MonoBehaviour {
 
     private PlayerLevelData PlayerLevelData { get; set; }
     public LevelEndMenuBehaviour levelEndMenu;
+    public LevelFailedMenuBehaviour levelFailedMenu;
     public LevelIntroMenuBehaviour levelIntroMenu;
     public PauseMenuBehaviour pauseMenu;
     private LevelBehaviour levelBehaviour;
@@ -73,7 +74,7 @@ public class LevelSession : MonoBehaviour {
             UpdatePlayerLevelDataAtEnd();
             PlayerLevelData.LevelResult = LevelResult.FellOffBottom;
             levelSessionState = LevelSessionState.End;
-            StartCoroutine(ShowEndMenu(PlayerLevelData));
+            StartCoroutine(ShowFailedMenu(PlayerLevelData));
         }
     }
 
@@ -84,7 +85,7 @@ public class LevelSession : MonoBehaviour {
             UpdatePlayerLevelDataAtEnd();
             PlayerLevelData.LevelResult = LevelResult.Crash;
             levelSessionState = LevelSessionState.End;
-            StartCoroutine(ShowEndMenu(PlayerLevelData));
+            StartCoroutine(ShowFailedMenu(PlayerLevelData));
         }
     }
 
@@ -113,6 +114,14 @@ public class LevelSession : MonoBehaviour {
         FreezePlay(true);
     }
 
+    private IEnumerator ShowFailedMenu(PlayerLevelData PlayerLevelData)
+    {
+        yield return new WaitForSeconds(2);
+        levelFailedMenu.Create(PlayerLevelData);
+        yield return new WaitForSeconds(2);
+        FreezePlay(true);
+    }
+
     private void FreezePlay(bool frozen)
     {
         levelBehaviour.FreezePlay(frozen);
@@ -134,7 +143,6 @@ public class LevelSession : MonoBehaviour {
             levelBehaviour.FreezePlay(false);
             pauseMenu.Hide();
         }
-
     }
 
 }
