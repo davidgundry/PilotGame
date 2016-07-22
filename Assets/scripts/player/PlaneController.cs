@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using hud;
 
 namespace player
 {
@@ -16,7 +17,25 @@ namespace player
         public bool AutoPilot { get; set; }
         private float angle;
         private bool inOcean;
+        private bool destroyed;
         private bool controlBlocked;
+
+        private float damage;
+        private float Damage { get { return damage; } set { damage = value; if (damageGuage != null) damageGuage.SetProportion(1-(damage / maxDamage)); } }
+        private const float maxDamage = 3;
+
+        private float fuel;
+        private float Fuel { get { return fuel; } set { fuel = value; if (fuelGuage != null) fuelGuage.SetProportion(value); } }
+        private const float fuelLossRate = 0.04f;
+
+        private float oldVelocity;
+        private Coroutine interruptControlCoroutine;
+        private Coroutine flashPlaneCoroutine;
+
+        public PlayerLevelData PlayerLevelData { get; set; }
+
+        FuelGuageBehaviour fuelGuage;
+        DamageGuageBehaviour damageGuage;
 
         void Awake()
         {
@@ -24,15 +43,33 @@ namespace player
             playerInputManager = GetComponent<PlayerInputManager>();
             rb = GetComponent<Rigidbody2D>();
             AutoPilot = false;
+            fuelGuage = GameObject.FindObjectOfType<FuelGuageBehaviour>();
+            damageGuage = GameObject.FindObjectOfType<DamageGuageBehaviour>();
+            Fuel = 1;
         }
 
         void Start()
         {
             weightedOldPosition = transform.position -  new Vector3(1f, 0f, 0f);
+            oldVelocity = rb.velocity.magnitude;
         }
 
 
         void Update()
+        {
+            CheckGeomCrash();
+
+            UpdatePlanePhysics();
+
+            if (playerInputManager.IsInput())
+                Fuel -= Time.deltaTime * fuelLossRate;
+
+            PlayerLevelData.Distance = transform.position.x;
+
+            oldVelocity = rb.velocity.magnitude;
+        }
+
+        private void UpdatePlanePhysics()
         {
             RotateToDirection();
             PhysicalForces();
@@ -40,7 +77,7 @@ namespace player
             if (!HasCrashed() && (!controlBlocked))
             {
                 ApplyPlayerTurning();
-                
+
                 if (!AutoPilot)
                     PlayerForces();
                 else
@@ -48,8 +85,18 @@ namespace player
             }
         }
 
+        private void CheckGeomCrash()
+        {
+            if (oldVelocity - rb.velocity.magnitude > 2f)
+            {
+                GeomCrash();
+            }
+        }
+
         public bool HasCrashed()
         {
+            if (destroyed)
+                return true;
             if (inOcean)
                 return true;
             if (rb.velocity.x < 0)
@@ -74,7 +121,6 @@ namespace player
         private void ApplyPlayerTurning()
         {
            angle = playerInputManager.PlayerTurning();
-
         }
 
         private void RotateToDirection()
@@ -94,7 +140,30 @@ namespace player
         public void SpriteCrash()
         {
             rb.velocity = rb.velocity = new Vector2(rb.velocity.x / 2,rb.velocity.y);
-            StartCoroutine(InterruptControl(0.5f));
+            interruptControlCoroutine = StartCoroutine(InterruptControl(0.5f));
+            TakeDamage(1);
+            PlayerLevelData.Crashes++;
+        }
+
+        private void GeomCrash()
+        {
+            interruptControlCoroutine = StartCoroutine(InterruptControl(0.5f));
+            TakeDamage(1);
+            PlayerLevelData.Crashes++;
+        }
+
+        private void TakeDamage(float damage)
+        {
+            Damage += damage;
+            flashPlaneCoroutine = StartCoroutine(FlashPlane(1f));
+            if (Damage >= maxDamage)
+                PlaneDestroyed();
+            PlayerLevelData.DamageTaken += damage;
+        }
+
+        private void PlaneDestroyed()
+        {
+            destroyed = true;
         }
 
         private IEnumerator InterruptControl(float seconds)
@@ -102,6 +171,23 @@ namespace player
             controlBlocked = true;
             yield return new WaitForSeconds(seconds);
             controlBlocked = false;
+        }
+
+        private IEnumerator FlashPlane(float duration)
+        {
+            float startTime = Time.time;
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            Color original = Color.white;
+            Color changed = new Color(original.r,original.g,original.b,0.6f);
+            while (Time.time < startTime + duration)
+            {
+                if (spriteRenderer.color == original)
+                    spriteRenderer.color = changed;
+                else
+                    spriteRenderer.color = original;
+                yield return new WaitForSeconds(0.1f);
+            }
+            spriteRenderer.color = original;
         }
 
     }

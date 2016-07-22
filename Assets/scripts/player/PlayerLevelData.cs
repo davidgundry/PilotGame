@@ -9,6 +9,9 @@
         public float Time { get { return EndTime - StartTime - frozenTime; } }
         public int Crashes { get; set; }
         public float Distance { get; set; }
+        public float DamageTaken { get; set; }
+
+
 
         private float frozenTime;
         private float freezeTimeStart;

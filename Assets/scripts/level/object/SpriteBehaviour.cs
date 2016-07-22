@@ -37,8 +37,7 @@ namespace level
 
         public void OnTriggerEnter2D(Collider2D collider)
         {
-            Debug.Log("Trigger");
-            Movement = new Vector3(0, 0.1f, 0);
+            Movement = new Vector3(0, 0.2f, 0);
             PlaneController pc = collider.GetComponent<PlaneController>();
             if (pc != null)
                 pc.SpriteCrash();

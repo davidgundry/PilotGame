@@ -45,10 +45,10 @@ namespace level
 
 
 
-        public void Create(LevelSession levelSession, LevelData levelData)
+        public void Create(LevelSession levelSession, LevelData levelData, PlayerLevelData playerLevelData)
         {
             this.levelSession = levelSession;
-            player = CreatePlayer();
+            player = CreatePlayer(playerLevelData);
             camera = CreateCamera(player);
             levelBounds = CreateLevelBounds(levelData, camera);
             camera.SetCameraBounds(levelBounds);
@@ -109,10 +109,12 @@ namespace level
             cloudLine.GetComponent<CloudLineBehaviour>().Create(levelData, zPosition);
         }
 
-        private static PlaneController CreatePlayer()
+        private static PlaneController CreatePlayer(PlayerLevelData playerLevelData)
         {
             GameObject plane = Instantiate(Resources.Load<GameObject>("prefabs/player"));
-            return plane.GetComponent<PlaneController>();
+            PlaneController planeController = plane.GetComponent<PlaneController>();
+            planeController.PlayerLevelData = playerLevelData;
+            return planeController;
         }
 
         private static FollowCamera CreateCamera(PlaneController player)
@@ -168,11 +170,6 @@ namespace level
                     cloud.enabled = true;
                 }
             }
-        }
-
-        public float PlayerDistance()
-        {
-            return Mathf.Max(0,Mathf.Min(levelBounds.LevelLength,player.transform.position.y));
         }
     }
 }

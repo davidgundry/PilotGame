@@ -21,6 +21,11 @@ namespace player
             return KeyboardInput(planePhysics, deltaTime) + MicrophoneLevelInput(planePhysics,deltaTime);
         }
 
+        public bool IsInput()
+        {
+            return ((Input.GetKey("space")) || (microphoneInput.Level > 0.003f));
+        }
+
         public float PlayerTurning()
         {
             if (Input.GetKey("up"))

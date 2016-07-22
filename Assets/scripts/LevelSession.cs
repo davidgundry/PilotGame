@@ -52,7 +52,7 @@ public class LevelSession : MonoBehaviour {
         GameObject g = new GameObject();
         g.AddComponent<LevelBehaviour>();
         levelBehaviour = g.GetComponent<LevelBehaviour>();
-        levelBehaviour.Create(this, levelData);
+        levelBehaviour.Create(this, levelData, PlayerLevelData);
 
         PlayerLevelData.StartTime = Time.time;
     }
@@ -94,7 +94,6 @@ public class LevelSession : MonoBehaviour {
     private void UpdatePlayerLevelDataAtEnd()
     {
         PlayerLevelData.EndTime = Time.time;
-        PlayerLevelData.Distance = levelBehaviour.PlayerDistance();
     }
 
     private IEnumerator ShowIntroMenu()
