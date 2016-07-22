@@ -23,7 +23,7 @@ namespace level
             //SetMaterial(LoadMaterial(geomData.geomType.ToString()));
             SetMaterial(LoadMaterial("Ground"));
 
-            if (geomData.geomType != GeomType.Background)
+            if ((geomData.geomType != GeomType.Background) && (geomData.geomType != GeomType.Ocean))
             {
                 DuplicateMeshForOutline(geomData, levelBounds);
                 //CreateLines(geomData, levelBounds);
@@ -150,6 +150,9 @@ namespace level
             collisionPoints[collisionPoints.Length - 1] = newLast;
             System.Array.Copy(geomData.points, 0, collisionPoints, 1, geomData.points.Length);
             pg2d.points = collisionPoints;
+
+            if (geomData.geomType == GeomType.Ocean)
+                gameObject.tag = "Ocean";
         }
     }
 }

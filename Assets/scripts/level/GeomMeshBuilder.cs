@@ -160,6 +160,9 @@ namespace level
                 case GeomType.Background:
                     yOffset = 0.55f;
                     break;
+                case GeomType.Ocean:
+                    yOffset = 0.45f;
+                    break;
             }
 
             Vector2[] uvs = new Vector2[VerticesCount()];

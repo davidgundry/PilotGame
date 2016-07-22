@@ -25,7 +25,7 @@ public class LevelSession : MonoBehaviour {
 
 	void Awake() {
         PlayerLevelData = new PlayerLevelData();
-	    CreateLevel(LoadLevel("levels/test"));   
+	    CreateLevel(LoadLevel("levels/islands"));   
 	}
 
     void Start()

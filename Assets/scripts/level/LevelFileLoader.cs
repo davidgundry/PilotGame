@@ -87,7 +87,7 @@ namespace level
             GeomPosition position = node["position"].AsEnum<GeomPosition>();
             Vector2[] points = node["points"].AsArrayVector2();
             int pivotStartPoints = node["pivotStartPoints"].AsInt;
-            int pivotEndPoints = node["pivotStartPoints"].AsInt;
+            int pivotEndPoints = node["pivotEndPoints"].AsInt;
 
             return new GeomData(name, type, position, points,pivotStartPoints,pivotEndPoints);
         }
