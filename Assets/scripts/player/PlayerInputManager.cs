@@ -29,9 +29,9 @@ namespace player
         public float PlayerTurning()
         {
             if (Input.GetKey("up"))
-                return 14f;
+                return 15f;
             else if (Input.GetKey("down"))
-                return -8f;
+                return -12f;
             return 3;
         }
 

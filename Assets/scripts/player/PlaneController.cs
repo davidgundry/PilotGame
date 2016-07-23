@@ -113,23 +113,23 @@ namespace player
                 return true;
             if (inOcean)
                 return true;
-            if (rb.velocity.x < 0)
-                return true;
+            //if (rb.velocity.x < 0)
+            //    return true;
             return false;
         }
 
         private void PhysicalForces()
         {
             Vector2 force = planePhysics.PassiveForce(rb.velocity, Time.deltaTime, angle);
-            rb.AddForce(new Vector2(transform.up.x * force.x, transform.up.y * force.y));
+            rb.AddRelativeForce(new Vector2(force.x, force.y));
             rb.velocity = planePhysics.BoundVelocity(rb.velocity);
-            rb.AddForce(new Vector2(-rb.velocity.x*2, 0));
+            rb.AddForce(new Vector2(-rb.velocity.x*10, 0));
         }
 
         private void PlayerForces()
         {
             Vector2 force = playerInputManager.PlayerForce(planePhysics,Time.deltaTime);
-            rb.AddForce(new Vector2(transform.right.x * force.x, transform.right.y * force.y));
+            rb.AddRelativeForce(new Vector2(force.x, force.y));
         }
 
         private void ApplyPlayerTurning()
@@ -142,6 +142,9 @@ namespace player
             transform.rotation = Quaternion.LookRotation(transform.position - weightedOldPosition);
             transform.Rotate(Vector3.up, -90);
 
+            if (rb.velocity.x < 0)
+                transform.Rotate(Vector3.right, 180);
+
             weightedOldPosition = (weightedOldPosition * 6 + transform.position) / 7;
         }
 
@@ -153,13 +156,14 @@ namespace player
 
         public void SpriteCrash()
         {
-            rb.velocity = rb.velocity = new Vector2(rb.velocity.x / 2,rb.velocity.y);
             interruptControlCoroutine = StartCoroutine(InterruptControl(0.5f));
             TakeDamage(1);
             PlayerLevelData.Crashes++;
+            rb.velocity = new Vector2(rb.velocity.x / 2, rb.velocity.y);
+            oldVelocity = rb.velocity.magnitude;
         }
 
-        private void GeomCrash()
+        public void GeomCrash()
         {
             interruptControlCoroutine = StartCoroutine(InterruptControl(0.5f));
             TakeDamage(1);
@@ -193,6 +197,7 @@ namespace player
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
             Color original = Color.white;
             Color changed = new Color(original.r,original.g,original.b,0.6f);
+
             while (Time.time < startTime + duration)
             {
                 if (spriteRenderer.color == original)
@@ -201,6 +206,7 @@ namespace player
                     spriteRenderer.color = original;
                 yield return new WaitForSeconds(0.1f);
             }
+
             spriteRenderer.color = original;
         }
 
