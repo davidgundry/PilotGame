@@ -32,6 +32,8 @@ namespace player
         private Coroutine interruptControlCoroutine;
         private Coroutine flashPlaneCoroutine;
 
+        private bool upsideDown;
+
         public PlayerLevelData PlayerLevelData { get; set; }
 
         FuelGuageBehaviour fuelGuage;
@@ -139,10 +141,18 @@ namespace player
 
         private void RotateToDirection()
         {
+            if ((destroyed) && (upsideDown))
+                upsideDown = true;
+
             transform.rotation = Quaternion.LookRotation(transform.position - weightedOldPosition);
             transform.Rotate(Vector3.up, -90);
 
-            if (rb.velocity.x < 0)
+            if (rb.velocity.x < 0f)
+                upsideDown = true;
+            if (rb.velocity.x > 0f)
+                upsideDown = false;
+
+            if (upsideDown)
                 transform.Rotate(Vector3.right, 180);
 
             weightedOldPosition = (weightedOldPosition * 6 + transform.position) / 7;
@@ -208,6 +218,13 @@ namespace player
             }
 
             spriteRenderer.color = original;
+        }
+
+        void OnTriggerEnter2D(Collider2D collider)
+        {
+            if ((collider.gameObject.tag != "Sprite") && (collider.gameObject.tag != "Ocean"))
+                if (upsideDown)
+                    PlaneDestroyed();
         }
 
     }

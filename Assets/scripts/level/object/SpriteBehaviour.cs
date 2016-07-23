@@ -28,6 +28,7 @@ namespace level
                 gameObject.GetComponent<PolygonCollider2D>().points = spriteData.collision;
                 gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
             }
+            gameObject.tag = "Sprite";
         }
 
         void Update()
