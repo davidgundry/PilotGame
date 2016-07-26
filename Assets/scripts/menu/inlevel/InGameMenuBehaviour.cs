@@ -29,6 +29,8 @@ namespace menu.inlevel
             }
         }
 
+        public LevelSession LevelSession { get; set; }
+
         public Image background;
         public Text titleText;
         public Text subtitleText;
@@ -40,7 +42,8 @@ namespace menu.inlevel
         {
             titleText.text = menuToDisplay.title;
             subtitleText.text = menuToDisplay.subtitle;
-            buttonContainer.Create(menuToDisplay.availableButtons);
+            buttonContainer.Create(menuToDisplay.availableButtons, LevelSession);
+            starBox.StarCount = 0;
         }
 
         public void Destroy()

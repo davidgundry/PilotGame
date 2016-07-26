@@ -26,6 +26,7 @@ public class LevelSession : MonoBehaviour {
 	void Awake()
     {
         PlayerLevelData = new PlayerLevelData();
+        inGameMenu.LevelSession = this;
 	}
 
     void Start()
@@ -131,18 +132,43 @@ public class LevelSession : MonoBehaviour {
     public void Pause()
     {
         if (levelSessionState == LevelSessionState.Playing)
-        {
-            levelSessionState = LevelSessionState.Paused;
-            levelBehaviour.FreezePlay(true);
-            inGameMenu.InGameMenu = new PauseMenu();
-                
-        }
+            EnPause();
         else if (levelSessionState == LevelSessionState.Paused)
-        {
-            levelSessionState = LevelSessionState.Playing;
-            levelBehaviour.FreezePlay(false);
-            inGameMenu.Destroy();
-        }
+            UnPause();
+    }
+
+    private void EnPause()
+    {
+        levelSessionState = LevelSessionState.Paused;
+        levelBehaviour.FreezePlay(true);
+        inGameMenu.InGameMenu = new PauseMenu();
+    }
+
+    private void UnPause()
+    {
+        levelSessionState = LevelSessionState.Playing;
+        levelBehaviour.FreezePlay(false);
+        inGameMenu.Destroy();
+    }
+
+    public void Retry()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+    }
+
+    public void Next()
+    {
+        
+    }
+
+    public void Resume()
+    {
+        UnPause();
+    }
+
+    public void Menu()
+    {
+        
     }
 
 }

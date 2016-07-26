@@ -9,10 +9,16 @@ namespace menu.inlevel
         public Button menuButton;
         public Button resumeButton;
 
-        public void Create(ButtonType[] availableButtons)
+        private LevelSession levelSession;
+
+        public void Create(ButtonType[] availableButtons, LevelSession levelSession)
         {
             DeactivateAllButtons();
             ActivateButtons(availableButtons);
+            this.levelSession = levelSession;
+
+            if ((levelSession == null) && (availableButtons.Length > 0))
+                throw new System.ArgumentNullException("LevelSession is null and there are active buttons. A valid LevelSession is required for buttons to work.");
         }
 
         private void DeactivateAllButtons()
@@ -44,22 +50,22 @@ namespace menu.inlevel
 
         public void Retry()
         {
-            Application.LoadLevel(Application.loadedLevel);
+            levelSession.Retry();
         }
 
         public void Next()
         {
-
+            levelSession.Next();
         }
 
         public void Resume()
         {
-
+            levelSession.Resume();
         }
 
         public void Menu()
         {
-
+            levelSession.Menu();
         }
 
     }
