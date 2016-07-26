@@ -36,6 +36,7 @@ public class LevelSession : MonoBehaviour {
         levelData = LoadLevel("levels/islands");
         CreateLevel(levelData);  
         StartCoroutine(ShowIntroMenu(levelData));
+        LevelEnd();
     }
 
     void Update()

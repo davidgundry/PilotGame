@@ -11,6 +11,8 @@
         public float Distance { get; set; }
         public float DamageTaken { get; set; }
         public float FuelUsed { get; set; }
+        public int Coins { get; set; }
+        public int Pickups { get; set; }
 
 
         private float frozenTime;

@@ -2,7 +2,7 @@
 using System.Collections;
 using MicTools;
 
-namespace player
+namespace player.behaviour
 {
     [RequireComponent(typeof(MicrophoneController))]
     [RequireComponent(typeof(MicrophoneInput))]

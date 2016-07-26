@@ -2,7 +2,7 @@
 using System.Collections;
 using level.data;
 using level;
-using player;
+using player.behaviour;
 
 namespace level.behaviours
 {

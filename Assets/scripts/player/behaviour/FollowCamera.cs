@@ -3,7 +3,7 @@ using System.Collections;
 
 using level;
 
-namespace player
+namespace player.behaviour
 {
     [RequireComponent(typeof(Camera))]
     public class FollowCamera : MonoBehaviour

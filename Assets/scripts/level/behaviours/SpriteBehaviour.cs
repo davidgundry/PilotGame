@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using level.data;
-using player;
+using player.behaviour;
 
 namespace level.behaviours
 {

@@ -2,6 +2,7 @@
 using System.Collections;
 using level.data;
 using player;
+using player.behaviour;
 using player.data;
 using level.behaviours;
 
@@ -15,7 +16,7 @@ namespace level
         PickupBehaviour[] pickupBehaviours;
         LevelBounds levelBounds;
         PlaneController player;
-        FollowCamera camera;
+        FollowCamera followCamera;
         private bool created;
         LevelSession levelSession;
 
@@ -52,9 +53,9 @@ namespace level
         {
             this.levelSession = levelSession;
             player = CreatePlayer(playerLevelData);
-            camera = CreateCamera(player);
-            levelBounds = CreateLevelBounds(levelData, camera);
-            camera.SetCameraBounds(levelBounds);
+            followCamera = CreateCamera(player);
+            levelBounds = CreateLevelBounds(levelData, followCamera);
+            followCamera.SetCameraBounds(levelBounds);
 
             geomBehaviours = CreateGeom(levelData.geomData, levelBounds);
             spriteBehaviours  = CreateSprites(levelData.spriteData);

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace player
+namespace player.behaviour
 {
     public class PlanePhysics
     {

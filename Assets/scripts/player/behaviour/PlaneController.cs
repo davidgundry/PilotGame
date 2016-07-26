@@ -3,7 +3,7 @@ using System.Collections;
 using hud;
 using player.data;
 
-namespace player
+namespace player.behaviour
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(PlayerInputManager))]
@@ -230,6 +230,7 @@ namespace player
 
         public void GetPickup(PickupType pickupType)
         {
+            PlayerLevelData.Pickups++;
             switch (pickupType)
             {
                 case PickupType.Fuel:
