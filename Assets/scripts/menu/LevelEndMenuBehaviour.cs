@@ -9,25 +9,27 @@ namespace menu
     {
         public StarsContainerBehaviour starsContainer;
         public StatsContainerBehaviour statsContainer;
-        public InGameButtonContainerBehaviour buttonContainer;
+        public Button retryButton;
+        public Button nextButton;
         public Image background;
 
         void Awake()
         {
-            starsContainer.gameObject.SetActive(false);
-            statsContainer.gameObject.SetActive(false);
-            buttonContainer.gameObject.SetActive(false);
-            background.gameObject.SetActive(false);
+            SetAllActive(false);
+        }
+
+        private void SetAllActive(bool active)
+        {
+            starsContainer.gameObject.SetActive(active);
+            statsContainer.gameObject.SetActive(active);
+            retryButton.gameObject.SetActive(active);
+            nextButton.gameObject.SetActive(active);
+            background.gameObject.SetActive(active);
         }
 
         public void Create(PlayerLevelData playerLevelData)
         {
-            //switch (playerLevelData.LevelResult)
-            //{
-            //    case LevelResult.Complete:
-                    StartCoroutine(LevelCompleteMenu(playerLevelData));
-            //        break;
-            //}
+            StartCoroutine(LevelCompleteMenu(playerLevelData));
         }
 
         private IEnumerator LevelCompleteMenu(PlayerLevelData playerLevelData)
@@ -49,7 +51,8 @@ namespace menu
             statsContainer.gameObject.SetActive(true);
             statsContainer.Create(playerLevelData);
             yield return new WaitForSeconds(1f);
-            buttonContainer.gameObject.SetActive(true);
+            retryButton.gameObject.SetActive(true);
+            nextButton.gameObject.SetActive(true);
              
         }
     }

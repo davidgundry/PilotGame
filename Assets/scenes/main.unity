@@ -775,7 +775,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1607509234}
+      - m_Target: {fileID: 998813762}
         m_MethodName: Next
         m_Mode: 1
         m_Arguments:
@@ -1811,7 +1811,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100
+  m_Text: 0
 --- !u!222 &1045532465
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1959,7 +1959,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1607509234}
+      - m_Target: {fileID: 998813762}
         m_MethodName: Retry
         m_Mode: 1
         m_Arguments:
@@ -2575,7 +2575,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starsContainer: {fileID: 160233353}
   statsContainer: {fileID: 1669477017}
-  buttonContainer: {fileID: 1607509234}
+  retryButton: {fileID: 1186335055}
+  nextButton: {fileID: 492466708}
   background: {fileID: 277458267}
 --- !u!1 &1579413550
 GameObject:
@@ -2677,7 +2678,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 1607509233}
-  - 114: {fileID: 1607509234}
   m_Layer: 5
   m_Name: ButtonContainer
   m_TagString: Untagged
@@ -2704,20 +2704,6 @@ RectTransform:
   m_AnchoredPosition: {x: -.124879479, y: 1.52587891e-05}
   m_SizeDelta: {x: 1387.30005, y: 1000}
   m_Pivot: {x: .5, y: .5}
---- !u!114 &1607509234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1607509232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 220f5813c0f9f6c45aaf20ae494cc77f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  retryButton: {fileID: 0}
-  menuButton: {fileID: 0}
-  resumeButton: {fileID: 0}
 --- !u!1 &1668742011
 GameObject:
   m_ObjectHideFlags: 0

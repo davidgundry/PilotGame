@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace menu.inlevel
+﻿namespace menu.inlevel
 {
     /// <summary>
     /// Contains all of the information for the InGameMenuBehaviour to create a particular type of in-game menu.
