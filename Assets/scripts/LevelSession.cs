@@ -7,32 +7,34 @@ using player.data;
 using menu;
 using menu.inlevel;
 
-public enum LevelSessionState
-{
-    Intro,
-    Playing,
-    Paused,
-    End
-}
-
 public class LevelSession : MonoBehaviour {
 
-    private PlayerLevelData PlayerLevelData { get; set; }
+    private enum LevelSessionState
+    {
+        Intro,
+        Playing,
+        Paused,
+        End
+    }
+
+    private PlayerLevelData playerLevelData;
     public LevelEndMenuBehaviour levelEndMenu;
     public InGameMenuBehaviour inGameMenu;
     private LevelBehaviour levelBehaviour;
+
+    private LevelData levelData;
 
     private LevelSessionState levelSessionState;
 
 	void Awake()
     {
-        PlayerLevelData = new PlayerLevelData();
+        playerLevelData = new PlayerLevelData();
         inGameMenu.LevelSession = this;
 	}
 
     void Start()
     {
-        LevelData levelData = LoadLevel("levels/islands");
+        levelData = LoadLevel("levels/islands");
         CreateLevel(levelData);  
         StartCoroutine(ShowIntroMenu(levelData));
     }
@@ -53,9 +55,9 @@ public class LevelSession : MonoBehaviour {
         GameObject g = new GameObject();
         g.AddComponent<LevelBehaviour>();
         levelBehaviour = g.GetComponent<LevelBehaviour>();
-        levelBehaviour.Create(this, levelData, PlayerLevelData);
+        levelBehaviour.Create(this, levelData, playerLevelData);
 
-        PlayerLevelData.StartTime = Time.time;
+        playerLevelData.StartTime = Time.time;
     }
 
     public void LevelEnd()
@@ -63,10 +65,10 @@ public class LevelSession : MonoBehaviour {
         if (levelSessionState != LevelSessionState.End)
         {
             UpdatePlayerLevelDataAtEnd();
-            PlayerLevelData.LevelResult = LevelResult.Complete;
-            PlayerLevelData.StarScore = StarScore.scores[0];
+            playerLevelData.LevelResult = LevelResult.Complete;
+            playerLevelData.StarScore = StarScoreCalculator.Calculate(levelData, playerLevelData);
             levelSessionState = LevelSessionState.End;
-            StartCoroutine(ShowEndMenu(PlayerLevelData));
+            StartCoroutine(ShowEndMenu(playerLevelData));
         }
     }
 
@@ -75,9 +77,9 @@ public class LevelSession : MonoBehaviour {
         if (levelSessionState != LevelSessionState.End)
         {
             UpdatePlayerLevelDataAtEnd();
-            PlayerLevelData.LevelResult = LevelResult.FellOffBottom;
+            playerLevelData.LevelResult = LevelResult.FellOffBottom;
             levelSessionState = LevelSessionState.End;
-            StartCoroutine(ShowFailedMenu(PlayerLevelData));
+            StartCoroutine(ShowFailedMenu(playerLevelData));
         }
     }
 
@@ -86,15 +88,15 @@ public class LevelSession : MonoBehaviour {
         if (levelSessionState != LevelSessionState.End)
         {
             UpdatePlayerLevelDataAtEnd();
-            PlayerLevelData.LevelResult = LevelResult.Crash;
+            playerLevelData.LevelResult = LevelResult.Crash;
             levelSessionState = LevelSessionState.End;
-            StartCoroutine(ShowFailedMenu(PlayerLevelData));
+            StartCoroutine(ShowFailedMenu(playerLevelData));
         }
     }
 
     private void UpdatePlayerLevelDataAtEnd()
     {
-        PlayerLevelData.EndTime = Time.time;
+        playerLevelData.EndTime = Time.time;
     }
 
     private IEnumerator ShowIntroMenu(LevelData levelData)
@@ -127,7 +129,7 @@ public class LevelSession : MonoBehaviour {
     private void FreezePlay(bool frozen)
     {
         levelBehaviour.FreezePlay(frozen);
-        PlayerLevelData.FreezeTime(frozen, Time.time);
+        playerLevelData.FreezeTime(frozen, Time.time);
     }
 
     public void Pause()
