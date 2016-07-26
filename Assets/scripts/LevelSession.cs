@@ -17,13 +17,12 @@ public class LevelSession : MonoBehaviour {
         End
     }
 
-    private PlayerLevelData playerLevelData;
     public LevelEndMenuBehaviour levelEndMenu;
     public InGameMenuBehaviour inGameMenu;
+
+    private PlayerLevelData playerLevelData;
     private LevelBehaviour levelBehaviour;
-
     private LevelData levelData;
-
     private LevelSessionState levelSessionState;
 
 	void Awake()
