@@ -2,52 +2,49 @@
 using System.Collections;
 using level.data;
 
-namespace level
+namespace level.behaviours
 {
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
-    public class CloudLineBehaviour : MonoBehaviour
+    public class FinishLineBehaviour : MonoBehaviour
     {
 
-        float zPosition;
-
-        public void Create(LevelData levelData, float zPosition)
+        public void Create(LevelData levelData, LevelBounds levelBounds)
         {
-            this.zPosition = zPosition;
-            MakeMesh(levelData.length);
+            MakeMesh(levelBounds);
             SetMaterial(LoadMaterial());
-            transform.position = new Vector3(0, levelData.height, 0);
+            transform.position = new Vector3(levelData.length, 0, 0);
         }
 
         private Material LoadMaterial()
         {
-            return Resources.Load("materials/cloudline", typeof(Material)) as Material;
+            return Resources.Load("materials/flagstring", typeof(Material)) as Material;
         }
 
-        private void MakeMesh(float levelWidth)
+        private void MakeMesh(LevelBounds levelBounds)
         {
             MeshFilter mf = GetComponent<MeshFilter>();
-            mf.mesh.vertices = Vertices(levelWidth);
+            mf.mesh.vertices = Vertices(levelBounds);
             mf.mesh.triangles = Triangles();
             mf.mesh.RecalculateBounds();
             mf.mesh.RecalculateNormals();
             mf.mesh.uv = UVs();
         }
 
-        private Vector3[] Vertices(float levelWidth)
+        private Vector3[] Vertices(LevelBounds levelBounds)
         {
             return new Vector3[]
             {
-                new Vector3(0,4f,zPosition),
-                new Vector3(levelWidth,4f,zPosition),
-                new Vector3(levelWidth,-4f,zPosition),
-                new Vector3(0,-4f,zPosition)
+                new Vector3(-0.2f,levelBounds.GeomTopEdge,0),
+                new Vector3(0.2f,levelBounds.GeomTopEdge,0),
+                new Vector3(0.2f,levelBounds.GeomBottomEdge,0),
+                new Vector3(-0.2f,levelBounds.GeomBottomEdge,0)
             };
         }
 
         private int[] Triangles()
         {
-            return new int[] { 0, 1, 2, 3, 0, 2 };
+            return new int[] {0,1,2,3,0,2};
         }
 
         private Vector2[] UVs()
@@ -66,5 +63,6 @@ namespace level
             MeshRenderer mr = GetComponent<MeshRenderer>();
             mr.material = material;
         }
+
     }
 }

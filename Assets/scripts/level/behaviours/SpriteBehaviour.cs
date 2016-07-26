@@ -3,7 +3,7 @@ using System.Collections;
 using level.data;
 using player;
 
-namespace level
+namespace level.behaviours
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class SpriteBehaviour : MonoBehaviour

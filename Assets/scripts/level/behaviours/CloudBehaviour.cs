@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using level.data;
-namespace level
+namespace level.behaviours
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class CloudBehaviour : MonoBehaviour

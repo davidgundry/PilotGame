@@ -4,7 +4,7 @@ using level.data;
 using level;
 using player;
 
-namespace level
+namespace level.behaviours
 {
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
