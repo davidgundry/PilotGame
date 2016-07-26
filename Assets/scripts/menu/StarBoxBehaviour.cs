@@ -5,6 +5,7 @@ namespace menu
 {
     public class StarBoxBehaviour : MonoBehaviour
     {
+        public GameObject prefabStar;
 
         private StarBehaviour[] stars;
         private int starCount;
@@ -28,11 +29,18 @@ namespace menu
 
         public void Create(int starCount)
         {
+            int padding = 20;
             stars = new StarBehaviour[starCount];
             for (int i = 0; i < starCount; i++)
             {
-                GameObject g = new GameObject();
-                g.AddComponent<StarBehaviour>();
+                GameObject g = Instantiate(prefabStar);
+                g.transform.SetParent(this.transform,false);
+
+                RectTransform rt = g.GetComponent<RectTransform>();
+                rt.anchorMin = new Vector2(0, 0.5f);
+                rt.anchorMax = new Vector2(0, 0.5f);
+                rt.localPosition = new Vector2(i*(rt.rect.width+padding), 0);
+
                 g.name = "star_"+i;
                 stars[i] = g.GetComponent<StarBehaviour>();
             }
