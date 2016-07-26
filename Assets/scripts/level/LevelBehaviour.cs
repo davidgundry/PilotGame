@@ -39,7 +39,7 @@ namespace level
             if (levelBounds.CheckLevelComplete(player.transform.position))
             {
                 player.AutoPilot = true;
-                levelSession.LevelEnd();
+                levelSession.CrossedFinishLine();
             }
             if (player.transform.position.y < levelBounds.GeomBottomEdge)
             {

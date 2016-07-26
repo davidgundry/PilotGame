@@ -36,13 +36,76 @@ public class LevelSession : MonoBehaviour {
         levelData = LoadLevel("levels/islands");
         CreateLevel(levelData);  
         StartCoroutine(ShowIntroMenu(levelData));
-        LevelEnd();
+        CrossedFinishLine(); // For testing purposes
     }
 
     void Update()
     {
         if (Input.GetKeyDown("p"))
             Pause();
+    }
+
+    public void CrossedFinishLine()
+    {
+        if (levelSessionState != LevelSessionState.End)
+        {
+            SetPlayerEndTime();
+            playerLevelData.LevelResult = LevelResult.Complete;
+            playerLevelData.StarScore = StarScoreCalculator.Calculate(levelData, playerLevelData);
+            levelSessionState = LevelSessionState.End;
+            UpdateLevelRecord();
+            StartCoroutine(ShowEndMenu(playerLevelData));
+        }
+    }
+
+    public void FallOffBottomOfScreen()
+    {
+        if (levelSessionState != LevelSessionState.End)
+        {
+            SetPlayerEndTime();
+            playerLevelData.LevelResult = LevelResult.FellOffBottom;
+            levelSessionState = LevelSessionState.End;
+            StartCoroutine(ShowFailedMenu(playerLevelData));
+        }
+    }
+
+    public void PlayerCrashed()
+    {
+        if (levelSessionState != LevelSessionState.End)
+        {
+            SetPlayerEndTime();
+            playerLevelData.LevelResult = LevelResult.Crash;
+            levelSessionState = LevelSessionState.End;
+            StartCoroutine(ShowFailedMenu(playerLevelData));
+        }
+    }
+
+    public void Pause()
+    {
+        if (levelSessionState == LevelSessionState.Playing)
+            EnPause();
+        else if (levelSessionState == LevelSessionState.Paused)
+            UnPause();
+    }
+
+    public void Retry()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+    }
+
+    public void Resume()
+    {
+        UnPause();
+    }
+
+    public void Next()
+    {
+        
+    }
+
+    public void Menu()
+    {
+        
     }
 
     private LevelData LoadLevel(string filePath)
@@ -60,41 +123,12 @@ public class LevelSession : MonoBehaviour {
         playerLevelData.StartTime = Time.time;
     }
 
-    public void LevelEnd()
+    private void UpdateLevelRecord()
     {
-        if (levelSessionState != LevelSessionState.End)
-        {
-            UpdatePlayerLevelDataAtEnd();
-            playerLevelData.LevelResult = LevelResult.Complete;
-            playerLevelData.StarScore = StarScoreCalculator.Calculate(levelData, playerLevelData);
-            levelSessionState = LevelSessionState.End;
-            StartCoroutine(ShowEndMenu(playerLevelData));
-        }
+        PlayerLevelRecord record = new PlayerLevelRecord(playerLevelData.Time, playerLevelData.StarScore, playerLevelData.Coins, playerLevelData.Pickups);
     }
 
-    public void FallOffBottomOfScreen()
-    {
-        if (levelSessionState != LevelSessionState.End)
-        {
-            UpdatePlayerLevelDataAtEnd();
-            playerLevelData.LevelResult = LevelResult.FellOffBottom;
-            levelSessionState = LevelSessionState.End;
-            StartCoroutine(ShowFailedMenu(playerLevelData));
-        }
-    }
-
-    public void PlayerCrashed()
-    {
-        if (levelSessionState != LevelSessionState.End)
-        {
-            UpdatePlayerLevelDataAtEnd();
-            playerLevelData.LevelResult = LevelResult.Crash;
-            levelSessionState = LevelSessionState.End;
-            StartCoroutine(ShowFailedMenu(playerLevelData));
-        }
-    }
-
-    private void UpdatePlayerLevelDataAtEnd()
+    private void SetPlayerEndTime()
     {
         playerLevelData.EndTime = Time.time;
     }
@@ -132,14 +166,6 @@ public class LevelSession : MonoBehaviour {
         playerLevelData.FreezeTime(frozen, Time.time);
     }
 
-    public void Pause()
-    {
-        if (levelSessionState == LevelSessionState.Playing)
-            EnPause();
-        else if (levelSessionState == LevelSessionState.Paused)
-            UnPause();
-    }
-
     private void EnPause()
     {
         levelSessionState = LevelSessionState.Paused;
@@ -152,26 +178,6 @@ public class LevelSession : MonoBehaviour {
         levelSessionState = LevelSessionState.Playing;
         levelBehaviour.FreezePlay(false);
         inGameMenu.Destroy();
-    }
-
-    public void Retry()
-    {
-        Application.LoadLevel(Application.loadedLevel);
-    }
-
-    public void Next()
-    {
-        
-    }
-
-    public void Resume()
-    {
-        UnPause();
-    }
-
-    public void Menu()
-    {
-        
     }
 
 }
