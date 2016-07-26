@@ -13,7 +13,8 @@
         public InGameMenu(string title, string subtitle, bool headerVisible, ButtonType[] availableButtons)
         {
             this.title = title;
-            this.subtitle = subtitle.ToLower();
+            if (subtitle != null)
+                this.subtitle = subtitle.ToLower();
             this.headerVisible = headerVisible;
             this.availableButtons = availableButtons;
         }
