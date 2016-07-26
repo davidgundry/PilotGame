@@ -1375,11 +1375,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.29999995
-  m_Text: 'Bonuses:
+  m_Text: 'Crashes:
 
-    Powerup:
+    Coins:
 
-    Distance:'
+    Pickups:'
 --- !u!222 &789870693
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2835,9 +2835,9 @@ MonoBehaviour:
     m_LineSpacing: 1.29999995
   m_Text: 'Time:
 
-    Crashes:
+    Distance:
 
-    Distance:'
+    Fuel:'
 --- !u!222 &1868136944
 CanvasRenderer:
   m_ObjectHideFlags: 0
