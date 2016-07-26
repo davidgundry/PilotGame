@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using player;
+using player.data;
 using System;
 
 namespace menu

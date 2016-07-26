@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using player;
+using player.data;
 
 public class StarsContainerBehaviour : MonoBehaviour {
 

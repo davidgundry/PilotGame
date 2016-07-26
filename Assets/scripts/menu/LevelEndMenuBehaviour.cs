@@ -2,7 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 using player;
+using player.data;
 using menu.inlevel;
+
 namespace menu
 {
     public class LevelEndMenuBehaviour : MonoBehaviour

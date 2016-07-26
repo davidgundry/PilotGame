@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using hud;
+using player.data;
 
 namespace player
 {

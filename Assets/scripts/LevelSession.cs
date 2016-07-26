@@ -3,6 +3,7 @@ using System.Collections;
 using level.data;
 using level;
 using player;
+using player.data;
 using menu;
 using menu.inlevel;
 

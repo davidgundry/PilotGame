@@ -1,4 +1,4 @@
-﻿using player;
+﻿using player.data;
 namespace menu.inlevel
 {
     public class LevelFailedMenu : InGameMenu
