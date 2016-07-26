@@ -34,7 +34,8 @@
     {
         Complete,
         Crash,
-        FellOffBottom
+        FellOffBottom,
+        Sunk
     }
 
     public struct StarScore

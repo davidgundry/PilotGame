@@ -2,13 +2,14 @@
 using System.Collections;
 using UnityEngine.UI;
 using player;
+using menu.inlevel;
 namespace menu
 {
     public class LevelEndMenuBehaviour : MonoBehaviour
     {
         public StarsContainerBehaviour starsContainer;
         public StatsContainerBehaviour statsContainer;
-        public ButtonContainerBehaviour buttonContainer;
+        public InGameButtonContainerBehaviour buttonContainer;
         public Image background;
 
         void Awake()

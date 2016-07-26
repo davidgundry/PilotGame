@@ -4,6 +4,7 @@ using level.data;
 using level;
 using player;
 using menu;
+using menu.inlevel;
 
 public enum LevelSessionState
 {
@@ -17,23 +18,21 @@ public class LevelSession : MonoBehaviour {
 
     private PlayerLevelData PlayerLevelData { get; set; }
     public LevelEndMenuBehaviour levelEndMenu;
-    public LevelFailedMenuBehaviour levelFailedMenu;
-    public LevelIntroMenuBehaviour levelIntroMenu;
-    public PauseMenuBehaviour pauseMenu;
+    public InGameMenuBehaviour inGameMenu;
     private LevelBehaviour levelBehaviour;
 
     private LevelSessionState levelSessionState;
 
-	void Awake() {
+	void Awake()
+    {
         PlayerLevelData = new PlayerLevelData();
-        LevelData levelData = LoadLevel("levels/islands");
-        levelIntroMenu.Create(levelData);
-	    CreateLevel(levelData);   
 	}
 
     void Start()
     {
-        StartCoroutine(ShowIntroMenu());
+        LevelData levelData = LoadLevel("levels/steep-tunnels");
+        CreateLevel(levelData);  
+        StartCoroutine(ShowIntroMenu(levelData));
     }
 
     void Update()
@@ -96,29 +95,29 @@ public class LevelSession : MonoBehaviour {
         PlayerLevelData.EndTime = Time.time;
     }
 
-    private IEnumerator ShowIntroMenu()
+    private IEnumerator ShowIntroMenu(LevelData levelData)
     {
         levelSessionState = LevelSessionState.Intro;
-        levelIntroMenu.Show();
+        inGameMenu.InGameMenu = new LevelIntroMenu(levelData);
         FreezePlay(true);
-        yield return new WaitForSeconds(1f);
-        levelIntroMenu.Hide();
+        yield return new WaitForSeconds(2f);
+        inGameMenu.Destroy();
         FreezePlay(false);
         levelSessionState = LevelSessionState.Playing;
     }
 
-    private IEnumerator ShowEndMenu(PlayerLevelData PlayerLevelData)
+    private IEnumerator ShowEndMenu(PlayerLevelData playerLevelData)
     {
         yield return new WaitForSeconds(2);
-        levelEndMenu.Create(PlayerLevelData);
+        levelEndMenu.Create(playerLevelData);
         yield return new WaitForSeconds(2);
         FreezePlay(true);
     }
 
-    private IEnumerator ShowFailedMenu(PlayerLevelData PlayerLevelData)
+    private IEnumerator ShowFailedMenu(PlayerLevelData playerLevelData)
     {
         yield return new WaitForSeconds(2);
-        levelFailedMenu.Create(PlayerLevelData);
+        inGameMenu.InGameMenu = new LevelFailedMenu(playerLevelData);
         yield return new WaitForSeconds(2);
         FreezePlay(true);
     }
@@ -135,14 +134,14 @@ public class LevelSession : MonoBehaviour {
         {
             levelSessionState = LevelSessionState.Paused;
             levelBehaviour.FreezePlay(true);
-            pauseMenu.Show();
+            inGameMenu.InGameMenu = new PauseMenu();
                 
         }
         else if (levelSessionState == LevelSessionState.Paused)
         {
             levelSessionState = LevelSessionState.Playing;
             levelBehaviour.FreezePlay(false);
-            pauseMenu.Hide();
+            inGameMenu.Destroy();
         }
     }
 

@@ -72,7 +72,7 @@ namespace player
 
         private void UpdateFuelUsed()
         {
-            if (playerInputManager.IsInput())
+            if (playerInputManager.IsInput() && (Fuel > 0))
             {
                 float fuelUsed = Time.deltaTime * fuelLossRate;
                 Fuel -= fuelUsed;
@@ -125,7 +125,7 @@ namespace player
             Vector2 force = planePhysics.PassiveForce(rb.velocity, Time.deltaTime, angle);
             rb.AddRelativeForce(new Vector2(force.x, force.y));
             rb.velocity = planePhysics.BoundVelocity(rb.velocity);
-            rb.AddForce(new Vector2(-rb.velocity.x*10, 0));
+            rb.AddForce(new Vector2(-rb.velocity.x*4, 0));
         }
 
         private void PlayerForces()
@@ -225,6 +225,37 @@ namespace player
             if ((collider.gameObject.tag != "Sprite") && (collider.gameObject.tag != "Ocean"))
                 if (upsideDown)
                     PlaneDestroyed();
+        }
+
+        public void GetPickup(PickupType pickupType)
+        {
+            switch (pickupType)
+            {
+                case PickupType.Fuel:
+                    PickedUpFuel();
+                    break;
+                case PickupType.Repair:
+                    PickedUpRepair();
+                    break;
+                case PickupType.Speed:
+                    PickedUpSpeed();
+                    break;
+            }
+        }
+
+        private void PickedUpFuel()
+        {
+            Fuel = 1;
+        }
+
+        private void PickedUpRepair()
+        {
+            Damage = 0;
+        }
+
+        private void PickedUpSpeed()
+        {
+            rb.AddForce(new Vector2(100000, 0));
         }
 
     }

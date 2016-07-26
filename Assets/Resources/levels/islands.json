@@ -153,5 +153,20 @@
 			"rotation":0,
 			"collision":[[-6,6],[6,6],[6,-6],[-6,-6]]
 		}
+	],
+	"pickups":
+	[
+		{
+			"name":"oil1",
+			"type":"fuel",
+			"position":[117,3.5],
+			"rotation":0
+		}
+		{
+			"name":"repair1",
+			"type":"repair",
+			"position":[87,4],
+			"rotation":0
+		}
 	]
 }	

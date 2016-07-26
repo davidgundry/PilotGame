@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using level.data;
+using level.behaviours;
 
 namespace level
 {
@@ -39,6 +40,14 @@ namespace level
                 LoadAndParse();
 
             return jsonNode["name"];
+        }
+
+        public string GetSubtitle()
+        {
+            if (jsonNode == null)
+                LoadAndParse();
+
+            return jsonNode["subtitle"];
         }
 
         public float GetLength()
@@ -117,6 +126,32 @@ namespace level
 
             return new SpriteData(name, filePath, position, scale, rotation, collision);
         }
+
+
+        public PickupData[] GetPickupData()
+        {
+            if (jsonNode == null)
+                LoadAndParse();
+
+            List<PickupData> pickupDataList = new List<PickupData>();
+            foreach (JSONNode node in jsonNode["pickups"].AsArray)
+            {
+                pickupDataList.Add(ParsePickupNode(node));
+            }
+
+            return pickupDataList.ToArray();
+        }
+
+        private PickupData ParsePickupNode(JSONNode node)
+        {
+            string name = node["name"];
+            PickupType type = node["type"].AsEnum<PickupType>();
+            Vector2 position = node["position"].AsVector2();
+            float rotation = node["rotation"].AsFloat;
+
+            return new PickupData(name, type, position, rotation);
+        }
+
 
         public EnvironmentData GetEnvironmentData()
         {

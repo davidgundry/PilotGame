@@ -2,6 +2,7 @@
 using System.Collections;
 using level.data;
 using player;
+using level.behaviours;
 
 namespace level
 {
@@ -10,6 +11,7 @@ namespace level
         GeomBehaviour[] geomBehaviours;
         SpriteBehaviour[] spriteBehaviours;
         CloudBehaviour[] cloudBehaviours;
+        PickupBehaviour[] pickupBehaviours;
         LevelBounds levelBounds;
         PlaneController player;
         FollowCamera camera;
@@ -55,6 +57,7 @@ namespace level
 
             geomBehaviours = CreateGeom(levelData.geomData, levelBounds);
             spriteBehaviours  = CreateSprites(levelData.spriteData);
+            pickupBehaviours = CreatePickups(levelData.pickupData);
 
             CreateFinishLine(levelData,levelBounds);
             CreateCloudLine(levelData);
@@ -90,6 +93,20 @@ namespace level
                 spriteBehaviours[i] = g.GetComponent<SpriteBehaviour>();
             }
             return spriteBehaviours;
+        }
+
+        private static PickupBehaviour[] CreatePickups(PickupData[] pickupData)
+        {
+            PickupBehaviour[] pickupBehaviours = new PickupBehaviour[pickupData.Length];
+            for (int i = 0; i < pickupData.Length; i++)
+            {
+                GameObject g = new GameObject();
+                g.AddComponent<PickupBehaviour>();
+                g.GetComponent<PickupBehaviour>().Create(pickupData[i]);
+                g.name = pickupData[i].name;
+                pickupBehaviours[i] = g.GetComponent<PickupBehaviour>();
+            }
+            return pickupBehaviours;
         }
 
         private static void CreateFinishLine(LevelData levelData,LevelBounds levelBounds)
