@@ -29,7 +29,8 @@ namespace menu
 
         public void Create(int starCount)
         {
-            int padding = 20;
+            int leftmargin = 30;
+            int padding = 15;
             stars = new StarBehaviour[starCount];
             for (int i = 0; i < starCount; i++)
             {
@@ -39,7 +40,8 @@ namespace menu
                 RectTransform rt = g.GetComponent<RectTransform>();
                 rt.anchorMin = new Vector2(0, 0.5f);
                 rt.anchorMax = new Vector2(0, 0.5f);
-                rt.localPosition = new Vector2(i*(rt.rect.width+padding), 0);
+                rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, leftmargin + i * (rt.rect.width + padding), 100);
+                //rt.localPosition = new Vector2(i*(rt.rect.width+padding), 0);
 
                 g.name = "star_"+i;
                 stars[i] = g.GetComponent<StarBehaviour>();
