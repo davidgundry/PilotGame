@@ -21,12 +21,15 @@ public class LevelSession : MonoBehaviour {
     public LevelEndMenuBehaviour levelEndMenu;
     public InGameMenuBehaviour inGameMenu;
 
+    private GameController gameController;
     private PlayerLevelData playerLevelData;
     private LevelBehaviour levelBehaviour;
     private LevelData levelData;
     private LevelSessionState levelSessionState;
 
     private TimerBehaviour timer;
+
+    private readonly string[] levelList  = new string[1] {"plane-sailing"};
 
 	void Awake()
     {
@@ -39,7 +42,12 @@ public class LevelSession : MonoBehaviour {
 
     void Start()
     {
-        levelData = LoadLevel("levels/plane-sailing");
+        gameController = GameObject.FindObjectOfType<GameController>();
+        int nextLevel = gameController.levelID;
+        if (nextLevel > levelList.Length)
+            nextLevel = 0;
+        levelData = LoadLevel("levels/" + levelList[nextLevel]);
+
         CreateLevel(levelData);  
         StartCoroutine(ShowIntroMenu(levelData));
         //CrossedFinishLine(); // For testing purposes
@@ -109,12 +117,13 @@ public class LevelSession : MonoBehaviour {
 
     public void Next()
     {
-        
+        gameController.levelID++;
+        Application.LoadLevel("load");
     }
 
     public void Menu()
     {
-        
+        Application.LoadLevel("main-menu");
     }
 
     private LevelData LoadLevel(string filePath)
