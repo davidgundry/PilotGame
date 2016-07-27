@@ -35,8 +35,7 @@ namespace player.behaviour
 
             if (Input.acceleration.x < -0.1f)
                 return 15f;
-
-            if (Input.acceleration.x > 0.1f)
+            else if (Input.acceleration.x > 0.1f)
                 return -12f;
 
             return 3;
