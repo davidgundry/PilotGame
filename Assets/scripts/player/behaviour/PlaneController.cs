@@ -230,7 +230,6 @@ namespace player.behaviour
 
         public void GetPickup(PickupType pickupType)
         {
-            PlayerLevelData.Pickups++;
             switch (pickupType)
             {
                 case PickupType.Fuel:
@@ -250,16 +249,19 @@ namespace player.behaviour
 
         private void PickedUpFuel()
         {
+            PlayerLevelData.Pickups++;
             Fuel = 1;
         }
 
         private void PickedUpRepair()
         {
+            PlayerLevelData.Pickups++;
             Damage = 0;
         }
 
         private void PickedUpSpeed()
         {
+            PlayerLevelData.Pickups++;
             rb.AddForce(new Vector2(100000, 0));
         }
 
