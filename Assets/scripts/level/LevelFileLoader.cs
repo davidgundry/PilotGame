@@ -162,8 +162,9 @@ namespace level
             float wind = node["wind"].AsFloat;
             float shadowAngle = node["wind"].AsFloat;
             LevelPalate palate = node["palate"].AsEnum<LevelPalate>();
+            int cloudCount = node["cloudCount"].AsInt;
 
-            return new EnvironmentData(wind, shadowAngle, palate);
+            return new EnvironmentData(wind, shadowAngle, palate, cloudCount);
         }
 
     }

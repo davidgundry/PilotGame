@@ -5,7 +5,8 @@ public enum PickupType
 {
     Fuel,
     Repair,
-    Speed
+    Speed,
+    Coin
 }
 
 namespace level.data

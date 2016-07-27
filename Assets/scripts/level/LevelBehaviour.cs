@@ -152,7 +152,7 @@ namespace level
 
         private static CloudBehaviour[] CreateClouds(LevelBounds levelBounds,EnvironmentData environmentData)
         {
-            int cloudCount = 10;
+            int cloudCount = environmentData.cloudCount;
             CloudBehaviour[] cloudBehaviours = new CloudBehaviour[cloudCount];
             for (int i = 0; i < cloudBehaviours.Length; i++)
             {

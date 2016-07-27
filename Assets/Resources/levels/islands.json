@@ -1,13 +1,15 @@
 {
 	"name":"Plane Sailing",
-	"length":222,
+	"subtitle":"Talk to thrust, arrows control lift",
+	"length":200,
 	"height":25,
-	"playerStart":[3,6],
+	"playerStart":[10,6],
 	"environment":
 	{
-		"wind":0.7,
+		"wind":0.9,
 		"shadowAngle":0.1,
-		"palate":"day"
+		"palate":"day",
+		"cloudCount":20,
 	}
 	"geom":
 	[
@@ -68,12 +70,12 @@
 			"pivotEndPoints":1,
 			"points":
 			[
-				[106,0],
-				[112,2],
-				[114,4],
-				[120,3],
+				[116,0],
 				[122,2],
-				[128,0]
+				[124,3],
+				[130,3],
+				[132,2],
+				[138,0]
 			]
 		},
 		
@@ -112,8 +114,8 @@
 				[56,8],
 				[60,10],
 				[62,8],
-				[68,12],
 				[64,10],
+				[68,12],
 				[70,16],
 				[76,12],
 				[84,8],
@@ -131,7 +133,13 @@
 				[164,10],
 				[170,16],
 				[180,20],
-				[200,10]
+				[200,10],
+				[230,17],
+				[235,19],
+				[240,15],
+				[253,22],
+				[300,13],
+				[350,20]
 			]
 		}
 	],	 
@@ -140,7 +148,7 @@
 		{
 			"name":"balloon1",
 			"filePath":"balloon",
-			"position":[50,14],
+			"position":[50,16],
 			"scale":[0.5,0.5],
 			"rotation":0,
 			"collision":[[-6,6],[6,6],[6,-6],[-6,-6]]
@@ -149,7 +157,7 @@
 			"name":"balloon2",
 			"filePath":"balloon",
 			"position":[120,18],
-			"scale":[0.5,0.5],
+			"scale":[0.6,0.6],
 			"rotation":0,
 			"collision":[[-6,6],[6,6],[6,-6],[-6,-6]]
 		}
@@ -159,13 +167,49 @@
 		{
 			"name":"oil1",
 			"type":"fuel",
-			"position":[117,3.5],
+			"position":[127,4],
 			"rotation":0
-		}
+		},
 		{
 			"name":"repair1",
 			"type":"repair",
-			"position":[87,4],
+			"position":[87,5],
+			"rotation":0
+		},
+		{
+			"name":"coin1",
+			"type":"coin",
+			"position":[58,8],
+			"rotation":0
+		},
+		{
+			"name":"coin2",
+			"type":"coin",
+			"position":[67,11],
+			"rotation":0
+		},
+		{
+			"name":"coin3",
+			"type":"coin",
+			"position":[77,9],
+			"rotation":0
+		},
+		{
+			"name":"coin4",
+			"type":"coin",
+			"position":[148,8],
+			"rotation":0
+		},
+		{
+			"name":"coin5",
+			"type":"coin",
+			"position":[157,11],
+			"rotation":0
+		},
+		{
+			"name":"coin6",
+			"type":"coin",
+			"position":[167,10.5],
 			"rotation":0
 		}
 	]

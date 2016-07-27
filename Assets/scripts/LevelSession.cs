@@ -6,6 +6,7 @@ using player;
 using player.data;
 using menu;
 using menu.inlevel;
+using hud;
 
 public class LevelSession : MonoBehaviour {
 
@@ -25,8 +26,11 @@ public class LevelSession : MonoBehaviour {
     private LevelData levelData;
     private LevelSessionState levelSessionState;
 
+    private TimerBehaviour timer;
+
 	void Awake()
     {
+        timer = GameObject.FindObjectOfType<TimerBehaviour>();
         playerLevelData = new PlayerLevelData();
         inGameMenu.LevelSession = this;
 	}
@@ -36,7 +40,7 @@ public class LevelSession : MonoBehaviour {
         levelData = LoadLevel("levels/islands");
         CreateLevel(levelData);  
         StartCoroutine(ShowIntroMenu(levelData));
-        CrossedFinishLine(); // For testing purposes
+        //CrossedFinishLine(); // For testing purposes
     }
 
     void Update()
@@ -49,6 +53,7 @@ public class LevelSession : MonoBehaviour {
     {
         if (levelSessionState != LevelSessionState.End)
         {
+            timer.ClockRunning = false;
             SetPlayerEndTime();
             playerLevelData.LevelResult = LevelResult.Complete;
             playerLevelData.StarScore = StarScoreCalculator.Calculate(levelData, playerLevelData);
@@ -62,6 +67,7 @@ public class LevelSession : MonoBehaviour {
     {
         if (levelSessionState != LevelSessionState.End)
         {
+            timer.ClockRunning = false;
             SetPlayerEndTime();
             playerLevelData.LevelResult = LevelResult.FellOffBottom;
             levelSessionState = LevelSessionState.End;
@@ -73,6 +79,7 @@ public class LevelSession : MonoBehaviour {
     {
         if (levelSessionState != LevelSessionState.End)
         {
+            timer.ClockRunning = false;
             SetPlayerEndTime();
             playerLevelData.LevelResult = LevelResult.Crash;
             levelSessionState = LevelSessionState.End;
@@ -131,6 +138,7 @@ public class LevelSession : MonoBehaviour {
     private void SetPlayerEndTime()
     {
         playerLevelData.EndTime = Time.time;
+        playerLevelData.Time = timer.Time;
     }
 
     private IEnumerator ShowIntroMenu(LevelData levelData)
@@ -163,7 +171,7 @@ public class LevelSession : MonoBehaviour {
     private void FreezePlay(bool frozen)
     {
         levelBehaviour.FreezePlay(frozen);
-        playerLevelData.FreezeTime(frozen, Time.time);
+        timer.ClockRunning = !frozen;
     }
 
     private void EnPause()

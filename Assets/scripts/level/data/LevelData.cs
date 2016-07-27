@@ -8,6 +8,7 @@ namespace level.data
         public readonly string subtitle;
         public readonly float length;
         public readonly float height;
+        public readonly int cloudCount;
         public readonly Vector2 playerStart;
 
         public readonly GeomData[] geomData;
@@ -29,6 +30,7 @@ namespace level.data
             this.spriteData = levelFileLoader.GetSpriteData();
             this.pickupData = levelFileLoader.GetPickupData();
             this.environmentData = levelFileLoader.GetEnvironmentData();
+            
         }
     }
 

@@ -242,6 +242,9 @@ namespace player.behaviour
                 case PickupType.Speed:
                     PickedUpSpeed();
                     break;
+                case PickupType.Coin:
+                    PickedUpCoin();
+                    break;
             }
         }
 
@@ -258,6 +261,11 @@ namespace player.behaviour
         private void PickedUpSpeed()
         {
             rb.AddForce(new Vector2(100000, 0));
+        }
+
+        private void PickedUpCoin()
+        {
+            PlayerLevelData.Coins++;
         }
 
     }
