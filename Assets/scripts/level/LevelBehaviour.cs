@@ -173,8 +173,7 @@ namespace level
         {
             if (frozen)
             {
-                player.GetComponent<Rigidbody2D>().Sleep();
-                player.enabled = false;
+                player.Freeze();
                 foreach (CloudBehaviour cloud in cloudBehaviours)
                 {
                     cloud.enabled = false;
@@ -182,8 +181,7 @@ namespace level
             }
             else
             {
-                player.GetComponent<Rigidbody2D>().WakeUp();
-                player.enabled = true;
+                player.Unfreeze();
                 foreach (CloudBehaviour cloud in cloudBehaviours)
                 {
                     cloud.enabled = true;

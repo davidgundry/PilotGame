@@ -9,6 +9,7 @@ namespace player.behaviour
     [RequireComponent(typeof(PlayerInputManager))]
     public class PlaneController : MonoBehaviour
     {
+        public ParticleSystem smokeParticles;
 
         PlanePhysics planePhysics;
         PlayerInputManager playerInputManager;
@@ -23,7 +24,7 @@ namespace player.behaviour
 
         private float damage;
         private float Damage { get { return damage; } set { damage = value; if (damageGuage != null) damageGuage.SetProportion(1-(damage / maxDamage)); } }
-        private const float maxDamage = 3;
+        private const float maxDamage = 1;
 
         private float fuel;
         private float Fuel { get { return fuel; } set { fuel = value; if (fuelGuage != null) fuelGuage.SetProportion(value); } }
@@ -55,6 +56,8 @@ namespace player.behaviour
         {
             weightedOldPosition = transform.position -  new Vector3(1f, 0f, 0f);
             oldVelocity = rb.velocity.magnitude;
+            smokeParticles.Clear();
+            smokeParticles.Stop();
         }
 
 
@@ -193,6 +196,7 @@ namespace player.behaviour
         private void PlaneDestroyed()
         {
             destroyed = true;
+            smokeParticles.Play();
         }
 
         private IEnumerator InterruptControl(float seconds)
@@ -270,5 +274,20 @@ namespace player.behaviour
             PlayerLevelData.Coins++;
         }
 
+        public void Freeze()
+        {
+            rb.Sleep();
+            rb.freezeRotation = true;
+            enabled = false;
+            smokeParticles.Pause();
+        }
+
+        public void Unfreeze()
+        {
+            rb.WakeUp();
+            rb.freezeRotation = false;
+            enabled = true;
+            smokeParticles.Play();
+        }
     }
 }
