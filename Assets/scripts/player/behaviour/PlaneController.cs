@@ -28,7 +28,7 @@ namespace player.behaviour
 
         private float fuel;
         private float Fuel { get { return fuel; } set { fuel = value; if (fuelGuage != null) fuelGuage.SetProportion(value); } }
-        private const float fuelLossRate = 0.04f;
+        private const float fuelLossRate = 0.05f;
 
         private float oldVelocity;
         private Coroutine interruptControlCoroutine;

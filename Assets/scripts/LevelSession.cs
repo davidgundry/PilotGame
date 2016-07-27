@@ -39,7 +39,7 @@ public class LevelSession : MonoBehaviour {
 
     void Start()
     {
-        levelData = LoadLevel("levels/islands");
+        levelData = LoadLevel("levels/plane-sailing");
         CreateLevel(levelData);  
         StartCoroutine(ShowIntroMenu(levelData));
         //CrossedFinishLine(); // For testing purposes

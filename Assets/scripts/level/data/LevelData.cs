@@ -10,6 +10,7 @@ namespace level.data
         public readonly float height;
         public readonly int cloudCount;
         public readonly Vector2 playerStart;
+        public readonly int coinCount;
 
         public readonly GeomData[] geomData;
         public readonly SpriteData[] spriteData;
@@ -30,7 +31,19 @@ namespace level.data
             this.spriteData = levelFileLoader.GetSpriteData();
             this.pickupData = levelFileLoader.GetPickupData();
             this.environmentData = levelFileLoader.GetEnvironmentData();
-            
+
+            this.coinCount = CountCoins(this.pickupData);
+        }
+
+        private static int CountCoins(PickupData[] pickupData)
+        {
+            int count = 0;
+            foreach (PickupData pickup in pickupData)
+            {
+                if (pickup.pickupType == PickupType.Coin)
+                    count++;
+            }
+            return count;
         }
     }
 

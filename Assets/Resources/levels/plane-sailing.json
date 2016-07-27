@@ -171,12 +171,6 @@
 			"rotation":0
 		},
 		{
-			"name":"repair1",
-			"type":"repair",
-			"position":[87,5],
-			"rotation":0
-		},
-		{
 			"name":"coin1",
 			"type":"coin",
 			"position":[58,8],
