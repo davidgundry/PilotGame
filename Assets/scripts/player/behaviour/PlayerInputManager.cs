@@ -33,12 +33,7 @@ namespace player.behaviour
             else if (Input.GetKey("down"))
                 return -12f;
 
-            if (Input.acceleration.x < -0.1f)
-                return 15f;
-            else if (Input.acceleration.x > 0.1f)
-                return -12f;
-
-            return 3;
+            return Input.acceleration.x*25;
         }
 
 

@@ -30,6 +30,8 @@ public class LevelSession : MonoBehaviour {
 
 	void Awake()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         timer = GameObject.FindObjectOfType<TimerBehaviour>();
         playerLevelData = new PlayerLevelData();
         inGameMenu.LevelSession = this;
