@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using player.data;
 
 namespace menu
 {
@@ -27,12 +28,13 @@ namespace menu
             } 
         }
 
-        public void Create(int starCount)
+        public void Create(StarScore starScore)
         {
-            int leftmargin = 30;
+            starCount = starScore.stars;
+           
             int padding = 15;
-            stars = new StarBehaviour[starCount];
-            for (int i = 0; i < starCount; i++)
+            stars = new StarBehaviour[3];
+            for (int i = 0; i < 3; i++)
             {
                 GameObject g = Instantiate(prefabStar);
                 g.transform.SetParent(this.transform,false);
@@ -40,11 +42,15 @@ namespace menu
                 RectTransform rt = g.GetComponent<RectTransform>();
                 rt.anchorMin = new Vector2(0, 0.5f);
                 rt.anchorMax = new Vector2(0, 0.5f);
-                rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, leftmargin + i * (rt.rect.width + padding), 100);
+                rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, i * (rt.rect.width + padding), 100);
                 //rt.localPosition = new Vector2(i*(rt.rect.width+padding), 0);
 
                 g.name = "star_"+i;
                 stars[i] = g.GetComponent<StarBehaviour>();
+                if (i < starCount)
+                    stars[i].SetStar(true);
+                else
+                    stars[i].SetStar(false);
             }
         }
     }

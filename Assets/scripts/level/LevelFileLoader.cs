@@ -31,6 +31,8 @@ namespace level
         private string GetFileContent()
         {
             TextAsset textAsset = Resources.Load(filename) as TextAsset;
+            if (textAsset == null)
+                throw new System.Exception("Resource does not exist");
             return System.Text.Encoding.ASCII.GetString(textAsset.bytes);
         }
 

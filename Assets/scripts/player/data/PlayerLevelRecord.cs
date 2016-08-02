@@ -1,4 +1,6 @@
-﻿namespace player.data
+﻿using UnityEngine;
+
+namespace player.data
 {
     public class PlayerLevelRecord
     {
@@ -13,6 +15,19 @@
             this.starScore = starScore;
             this.coins = coins;
             this.pickups = pickups;
+        }
+
+        public PlayerLevelRecord Update(PlayerLevelRecord newRecord)
+        {
+            float time = Mathf.Min(newRecord.time, this.time);
+            int coins = Mathf.Max(newRecord.coins, this.coins);
+            int pickups = Mathf.Max(newRecord.pickups, this.pickups);
+
+            StarScore starScore = this.starScore;
+            if (newRecord.starScore > starScore)
+                starScore = newRecord.starScore;
+
+            return new PlayerLevelRecord(time, starScore, coins, pickups);
         }
     }
 }

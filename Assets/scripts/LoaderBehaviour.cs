@@ -18,7 +18,7 @@ public class LoaderBehaviour : MonoBehaviour {
         float width = 0;
 
         float startTime = Time.time;
-        float totalTime = 4;
+        float totalTime = 0;
         float proportion = 0;
 
         while (width < fullWidth)

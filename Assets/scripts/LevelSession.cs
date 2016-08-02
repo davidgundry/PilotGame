@@ -29,7 +29,10 @@ public class LevelSession : MonoBehaviour {
 
     private TimerBehaviour timer;
 
-    private readonly string[] levelList  = new string[1] {"plane-sailing"};
+    public LevelListData CurrentLevelListData { get { return gameController.CurrentLevel; } }
+    public StarScore CurrentLevelStarScore { get { if (gameController.CurrentLevel.PlayerLevelRecord != null) return gameController.CurrentLevel.PlayerLevelRecord.starScore; else return StarScore.scores[0]; } }
+
+
 
 	void Awake()
     {
@@ -43,12 +46,13 @@ public class LevelSession : MonoBehaviour {
     void Start()
     {
         gameController = GameObject.FindObjectOfType<GameController>();
-        int nextLevel = gameController.levelID;
-        if (nextLevel > levelList.Length)
-            nextLevel = 0;
-        levelData = LoadLevel("levels/" + levelList[nextLevel]);
+        if (gameController == null)
+            Debug.LogError("No GameController found. This is probably because you are running the main scene without loading from the menu. Trying to instantiate a new Game Controller");
 
-        CreateLevel(levelData);  
+        gameController = GameObject.Instantiate<GameController>(Resources.Load<GameController>("prefabs/gameController"));
+
+        levelData = LoadLevel("levels/" + gameController.CurrentLevel.filename);
+        CreateLevel(levelData);
         StartCoroutine(ShowIntroMenu(levelData));
         //CrossedFinishLine(); // For testing purposes
     }
@@ -117,8 +121,7 @@ public class LevelSession : MonoBehaviour {
 
     public void Next()
     {
-        gameController.levelID++;
-        Application.LoadLevel("load");
+        gameController.MoveOnToNextLevel();
     }
 
     public void Menu()
@@ -144,6 +147,7 @@ public class LevelSession : MonoBehaviour {
     private void UpdateLevelRecord()
     {
         PlayerLevelRecord record = new PlayerLevelRecord(playerLevelData.Time, playerLevelData.StarScore, playerLevelData.Coins, playerLevelData.Pickups);
+        gameController.LevelComplete(gameController.currentLevelID, record);
     }
 
     private void SetPlayerEndTime()

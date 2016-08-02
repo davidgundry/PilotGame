@@ -18,7 +18,7 @@ namespace menu.pregame
 
         public void Levels()
         {
-
+            Application.LoadLevel("level-menu");
         }
     }
 }

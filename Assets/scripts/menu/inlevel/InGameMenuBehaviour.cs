@@ -43,7 +43,7 @@ namespace menu.inlevel
             titleText.text = menuToDisplay.title;
             subtitleText.text = menuToDisplay.subtitle;
             buttonContainer.Create(menuToDisplay.availableButtons, LevelSession);
-            starBox.StarCount = 0;
+            starBox.Create(LevelSession.CurrentLevelStarScore);
         }
 
         public void Destroy()
@@ -54,7 +54,6 @@ namespace menu.inlevel
         void Start()
         {
             InGameMenu = null;
-            starBox.Create(3);
         }
 
         private void Show(InGameMenu menuToDisplay)
