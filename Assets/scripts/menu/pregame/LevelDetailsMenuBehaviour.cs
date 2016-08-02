@@ -30,9 +30,7 @@ namespace menu.pregame
             levelScreenshot.sprite = Resources.Load<Sprite>("screenshots/" + levelListData.filename);
 
 
-            LevelData levelData = new LevelData(new LevelFileLoader("levels/"+levelListData.filename));
-
-            statsText.text = CreateStatsText(levelListData.PlayerLevelRecord, levelData);
+            statsText.text = CreateStatsText(levelListData);
             if (levelListData.PlayerLevelRecord != null)
                 starBox.Create(levelListData.PlayerLevelRecord.starScore);
             else
@@ -50,12 +48,13 @@ namespace menu.pregame
             gameController.PlaySelectedLevel();
         }
 
-        private string CreateStatsText(PlayerLevelRecord playerLevelRecord, LevelData levelData)
+        private string CreateStatsText(LevelListData levelListData)
         {
+            PlayerLevelRecord playerLevelRecord = levelListData.PlayerLevelRecord;
             if (playerLevelRecord == null)
                 playerLevelRecord = new PlayerLevelRecord(0,StarScore.scores[0],0,0);
             TimeSpan t = TimeSpan.FromSeconds(playerLevelRecord.time);
-            return string.Format("\n{0:d2}:{1:d2}\n{2}/{3}\n{4}/{5}", t.Minutes,t.Seconds,playerLevelRecord.coins,levelData.coinCount,playerLevelRecord.pickups, levelData.pickupCount);
+            return string.Format("\n{0:d2}:{1:d2}\n{2}/{3}\n{4}/{5}", t.Minutes, t.Seconds, playerLevelRecord.coins, levelListData.coins, playerLevelRecord.pickups, levelListData.pickups);
         }
 
     }

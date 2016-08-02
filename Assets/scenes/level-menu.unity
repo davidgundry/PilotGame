@@ -1327,7 +1327,11 @@ MonoBehaviour:
     m_LineSpacing: 1.39999998
   m_Text: 'Levels:
 
-    Stars:'
+    Stars:
+
+    Coins:
+
+    Pickups:'
 --- !u!222 &1402617438
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1502,6 +1506,10 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1.39999998
   m_Text: '0/0
+
+    0/0
+
+    0/0
 
     0/0'
 --- !u!222 &1460593228

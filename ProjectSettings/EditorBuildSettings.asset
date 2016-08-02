@@ -15,3 +15,5 @@ EditorBuildSettings:
     path: Assets/scenes/load.unity
   - enabled: 1
     path: Assets/scenes/main.unity
+  - enabled: 1
+    path: Assets/scenes/complete.unity

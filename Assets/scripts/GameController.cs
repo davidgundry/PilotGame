@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using player.data;
+using level;
+using level.data;
 
 public class GameController : MonoBehaviour
 {
 
+    private static readonly string[] levelFileNames = new string[] { "plane-sailing", "flying-plains" }; 
+
     public int CurrentLevelID { get; set; }
-    private LevelListData[] levelList = new LevelListData[2] { new LevelListData("Plane Sailing", "plane-sailing", null), new LevelListData("Flying Plains", "flying-plains", null) };
+    private LevelListData[] levelList;
     public LevelListData[] LevelList { get { return levelList; } }
     public LevelListData CurrentLevel { get { return levelList[CurrentLevelID]; } }
 
@@ -17,16 +21,27 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this);
-        PlayerGameProgress = new PlayerGameProgress();
+    }
+
+    void Start()
+    {
+        levelList = new LevelListData[levelFileNames.Length];
+        int i = 0;
+        foreach (string filename in levelFileNames)
+        {
+            levelList[i] = new LevelListData(filename, new LevelData(new LevelFileLoader("levels/"+filename)));
+            i++;
+        }
+        PlayerGameProgress = new PlayerGameProgress(LevelList);
 
         CurrentLevelID = 0;
         CurrentLevel.Locked = false;
+        PlayerGameProgress.Update(LevelList);
     }
 
     public void StartGame()
     {
         CurrentLevelID = 0;
-        CurrentLevel.Locked = false;
         Application.LoadLevel("load");
     }
 
@@ -45,7 +60,13 @@ public class GameController : MonoBehaviour
     public void MoveOnToNextLevel()
     {
         CurrentLevelID++;
-        PlayCurrentLevel();
+        if (CurrentLevelID < LevelList.Length)
+            PlayCurrentLevel();
+        else
+        {
+            CurrentLevelID = 0;
+            Application.LoadLevel("complete");
+        }
     }
 
     public void LevelComplete(int levelID, PlayerLevelRecord playerLevelRecord)
@@ -66,6 +87,8 @@ public class GameController : MonoBehaviour
             levelList[levelID].PlayerLevelRecord = levelList[levelID].PlayerLevelRecord.Update(playerLevelRecord);
         else
             levelList[levelID].PlayerLevelRecord = playerLevelRecord;
+
+        PlayerGameProgress.Update(LevelList);
     }
 
 

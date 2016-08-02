@@ -127,7 +127,7 @@ public class LevelSession : MonoBehaviour {
 
     public void Menu()
     {
-        Application.LoadLevel("main-menu");
+        Application.LoadLevel("level-menu");
     }
 
     private LevelData LoadLevel(string filePath)
