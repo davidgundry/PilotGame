@@ -47,9 +47,10 @@ public class LevelSession : MonoBehaviour {
     {
         gameController = GameObject.FindObjectOfType<GameController>();
         if (gameController == null)
+        {
             Debug.LogError("No GameController found. This is probably because you are running the main scene without loading from the menu. Trying to instantiate a new Game Controller");
-
-        gameController = GameObject.Instantiate<GameController>(Resources.Load<GameController>("prefabs/gameController"));
+            gameController = GameObject.Instantiate<GameController>(Resources.Load<GameController>("prefabs/gameController"));
+        }
 
         levelData = LoadLevel("levels/" + gameController.CurrentLevel.filename);
         CreateLevel(levelData);
@@ -147,7 +148,7 @@ public class LevelSession : MonoBehaviour {
     private void UpdateLevelRecord()
     {
         PlayerLevelRecord record = new PlayerLevelRecord(playerLevelData.Time, playerLevelData.StarScore, playerLevelData.Coins, playerLevelData.Pickups);
-        gameController.LevelComplete(gameController.currentLevelID, record);
+        gameController.LevelComplete(gameController.CurrentLevelID, record);
     }
 
     private void SetPlayerEndTime()

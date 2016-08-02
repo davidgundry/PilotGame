@@ -11,6 +11,7 @@ namespace level.data
         public readonly int cloudCount;
         public readonly Vector2 playerStart;
         public readonly int coinCount;
+        public readonly int pickupCount;
 
         public readonly GeomData[] geomData;
         public readonly SpriteData[] spriteData;
@@ -33,6 +34,7 @@ namespace level.data
             this.environmentData = levelFileLoader.GetEnvironmentData();
 
             this.coinCount = CountCoins(this.pickupData);
+            this.pickupCount = CountPickups(this.pickupData);
         }
 
         private static int CountCoins(PickupData[] pickupData)
@@ -41,6 +43,17 @@ namespace level.data
             foreach (PickupData pickup in pickupData)
             {
                 if (pickup.pickupType == PickupType.Coin)
+                    count++;
+            }
+            return count;
+        }
+
+        private static int CountPickups(PickupData[] pickupData)
+        {
+            int count = 0;
+            foreach (PickupData pickup in pickupData)
+            {
+                if ((pickup.pickupType == PickupType.Fuel) || (pickup.pickupType == PickupType.Repair) || (pickup.pickupType == PickupType.Speed))
                     count++;
             }
             return count;

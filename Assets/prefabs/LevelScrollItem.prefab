@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
     m_ColorMultiplier: 1
@@ -285,8 +285,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -6.10351562e-05, y: -6.96182251e-05}
-  m_SizeDelta: {x: 0, y: -9.91819979e-05}
+  m_AnchoredPosition: {x: 4.99996948, y: -6.96182251e-05}
+  m_SizeDelta: {x: -10.000061, y: -9.91819979e-05}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22445378
 RectTransform:
@@ -331,7 +331,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_Colors.m_HighlightedColor.a
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_AnchoredPosition.x
+      value: 4.99996948
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SizeDelta.x
+      value: -10.000061
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

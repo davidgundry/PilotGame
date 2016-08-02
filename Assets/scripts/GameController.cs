@@ -4,23 +4,35 @@ using player.data;
 public class GameController : MonoBehaviour
 {
 
-    public int currentLevelID { get; set; }
-    private LevelListData[] levelList = new LevelListData[2] { new LevelListData("Plane Sailing", "plane-sailing", null), new LevelListData("Flying Plains", "flying plains", null) };
+    public int CurrentLevelID { get; set; }
+    private LevelListData[] levelList = new LevelListData[2] { new LevelListData("Plane Sailing", "plane-sailing", null), new LevelListData("Flying Plains", "flying-plains", null) };
     public LevelListData[] LevelList { get { return levelList; } }
-    public LevelListData CurrentLevel { get { return levelList[currentLevelID]; } }
+    public LevelListData CurrentLevel { get { return levelList[CurrentLevelID]; } }
+
+    public int SelectedLevelID { get; set; }
+    public LevelListData SelectedLevel { get { return levelList[SelectedLevelID]; } }
+
+    public PlayerGameProgress PlayerGameProgress;
 
     void Awake()
     {
         DontDestroyOnLoad(this);
+        PlayerGameProgress = new PlayerGameProgress();
 
-        currentLevelID = 0;
+        CurrentLevelID = 0;
         CurrentLevel.Locked = false;
     }
 
     public void StartGame()
     {
-        currentLevelID = 0;
+        CurrentLevelID = 0;
         CurrentLevel.Locked = false;
+        Application.LoadLevel("load");
+    }
+
+    public void PlaySelectedLevel()
+    {
+        CurrentLevelID = SelectedLevelID;
         Application.LoadLevel("load");
     }
 
@@ -32,7 +44,7 @@ public class GameController : MonoBehaviour
 
     public void MoveOnToNextLevel()
     {
-        currentLevelID++;
+        CurrentLevelID++;
         PlayCurrentLevel();
     }
 

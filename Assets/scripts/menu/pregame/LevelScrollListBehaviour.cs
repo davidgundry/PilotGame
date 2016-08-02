@@ -14,10 +14,12 @@ namespace menu.pregame
             {
                 float insetFromTop = padding/2;
                 float height = levelScrollItemPrefab.GetComponent<RectTransform>().rect.height;
+                int index = 0;
                 foreach (LevelListData lld in levelListData)
                 {
                     LevelScrollItemBehaviour lsi = GameObject.Instantiate(levelScrollItemPrefab);
-                    lsi.Create(lld);
+                    lsi.Create(index,lld);
+                    index++;
                     
                     RectTransform rt = lsi.GetComponent<RectTransform>();
                     rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, insetFromTop, height);

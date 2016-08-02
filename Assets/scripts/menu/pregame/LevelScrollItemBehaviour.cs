@@ -10,6 +10,7 @@ namespace menu.pregame
         public Text name;
         public StarBoxBehaviour starBox;
         public GameObject padlock;
+        private int levelID;
 
         private string Name
         {
@@ -29,8 +30,9 @@ namespace menu.pregame
             }
         }
 
-        public void Create(LevelListData levelListData)
+        public void Create(int levelID, LevelListData levelListData)
         {
+            this.levelID = levelID;
             if (levelListData.Locked)
             {
                 Name = "";
@@ -68,7 +70,9 @@ namespace menu.pregame
 
         public void OnClick()
         {
-            Debug.Log("This will open the level details scene");
+            GameController gameController = GameObject.FindObjectOfType<GameController>();
+            gameController.SelectedLevelID = levelID;
+            Application.LoadLevel("details-menu");
         }
 
     }
