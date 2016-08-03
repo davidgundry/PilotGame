@@ -41,6 +41,10 @@ namespace player.behaviour
         FuelGuageBehaviour fuelGuage;
         DamageGuageBehaviour damageGuage;
 
+        private Vector2 pauseVelocityHolder;
+        private float speedBoostTimer;
+        private const float speedBoostTimerMax = 2;
+
         void Awake()
         {
             planePhysics = new PlanePhysics();
@@ -63,6 +67,9 @@ namespace player.behaviour
 
         void Update()
         {
+            if (Input.GetKey("s"))
+                speedBoostTimer = speedBoostTimerMax;
+
             CheckForGeomCrash();
 
             UpdatePlanePhysics();
@@ -72,6 +79,8 @@ namespace player.behaviour
             UpdatePlayerLevelData();
 
             oldVelocity = rb.velocity.magnitude;
+            if (speedBoostTimer > 0 )
+                speedBoostTimer -= Time.deltaTime;
         }
 
         private void UpdateFuelUsed()
@@ -134,8 +143,13 @@ namespace player.behaviour
 
         private void PlayerForces()
         {
+            float boostMultiplier = 1;
+            if (speedBoostTimer > 0.2)
+                boostMultiplier = 20;
+            else if (speedBoostTimer > 0)
+                boostMultiplier = (1+speedBoostTimer) * 20;
             Vector2 force = playerInputManager.PlayerForce(planePhysics,Time.deltaTime);
-            rb.AddRelativeForce(new Vector2(force.x, force.y));
+            rb.AddRelativeForce(new Vector2(force.x * boostMultiplier, force.y));
         }
 
         private void ApplyPlayerTurning()
@@ -266,7 +280,7 @@ namespace player.behaviour
         private void PickedUpSpeed()
         {
             PlayerLevelData.Pickups++;
-            rb.AddForce(new Vector2(100000, 0));
+            speedBoostTimer = speedBoostTimerMax;
         }
 
         private void PickedUpCoin()
@@ -276,6 +290,7 @@ namespace player.behaviour
 
         public void Freeze()
         {
+            pauseVelocityHolder = rb.velocity;
             rb.Sleep();
             rb.freezeRotation = true;
             enabled = false;
@@ -287,7 +302,7 @@ namespace player.behaviour
             rb.WakeUp();
             rb.freezeRotation = false;
             enabled = true;
-            smokeParticles.Play();
+            rb.velocity = pauseVelocityHolder;
         }
     }
 }

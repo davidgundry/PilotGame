@@ -27,7 +27,10 @@ namespace player.behaviour
             gameObject.name = "Camera";
             Target = target;
             Camera.orthographic = true;
-            Camera.orthographicSize = 15;
+            //Camera.orthographicSize = 15;
+
+            Camera.orthographicSize = ((15f/10f)*16f / Screen.width) * Screen.height;
+
             Camera.clearFlags = CameraClearFlags.SolidColor;
             Camera.backgroundColor = new Color(0.75f,0.93f,0.98f,1);
             Offset = new Vector3(Camera.orthographicSize/1.5f, 0, -10);

@@ -195,6 +195,7 @@ public class LevelSession : MonoBehaviour {
         levelSessionState = LevelSessionState.Paused;
         levelBehaviour.FreezePlay(true);
         inGameMenu.InGameMenu = new PauseMenu();
+        timer.ClockRunning = false;
     }
 
     private void UnPause()
@@ -202,6 +203,7 @@ public class LevelSession : MonoBehaviour {
         levelSessionState = LevelSessionState.Playing;
         levelBehaviour.FreezePlay(false);
         inGameMenu.Destroy();
+        timer.ClockRunning = true;
     }
 
 }
