@@ -8,9 +8,10 @@ namespace menu
         public UIPane[] panes;
         public RectTransform background;
         private RectTransform rt;
-        public float paralax;
-
+        private float paralax;
+        
         private float paneWidth = 1960;
+        public int CurrentPane { get; private set; }
 
         public void Awake()
         {
@@ -26,6 +27,7 @@ namespace menu
 
         public void TransitionTo(int paneID)
         {
+            CurrentPane = paneID;
             panes[paneID].Refresh();
             StartCoroutine(Transition(paneID, 0.3f));   
         }

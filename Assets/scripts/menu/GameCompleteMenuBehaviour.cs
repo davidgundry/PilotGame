@@ -5,6 +5,6 @@ public class GameCompleteMenuBehaviour : MonoBehaviour {
 
     public void ContinueButton()
     {
-        Application.LoadLevel("level-menu");
+        Application.LoadLevel("main-menu");
     }
 }

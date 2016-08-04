@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public abstract class UIPane : MonoBehaviour {
+public class UIPane : MonoBehaviour {
 
-    public abstract void Refresh();
+    public virtual void Refresh()
+    {
+
+    }
 
 }
