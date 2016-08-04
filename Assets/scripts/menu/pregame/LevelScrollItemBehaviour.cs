@@ -71,8 +71,10 @@ namespace menu.pregame
         public void OnClick()
         {
             GameController gameController = GameObject.FindObjectOfType<GameController>();
+            UIPanTransition uiPanTransition = GameObject.FindObjectOfType<UIPanTransition>();
             gameController.SelectedLevelID = levelID;
-            Application.LoadLevel("details-menu");
+            uiPanTransition.TransitionTo(2);
+            //Application.LoadLevel("details-menu");
         }
 
     }

@@ -4,27 +4,27 @@ using player.data;
 
 namespace menu.pregame
 {
-    public class LevelSelectMenuBehaviour : MonoBehaviour
+    public class LevelSelectMenuBehaviour : UIPane
     {
         public LevelScrollListBehaviour levelScrollList;
         private GameController gameController;
 
         public Text statsText;
+        private UIPanTransition uiPanTransition;
 
         void Awake()
         {
             gameController = GameObject.FindObjectOfType<GameController>();
+            uiPanTransition = GameObject.FindObjectOfType<UIPanTransition>();
+        }
+
+        void Start()
+        {
             if (gameController == null)
             {
                 Debug.LogError("No GameController found. This is probably because you are running the main scene without loading from the menu. Trying to instantiate a new Game Controller");
                 gameController = GameObject.Instantiate<GameController>(Resources.Load<GameController>("prefabs/gameController"));
             }
-            statsText.text = CreateStatsText(gameController.PlayerGameProgress);
-        }
-
-        void Start()
-        {
-            levelScrollList.Create(gameController.LevelList);
         }
 
         public void ContinueButton()
@@ -34,12 +34,19 @@ namespace menu.pregame
 
         public void BackButton()
         {
-            Application.LoadLevel("main-menu");
+            uiPanTransition.TransitionTo(0);
+            //Application.LoadLevel("main-menu");
         }
 
         private string CreateStatsText(PlayerGameProgress playerGameProgress)
         {
             return string.Format("{0}/{1}\n{2}/{3}\n{4}/{5}\n{6}/{7}", playerGameProgress.Levels, playerGameProgress.TotalLevels, playerGameProgress.Stars, playerGameProgress.TotalStars, playerGameProgress.Coins,playerGameProgress.TotalCoins, playerGameProgress.Pickups, playerGameProgress.TotalPickups);
+        }
+
+        public override void Refresh()
+        {
+            statsText.text = CreateStatsText(gameController.PlayerGameProgress);
+            levelScrollList.Create(gameController.LevelList);
         }
 
     }

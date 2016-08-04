@@ -2,13 +2,15 @@
 
 namespace menu.pregame
 {
-    public class MainMenuBehaviour : MonoBehaviour
+    public class MainMenuBehaviour : UIPane
     {
         GameController gameController;
+        UIPanTransition uiPanTransition;
 
         void Start()
         {
             gameController = GameObject.FindObjectOfType<GameController>();
+            uiPanTransition = GameObject.FindObjectOfType<UIPanTransition>();
         }
 
         public void StartGame()
@@ -18,7 +20,13 @@ namespace menu.pregame
 
         public void Levels()
         {
-            Application.LoadLevel("level-menu");
+            uiPanTransition.TransitionTo(1);
+            //Application.LoadLevel("level-menu");
+        }
+
+        public override void Refresh()
+        {
+            
         }
     }
 }

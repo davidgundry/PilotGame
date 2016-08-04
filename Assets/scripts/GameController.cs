@@ -21,19 +21,20 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this);
-    }
-
-    void Start()
-    {
         levelList = new LevelListData[levelFileNames.Length];
         int i = 0;
         foreach (string filename in levelFileNames)
         {
-            levelList[i] = new LevelListData(filename, new LevelData(new LevelFileLoader("levels/"+filename)));
+            levelList[i] = new LevelListData(filename, new LevelData(new LevelFileLoader("levels/" + filename)));
             i++;
         }
         PlayerGameProgress = new PlayerGameProgress(LevelList);
+    }
 
+    void Start()
+    {
+       
+        SelectedLevelID = 0;
         CurrentLevelID = 0;
         CurrentLevel.Locked = false;
         PlayerGameProgress.Update(LevelList);
