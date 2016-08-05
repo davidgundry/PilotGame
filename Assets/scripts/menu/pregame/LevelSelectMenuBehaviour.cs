@@ -40,7 +40,7 @@ namespace menu.pregame
 
         private string CreateStatsText(PlayerGameProgress playerGameProgress)
         {
-            return string.Format("{0}/{1}\n{2}/{3}\n{4}/{5}\n{6}/{7}", playerGameProgress.Levels, playerGameProgress.TotalLevels, playerGameProgress.Stars, playerGameProgress.TotalStars, playerGameProgress.Coins,playerGameProgress.TotalCoins, playerGameProgress.Pickups, playerGameProgress.TotalPickups);
+            return string.Format("{0}/{1}\n{2}/{3}\n{4}/{5}", playerGameProgress.Levels, playerGameProgress.TotalLevels, playerGameProgress.Stars, playerGameProgress.TotalStars, playerGameProgress.Coins,playerGameProgress.TotalCoins);
         }
 
         public override void Refresh()

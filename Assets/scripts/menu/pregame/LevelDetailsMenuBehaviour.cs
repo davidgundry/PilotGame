@@ -45,7 +45,10 @@ namespace menu.pregame
             if (playerLevelRecord == null)
                 playerLevelRecord = new PlayerLevelRecord(0,StarScore.scores[0],0,0);
             TimeSpan t = TimeSpan.FromSeconds(playerLevelRecord.time);
-            return string.Format("\n{0:d2}:{1:d2}\n{2}/{3}\n{4}/{5}", t.Minutes, t.Seconds, playerLevelRecord.coins, levelListData.coins, playerLevelRecord.pickups, levelListData.pickups);
+            if (playerLevelRecord.time == 0)
+                return string.Format("\n-\n{0}/{1}", playerLevelRecord.coins, levelListData.coins);
+            else
+                return string.Format("\n{0:d2}:{1:d2}\n{2}/{3}", t.Minutes, t.Seconds, playerLevelRecord.coins, levelListData.coins);
         }
 
         public override void Refresh()

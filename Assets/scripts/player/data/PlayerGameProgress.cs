@@ -55,7 +55,7 @@
             Pickups = pickups;
             Coins = coins;
 
-            CompletePercentage = (int) ((float) (Stars + Coins + Pickups + Levels) / (TotalStars + TotalCoins + TotalPickups + TotalLevels) * 100);
+            CompletePercentage = (int) ((float) (Stars + Coins + Levels) / (TotalStars + TotalCoins + TotalLevels) * 100);
         }
 
     }
