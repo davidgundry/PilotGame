@@ -14,6 +14,7 @@ namespace level
         SpriteBehaviour[] spriteBehaviours;
         CloudBehaviour[] cloudBehaviours;
         PickupBehaviour[] pickupBehaviours;
+        HoopBehaviour[]  hoopBehaviours;
         LevelBounds levelBounds;
         PlaneController player;
         FollowCamera followCamera;
@@ -60,6 +61,7 @@ namespace level
             geomBehaviours = CreateGeom(levelData.geomData, levelBounds);
             spriteBehaviours  = CreateSprites(levelData.spriteData);
             pickupBehaviours = CreatePickups(levelData.pickupData);
+            hoopBehaviours = CreateHoops(levelData.hoopData);
 
             CreateFinishLine(levelData,levelBounds);
             CreateCloudLine(levelData);
@@ -109,6 +111,20 @@ namespace level
                 pickupBehaviours[i] = g.GetComponent<PickupBehaviour>();
             }
             return pickupBehaviours;
+        }
+
+        private static HoopBehaviour[] CreateHoops(HoopData[] hoopData)
+        {
+            HoopBehaviour[] hoopBehaviours = new HoopBehaviour[hoopData.Length];
+            GameObject hoop = Resources.Load<GameObject>("prefabs/hoop");
+            for (int i = 0; i < hoopData.Length; i++)
+            {
+                GameObject g = Instantiate(hoop);
+                g.GetComponentInChildren<HoopBehaviour>().Create(hoopData[i]);
+                g.name = hoopData[i].name;
+                hoopBehaviours[i] = g.GetComponentInChildren<HoopBehaviour>();
+            }
+            return hoopBehaviours;
         }
 
         private static void CreateFinishLine(LevelData levelData,LevelBounds levelBounds)

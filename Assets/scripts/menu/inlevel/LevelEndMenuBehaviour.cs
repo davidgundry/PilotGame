@@ -4,8 +4,9 @@ using UnityEngine.UI;
 using player;
 using player.data;
 using menu.inlevel;
+using level.data;
 
-namespace menu
+namespace menu.inlevel
 {
     public class LevelEndMenuBehaviour : MonoBehaviour
     {
@@ -29,12 +30,12 @@ namespace menu
             background.gameObject.SetActive(active);
         }
 
-        public void Create(PlayerLevelData playerLevelData)
+        public void Create(PlayerLevelData playerLevelData, LevelData levelData, PlayerLevelRecord playerLevelRecord)
         {
-            StartCoroutine(LevelCompleteMenu(playerLevelData));
+            StartCoroutine(LevelCompleteMenu(playerLevelData, levelData, playerLevelRecord));
         }
 
-        private IEnumerator LevelCompleteMenu(PlayerLevelData playerLevelData)
+        private IEnumerator LevelCompleteMenu(PlayerLevelData playerLevelData, LevelData levelData, PlayerLevelRecord playerLevelRecord)
         {
             starsContainer.SetStars(playerLevelData.StarScore);
             starsContainer.gameObject.SetActive(true);
@@ -42,7 +43,7 @@ namespace menu
             RectTransform rt = starsContainer.GetComponent<RectTransform>();
             rt.anchoredPosition = new Vector3(0, 0, 0);
             
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.5f);
 
             while (rt.anchoredPosition.y < 250)
             {
@@ -51,10 +52,12 @@ namespace menu
             }
 
             statsContainer.gameObject.SetActive(true);
-            statsContainer.Create(playerLevelData);
-            yield return new WaitForSeconds(1f);
+            statsContainer.Create(playerLevelData, levelData, playerLevelRecord);
+            yield return new WaitForSeconds(0.5f);
             retryButton.gameObject.SetActive(true);
-            nextButton.gameObject.SetActive(true);
+
+            if (playerLevelData.StarScore > StarScore.scores[0])
+                nextButton.gameObject.SetActive(true);
              
         }
     }

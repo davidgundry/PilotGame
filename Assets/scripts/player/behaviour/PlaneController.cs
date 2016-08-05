@@ -241,9 +241,20 @@ namespace player.behaviour
 
         void OnTriggerEnter2D(Collider2D collider)
         {
-            if ((collider.gameObject.tag != "Sprite") && (collider.gameObject.tag != "Ocean"))
+            if ((collider.gameObject.tag != "Sprite") && (collider.gameObject.tag != "Ocean") && (collider.gameObject.tag != "Hoop"))
                 if (upsideDown)
                     PlaneDestroyed();
+        }
+
+        public void ThroughHoop()
+        {
+            PlayerLevelData.Hoops++;
+        }
+
+        public void HitHoopEdge()
+        {
+            TakeDamage(1);
+            //flashPlaneCoroutine = StartCoroutine(FlashPlane(1f));
         }
 
         public void GetPickup(PickupType pickupType)
@@ -264,6 +275,7 @@ namespace player.behaviour
                     break;
             }
         }
+
 
         private void PickedUpFuel()
         {

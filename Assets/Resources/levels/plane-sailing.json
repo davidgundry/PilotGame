@@ -206,5 +206,14 @@
 			"position":[167,10.5],
 			"rotation":0
 		}
+	],
+	"hoops":
+	[
+		{
+			"name":"hoop1",
+			"position":[40,14],
+			"rotation":0,
+			"scale":[1,1]
+		}
 	]
 }	

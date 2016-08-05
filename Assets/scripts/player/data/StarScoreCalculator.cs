@@ -5,6 +5,8 @@ namespace player.data
 
         public static StarScore Calculate(LevelData levelData, PlayerLevelData playerLevelData)
         {
+            if (playerLevelData.Hoops < levelData.hoopCount)
+                return StarScore.scores[0];
             if (levelData.coinCount == 0)
                 return StarScore.scores[3];
 

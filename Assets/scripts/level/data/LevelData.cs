@@ -17,9 +17,11 @@ namespace level.data
         public readonly SpriteData[] spriteData;
         public readonly EnvironmentData environmentData;
         public readonly PickupData[] pickupData;
+        public readonly HoopData[] hoopData;
 
         public int GeomCount { get { return geomData.Length; } }
         public int SpriteCount { get { return spriteData.Length; } }
+        public int hoopCount { get { return hoopData.Length; } }
 
         public LevelData(LevelFileLoader levelFileLoader)
         {
@@ -31,6 +33,7 @@ namespace level.data
             this.geomData = levelFileLoader.GetGeomData();
             this.spriteData = levelFileLoader.GetSpriteData();
             this.pickupData = levelFileLoader.GetPickupData();
+            this.hoopData = levelFileLoader.GetHoopData();
             this.environmentData = levelFileLoader.GetEnvironmentData();
 
             this.coinCount = CountCoins(this.pickupData);

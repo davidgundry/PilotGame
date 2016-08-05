@@ -822,7 +822,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 728, y: 277}
+  m_AnchoredPosition: {x: 669, y: 277}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &577196762
@@ -1486,6 +1486,7 @@ GameObject:
   - 224: {fileID: 1050936067}
   - 222: {fileID: 1050936069}
   - 114: {fileID: 1050936068}
+  - 114: {fileID: 1050936070}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1548,6 +1549,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1050936066}
+--- !u!114 &1050936070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1050936066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 571bf0381c6e88f4caea2204a1b15030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1061703636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1639,7 +1651,7 @@ MonoBehaviour:
   m_ScrollSensitivity: 1
   m_Viewport: {fileID: 106487870}
   m_HorizontalScrollbar: {fileID: 0}
-  m_VerticalScrollbar: {fileID: 0}
+  m_VerticalScrollbar: {fileID: 779821881}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
   m_HorizontalScrollbarSpacing: -3

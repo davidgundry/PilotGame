@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 
-public class UIPane : MonoBehaviour {
-
-    public virtual void Refresh()
+namespace menu
+{
+    public class UIPane : MonoBehaviour
     {
 
-    }
+        public virtual void Refresh()
+        {
 
+        }
+
+    }
 }

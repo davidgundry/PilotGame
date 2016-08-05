@@ -154,6 +154,30 @@ namespace level
             return new PickupData(name, type, position, rotation);
         }
 
+        public HoopData[] GetHoopData()
+        {
+            if (jsonNode == null)
+                LoadAndParse();
+
+            List<HoopData> hoopDataList = new List<HoopData>();
+            foreach (JSONNode node in jsonNode["hoops"].AsArray)
+            {
+                hoopDataList.Add(ParseHoopNode(node));
+            }
+
+            return hoopDataList.ToArray();
+        }
+
+        private HoopData ParseHoopNode(JSONNode node)
+        {
+            string name = node["name"];
+            Vector2 position = node["position"].AsVector2();
+            float rotation = node["rotation"].AsFloat;
+            Vector2 scale = node["scale"].AsVector2();
+
+            return new HoopData(name, position, rotation, scale);
+        }
+
 
         public EnvironmentData GetEnvironmentData()
         {

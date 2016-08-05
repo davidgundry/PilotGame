@@ -13,6 +13,7 @@
         public float FuelUsed { get; set; }
         public int Coins { get; set; }
         public int Pickups { get; set; }
+        public int Hoops { get; set; }
 
         public PlayerLevelData()
         {

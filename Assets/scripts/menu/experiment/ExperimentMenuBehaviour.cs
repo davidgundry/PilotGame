@@ -23,7 +23,7 @@ namespace menu.experiment
 
         public void SkipToGame()
         {
-            Application.LoadLevel("main-menu");
+            Application.LoadLevel("experiment-load");
         }
 
         public void ToPane(int paneID)

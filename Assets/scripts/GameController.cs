@@ -6,7 +6,7 @@ using level.data;
 public class GameController : MonoBehaviour
 {
 
-    private static readonly string[] levelFileNames = new string[] { "plane-sailing", "flying-plains" }; 
+    private static readonly string[] levelFileNames = new string[] { "cave-route","second-course","first-course","tutorial-gap","tutorial-mountain","tutorial-hoop","plane-sailing", "flying-plains" }; 
 
     public int CurrentLevelID { get; set; }
     private LevelListData[] levelList;
@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
         foreach (string filename in levelFileNames)
         {
             levelList[i] = new LevelListData(filename, new LevelData(new LevelFileLoader("levels/" + filename)));
+            levelList[i].Locked = false; //For testing purposes
             i++;
         }
         PlayerGameProgress = new PlayerGameProgress(LevelList);
