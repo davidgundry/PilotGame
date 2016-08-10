@@ -14,6 +14,7 @@ namespace player.behaviour
         PlanePhysics planePhysics;
         PlayerInputManager playerInputManager;
         Rigidbody2D rb;
+        Rigidbody2D RB { get { if (rb == null) rb = GetComponent<Rigidbody2D>(); return rb; } }
 
         Vector3 weightedOldPosition;
         public bool AutoPilot { get; set; }
@@ -59,7 +60,7 @@ namespace player.behaviour
         void Start()
         {
             weightedOldPosition = transform.position -  new Vector3(1f, 0f, 0f);
-            oldVelocity = rb.velocity.magnitude;
+            oldVelocity = RB.velocity.magnitude;
             smokeParticles.Clear();
             smokeParticles.Stop();
         }
@@ -78,7 +79,7 @@ namespace player.behaviour
 
             UpdatePlayerLevelData();
 
-            oldVelocity = rb.velocity.magnitude;
+            oldVelocity = RB.velocity.magnitude;
             if (speedBoostTimer > 0 )
                 speedBoostTimer -= Time.deltaTime;
         }
@@ -110,13 +111,13 @@ namespace player.behaviour
                 if (!AutoPilot)
                     PlayerForces();
                 else
-                    rb.AddForce((new Vector2(30000f, 0) * Time.deltaTime));
+                    RB.AddForce((new Vector2(30000f, 0) * Time.deltaTime));
             }
         }
 
         private void CheckForGeomCrash()
         {
-            if (oldVelocity - rb.velocity.magnitude > 2f)
+            if (oldVelocity - RB.velocity.magnitude > 2f)
             {
                 GeomCrash();
             }
@@ -135,10 +136,10 @@ namespace player.behaviour
 
         private void PhysicalForces()
         {
-            Vector2 force = planePhysics.PassiveForce(rb.velocity, Time.deltaTime, angle);
-            rb.AddRelativeForce(new Vector2(force.x, force.y));
-            rb.velocity = planePhysics.BoundVelocity(rb.velocity);
-            rb.AddForce(new Vector2(-rb.velocity.x*4, 0));
+            Vector2 force = planePhysics.PassiveForce(RB.velocity, Time.deltaTime, angle);
+            RB.AddRelativeForce(new Vector2(force.x, force.y));
+            RB.velocity = planePhysics.BoundVelocity(RB.velocity);
+            RB.AddForce(new Vector2(-RB.velocity.x*4, 0));
         }
 
         private void PlayerForces()
@@ -149,7 +150,7 @@ namespace player.behaviour
             else if (speedBoostTimer > 0)
                 boostMultiplier = (1+speedBoostTimer) * 20;
             Vector2 force = playerInputManager.PlayerForce(planePhysics,Time.deltaTime);
-            rb.AddRelativeForce(new Vector2(force.x * boostMultiplier, force.y));
+            RB.AddRelativeForce(new Vector2(force.x * boostMultiplier, force.y));
         }
 
         private void ApplyPlayerTurning()
@@ -165,9 +166,9 @@ namespace player.behaviour
             transform.rotation = Quaternion.LookRotation(transform.position - weightedOldPosition);
             transform.Rotate(Vector3.up, -90);
 
-            if (rb.velocity.x < 0f)
+            if (RB.velocity.x < 0f)
                 upsideDown = true;
-            if (rb.velocity.x > 0f)
+            if (RB.velocity.x > 0f)
                 upsideDown = false;
 
             if (upsideDown)
@@ -179,7 +180,7 @@ namespace player.behaviour
         public void OceanCrash()
         {
             inOcean = true;
-            rb.drag = 4;
+            RB.drag = 4;
         }
 
         public void SpriteCrash()
@@ -187,8 +188,8 @@ namespace player.behaviour
             interruptControlCoroutine = StartCoroutine(InterruptControl(0.5f));
             TakeDamage(1);
             PlayerLevelData.Crashes++;
-            rb.velocity = new Vector2(rb.velocity.x / 2, rb.velocity.y);
-            oldVelocity = rb.velocity.magnitude;
+            RB.velocity = new Vector2(RB.velocity.x / 2, RB.velocity.y);
+            oldVelocity = RB.velocity.magnitude;
         }
 
         public void GeomCrash()
@@ -302,19 +303,19 @@ namespace player.behaviour
 
         public void Freeze()
         {
-            pauseVelocityHolder = rb.velocity;
-            rb.Sleep();
-            rb.freezeRotation = true;
+            pauseVelocityHolder = RB.velocity;
+            RB.Sleep();
+            RB.freezeRotation = true;
             enabled = false;
             smokeParticles.Pause();
         }
 
         public void Unfreeze()
         {
-            rb.WakeUp();
-            rb.freezeRotation = false;
+            RB.WakeUp();
+            RB.freezeRotation = false;
             enabled = true;
-            rb.velocity = pauseVelocityHolder;
+            RB.velocity = pauseVelocityHolder;
         }
     }
 }

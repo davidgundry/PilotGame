@@ -3,13 +3,13 @@
 	"subtitle":"Flying School: First Lesson",
 	"length":100,
 	"height":23,
-	"playerStart":[10,6],
+	"playerStart":[10,7.3],
 	"environment":
 	{
 		"wind":0.9,
 		"shadowAngle":0.1,
 		"palate":"day",
-		"cloudCount":0,
+		"cloudCount":6,
 	}
 	"geom":
 	[

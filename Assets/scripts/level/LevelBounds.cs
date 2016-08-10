@@ -30,9 +30,9 @@ namespace level
         }
         
 
-        public Vector2 ApplyHardHeightLimit(Vector2 position)
+        public Vector2 ApplyHardHeightLimit(Vector3 position)
         {
-            return new Vector2(position.x, Mathf.Min(HardMaxHeight, position.y));
+            return new Vector3(position.x, Mathf.Min(HardMaxHeight, position.y), position.z);
         }
 
         public void ApplySoftHeightLimit(Vector2 position, Rigidbody2D rigidbody2D, float deltaTime)

@@ -35,10 +35,10 @@ namespace level.behaviours
         {
             return new Vector3[]
             {
-                new Vector3(-0.2f,levelBounds.GeomTopEdge,0),
-                new Vector3(0.2f,levelBounds.GeomTopEdge,0),
-                new Vector3(0.2f,levelBounds.GeomBottomEdge,0),
-                new Vector3(-0.2f,levelBounds.GeomBottomEdge,0)
+                new Vector3(-0.75f,levelBounds.GeomTopEdge,0),
+                new Vector3(0.75f,levelBounds.GeomTopEdge,0),
+                new Vector3(0.75f,levelBounds.GeomBottomEdge,0),
+                new Vector3(-0.75f,levelBounds.GeomBottomEdge,0)
             };
         }
 

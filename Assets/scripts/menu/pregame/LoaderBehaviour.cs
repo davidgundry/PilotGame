@@ -7,32 +7,15 @@ namespace menu.pregame
     public class LoaderBehaviour : MonoBehaviour
     {
 
-        public Image proportionCompleteBar;
-        public Image fullBar;
+        public WaitingBar waitingBar;
 
         void Start()
         {
-            StartCoroutine(LoadingBar());
+            AsyncOperation async = Application.LoadLevelAsync("main");
+            async.allowSceneActivation = false;
+            waitingBar.OnComplete += delegate() { async.allowSceneActivation = true; };
+            waitingBar.StartWaitingBar(0);
         }
 
-        private IEnumerator LoadingBar()
-        {
-            float fullWidth = fullBar.GetComponent<RectTransform>().rect.width;
-            RectTransform rt = proportionCompleteBar.GetComponent<RectTransform>();
-            float width = 0;
-
-            float startTime = Time.time;
-            float totalTime = 0;
-            float proportion = 0;
-
-            while (width < fullWidth)
-            {
-                proportion = (Time.time - startTime) / totalTime;
-                width = proportion * fullWidth;
-                rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, width);
-                yield return null;
-            }
-            Application.LoadLevel("main");
-        }
     }
 }

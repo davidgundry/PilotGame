@@ -44,7 +44,7 @@ namespace menu.inlevel
             titleText.text = menuToDisplay.title;
             subtitleText.text = menuToDisplay.subtitle;
             buttonContainer.Create(menuToDisplay.availableButtons, LevelSession);
-            starBox.Create(LevelSession.CurrentLevelStarScore);
+            starBox.Refresh(LevelSession.CurrentLevelStarScore);
         }
 
         public void Destroy()

@@ -29,7 +29,7 @@ namespace player.behaviour
             Camera.orthographic = true;
             //Camera.orthographicSize = 15;
 
-            Camera.orthographicSize = ((15f/10f)*16f / Screen.width) * Screen.height;
+            Camera.orthographicSize = ((13f/10f)*16f / Screen.width) * Screen.height;
 
             Camera.clearFlags = CameraClearFlags.SolidColor;
             Camera.backgroundColor = new Color(0.75f,0.93f,0.98f,1);

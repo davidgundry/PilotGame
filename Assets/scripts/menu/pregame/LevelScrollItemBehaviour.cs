@@ -59,9 +59,9 @@ namespace menu.pregame
             {
                 starBox.gameObject.SetActive(true);
                 if (levelListData.PlayerLevelRecord != null)
-                    starBox.Create(levelListData.PlayerLevelRecord.starScore);
+                    starBox.Refresh(levelListData.PlayerLevelRecord.starScore);
                 else
-                    starBox.Create(StarScore.scores[0]);
+                    starBox.Refresh(StarScore.scores[0]);
                 starBox.transform.localScale = new Vector2(0.75f, 0.75f);
             }
             else

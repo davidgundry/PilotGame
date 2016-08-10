@@ -31,7 +31,6 @@ namespace menu.pregame
         public void BackButton()
         {
             uiPanTransition.TransitionTo(1);
-            //Application.LoadLevel("level-menu");
         }
 
         public void PlayButton()
@@ -60,9 +59,10 @@ namespace menu.pregame
 
             statsText.text = CreateStatsText(levelListData);
             if (levelListData.PlayerLevelRecord != null)
-                starBox.Create(levelListData.PlayerLevelRecord.starScore);
+                starBox.Refresh(levelListData.PlayerLevelRecord.starScore);
             else
-                starBox.Create(StarScore.scores[0]);
+                starBox.Refresh(StarScore.scores[0]);
+
             starBox.transform.localScale = new Vector2(0.75f, 0.75f);
         }
     }

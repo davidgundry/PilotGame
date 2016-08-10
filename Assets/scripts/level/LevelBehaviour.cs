@@ -74,9 +74,12 @@ namespace level
         private static GeomBehaviour[] CreateGeom(GeomData[] geomData, LevelBounds levelBounds)
         {
             GeomBehaviour[] geomBehaviours = new GeomBehaviour[geomData.Length];
+            GameObject geomParent = new GameObject();
+            geomParent.name = "geom";
             for (int i = 0; i < geomData.Length; i++)
             {
                 GameObject g = new GameObject();
+                g.transform.parent = geomParent.transform;
                 g.AddComponent<GeomBehaviour>();
                 g.GetComponent<GeomBehaviour>().Create(geomData[i],levelBounds);
                 g.name = geomData[i].name;
@@ -88,9 +91,12 @@ namespace level
         private static SpriteBehaviour[] CreateSprites(SpriteData[] spriteData)
         {
             SpriteBehaviour[] spriteBehaviours = new SpriteBehaviour[spriteData.Length];
+            GameObject spriteParent = new GameObject();
+            spriteParent.name = "sprites";
             for (int i = 0; i < spriteData.Length; i++)
             {
                 GameObject g = new GameObject();
+                g.transform.parent = spriteParent.transform;
                 g.AddComponent<SpriteBehaviour>();
                 g.GetComponent<SpriteBehaviour>().Create(spriteData[i]);
                 g.name = spriteData[i].name;
@@ -102,9 +108,12 @@ namespace level
         private static PickupBehaviour[] CreatePickups(PickupData[] pickupData)
         {
             PickupBehaviour[] pickupBehaviours = new PickupBehaviour[pickupData.Length];
+            GameObject pickupParent = new GameObject();
+            pickupParent.name = "pickups";
             for (int i = 0; i < pickupData.Length; i++)
             {
                 GameObject g = new GameObject();
+                g.transform.parent = pickupParent.transform;
                 g.AddComponent<PickupBehaviour>();
                 g.GetComponent<PickupBehaviour>().Create(pickupData[i]);
                 g.name = pickupData[i].name;
@@ -113,13 +122,16 @@ namespace level
             return pickupBehaviours;
         }
 
-        private static HoopBehaviour[] CreateHoops(HoopData[] hoopData)
+        private HoopBehaviour[] CreateHoops(HoopData[] hoopData)
         {
             HoopBehaviour[] hoopBehaviours = new HoopBehaviour[hoopData.Length];
-            GameObject hoop = Resources.Load<GameObject>("prefabs/hoop");
+            GameObject hoopParent = new GameObject();
+            hoopParent.name = "hoops";
+            GameObject hoop = levelSession.HoopPrefab;
             for (int i = 0; i < hoopData.Length; i++)
             {
                 GameObject g = Instantiate(hoop);
+                g.transform.parent = hoopParent.transform;
                 g.GetComponentInChildren<HoopBehaviour>().Create(hoopData[i]);
                 g.name = hoopData[i].name;
                 hoopBehaviours[i] = g.GetComponentInChildren<HoopBehaviour>();
@@ -144,9 +156,9 @@ namespace level
             cloudLine.GetComponent<CloudLineBehaviour>().Create(levelData, zPosition);
         }
 
-        private static PlaneController CreatePlayer(PlayerLevelData playerLevelData)
+        private PlaneController CreatePlayer(PlayerLevelData playerLevelData)
         {
-            GameObject plane = Instantiate(Resources.Load<GameObject>("prefabs/player"));
+            GameObject plane = Instantiate(levelSession.PlayerPrefab);
             PlaneController planeController = plane.GetComponent<PlaneController>();
             planeController.PlayerLevelData = playerLevelData;
             return planeController;
@@ -182,7 +194,8 @@ namespace level
 
         private void SetPlayerPosition(LevelData levelData)
         {
-            player.transform.position = levelData.playerStart;
+            float playerZ = -2;
+            player.transform.position = new Vector3(levelData.playerStart.x,levelData.playerStart.y,playerZ);
         }
 
         public void FreezePlay(bool frozen)

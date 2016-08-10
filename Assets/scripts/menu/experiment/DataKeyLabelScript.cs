@@ -8,10 +8,15 @@ namespace menu.experiment
     {
         void Start()
         {
-#if TELEMETRY
-            TelemetryMonitor telemetryMonitor = GameObject.FindObjectOfType<TelemetryMonitor>();
-            GetComponent<Text>().text = "Data Key: " + telemetryMonitor.Key;
-#endif
+            ExperimentController experimentController = GameObject.FindObjectOfType<ExperimentController>();
+            if (experimentController != null)
+            {
+                GetComponent<Text>().text = "Data Key: " + experimentController.DataKey();
+            }
+            else
+            {
+                GetComponent<Text>().text = "";
+            }
         }
 
     }

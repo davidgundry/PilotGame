@@ -23,6 +23,9 @@ namespace level
         public LevelEndMenuBehaviour levelEndMenu;
         public InGameMenuBehaviour inGameMenu;
 
+        public GameObject HoopPrefab;
+        public GameObject PlayerPrefab;
+
         private GameController gameController;
         private PlayerLevelData playerLevelData;
         private LevelBehaviour levelBehaviour;
@@ -38,8 +41,6 @@ namespace level
 
         void Awake()
         {
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
             timer = GameObject.FindObjectOfType<TimerBehaviour>();
             playerLevelData = new PlayerLevelData();
             inGameMenu.LevelSession = this;
@@ -50,14 +51,15 @@ namespace level
             gameController = GameObject.FindObjectOfType<GameController>();
             if (gameController == null)
             {
-                Debug.LogError("No GameController found. This is probably because you are running the main scene without loading from the menu. Trying to instantiate a new Game Controller");
-                gameController = GameObject.Instantiate<GameController>(Resources.Load<GameController>("prefabs/gameController"));
+                Debug.LogError("No GameController found. This is probably because you are running the main scene without loading from the menu.");
+                GameObject g = Instantiate(Resources.Load<GameObject>("GameController"));
+                gameController = g.GetComponent<GameController>();
+                
             }
 
             levelData = LoadLevel("levels/" + gameController.CurrentLevel.filename);
             CreateLevel(levelData);
             StartCoroutine(ShowIntroMenu(levelData));
-            //CrossedFinishLine(); // For testing purposes
         }
 
         void Update()
@@ -140,6 +142,7 @@ namespace level
         private void CreateLevel(LevelData levelData)
         {
             GameObject g = new GameObject();
+            g.name = "LevelBehaviour";
             g.AddComponent<LevelBehaviour>();
             levelBehaviour = g.GetComponent<LevelBehaviour>();
             levelBehaviour.Create(this, levelData, playerLevelData);

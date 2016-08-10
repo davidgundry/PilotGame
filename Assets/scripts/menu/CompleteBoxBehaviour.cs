@@ -30,7 +30,8 @@ namespace menu
         void Start()
         {
             GameController gameController = GameObject.FindObjectOfType<GameController>();
-            CompletePercentage = gameController.PlayerGameProgress.CompletePercentage;
+            if (gameController != null)
+                CompletePercentage = gameController.PlayerGameProgress.CompletePercentage;
         }
 
     }

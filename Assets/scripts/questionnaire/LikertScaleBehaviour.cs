@@ -1,0 +1,26 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+using questionnaire.data;
+
+namespace questionnaire.answer
+{
+    public class LikertScaleBehaviour : AnswerSpaceBehaviour
+    {
+        public Text leftLabelText;
+        public Text rightLabelText;
+        public ButtonSpaceBehaviour buttonSpace;
+
+        public void Create(Likert liketScale)
+        {
+            buttonSpace.Create(liketScale.scaleLength);
+            leftLabelText.text = liketScale.labelLeft;
+            rightLabelText.text = liketScale.labelRight;
+        }
+
+        public override string answer()
+        {
+            return buttonSpace.SelectedLabel;
+        }
+    }
+}

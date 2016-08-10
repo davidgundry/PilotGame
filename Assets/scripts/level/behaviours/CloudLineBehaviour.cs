@@ -14,9 +14,27 @@ namespace level.behaviours
         public void Create(LevelData levelData, float zPosition)
         {
             this.zPosition = zPosition;
-            MakeMesh(levelData.length);
-            SetMaterial(LoadMaterial());
-            transform.position = new Vector3(0, levelData.height, 0);
+
+            float inset = 0;
+            float cloudLineWidth = 30;
+            float overlap = 4;
+            while (inset < levelData.length+150)
+            {
+                //MakeMesh(cloudLineWidth);
+                GameObject c = new GameObject();
+                c.name = "CloudLineComponent";
+                
+                c.AddComponent<SpriteRenderer>();
+                SpriteRenderer spriteRenderer = c.GetComponent<SpriteRenderer>();
+                spriteRenderer.sprite = Resources.Load<Sprite>("sprites/cloudline");
+                //SetMaterial(LoadMaterial());
+                c.transform.position = new Vector3(inset, levelData.height+3, 0);
+                c.transform.localScale = new Vector3(4, 4, 4);
+                inset += cloudLineWidth-overlap;
+                c.transform.parent = this.transform;
+            }
+
+            
         }
 
         private Material LoadMaterial()

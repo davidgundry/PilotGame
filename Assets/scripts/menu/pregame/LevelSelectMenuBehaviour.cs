@@ -22,7 +22,7 @@ namespace menu.pregame
         {
             if (gameController == null)
             {
-                Debug.LogError("No GameController found. This is probably because you are running the main scene without loading from the menu. Trying to instantiate a new Game Controller");
+                Debug.LogError("No GameController found. This is probably because you are running the game without loading from the first menu. Trying to instantiate a new Game Controller");
                 gameController = GameObject.Instantiate<GameController>(Resources.Load<GameController>("prefabs/gameController"));
             }
         }
@@ -35,7 +35,6 @@ namespace menu.pregame
         public void BackButton()
         {
             uiPanTransition.TransitionTo(0);
-            //Application.LoadLevel("main-menu");
         }
 
         private string CreateStatsText(PlayerGameProgress playerGameProgress)

@@ -1430,6 +1430,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelEndMenu: {fileID: 1489989493}
   inGameMenu: {fileID: 567877573}
+  HoopPrefab: {fileID: 132460, guid: 87237a924ef2acc40a2e5b77cd397ee8, type: 2}
+  PlayerPrefab: {fileID: 101262, guid: bd8941ae8ed5bfd439ab18a06110789c, type: 2}
 --- !u!4 &998813763
 Transform:
   m_ObjectHideFlags: 0

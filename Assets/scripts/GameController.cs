@@ -6,7 +6,7 @@ using level.data;
 public class GameController : MonoBehaviour
 {
 
-    private static readonly string[] levelFileNames = new string[] { "cave-route","second-course","first-course","tutorial-gap","tutorial-mountain","tutorial-hoop","plane-sailing", "flying-plains" }; 
+    private static readonly string[] levelFileNames = new string[] { "tutorial-gap", "tutorial-mountain", "tutorial-hoop", "first-course", "second-course", "plane-sailing", "cave-route", "flying-plains" }; 
 
     public int CurrentLevelID { get; set; }
     private LevelListData[] levelList;
@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         DontDestroyOnLoad(this);
         levelList = new LevelListData[levelFileNames.Length];
         int i = 0;
@@ -63,7 +64,9 @@ public class GameController : MonoBehaviour
     {
         CurrentLevelID++;
         if (CurrentLevelID < LevelList.Length)
-            PlayCurrentLevel();
+        {
+            Application.LoadLevel("main");
+        }
         else
         {
             CurrentLevelID = 0;

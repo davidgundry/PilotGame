@@ -28,10 +28,8 @@ namespace menu
             } 
         }
 
-        public void Create(StarScore starScore)
-        {
-            starCount = starScore.stars;
-           
+        private void Create()
+        {          
             int padding = 15;
             stars = new StarBehaviour[3];
             for (int i = 0; i < 3; i++)
@@ -43,10 +41,22 @@ namespace menu
                 rt.anchorMin = new Vector2(0, 0.5f);
                 rt.anchorMax = new Vector2(0, 0.5f);
                 rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, i * (rt.rect.width + padding), 100);
-                //rt.localPosition = new Vector2(i*(rt.rect.width+padding), 0);
 
                 g.name = "star_"+i;
                 stars[i] = g.GetComponent<StarBehaviour>();
+                stars[i].SetStar(false);
+            }
+        }
+
+        public void Refresh(StarScore starScore)
+        {
+            if (stars == null)
+            {
+                Create();
+            }
+            starCount = starScore.stars;
+            for (int i = 0; i < 3; i++)
+            {
                 if (i < starCount)
                     stars[i].SetStar(true);
                 else
