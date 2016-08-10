@@ -11,7 +11,7 @@ namespace level.behaviours
     public class GeomBehaviour : MonoBehaviour
     {
 
-        public void Create(GeomData geomData, LevelBounds levelBounds)
+        public virtual void Create(GeomData geomData, LevelBounds levelBounds)
         {
             MakeMesh(geomData, levelBounds);
 
@@ -32,17 +32,17 @@ namespace level.behaviours
                 //DuplicateMeshForOutline(geomData, levelBounds);
         }
 
-        private Material LoadMaterial(string materialName)
+        protected Material LoadMaterial(string materialName)
         {
             return Resources.Load("materials/" + materialName, typeof(Material)) as Material;
         }
 
-        private PhysicsMaterial2D LoadPhysicsMaterial(string materialName)
+        protected PhysicsMaterial2D LoadPhysicsMaterial(string materialName)
         {
             return Resources.Load("materials/" + materialName, typeof(PhysicsMaterial2D)) as PhysicsMaterial2D;
         }
 
-        private void SetPhysicsMaterial(PhysicsMaterial2D material)
+        protected void SetPhysicsMaterial(PhysicsMaterial2D material)
         {
             GetComponent<PolygonCollider2D>().sharedMaterial = material;
         }
@@ -125,13 +125,13 @@ namespace level.behaviours
             //    innerMR.material = LoadMaterial("DesertInner");
         }
 
-        private void SetMaterial(Material material)
+        protected void SetMaterial(Material material)
         {
             MeshRenderer mr = GetComponent<MeshRenderer>();
             mr.material = material;
         }
 
-        private void MakeCollider(GeomData geomData, LevelBounds levelBounds)
+        protected void MakeCollider(GeomData geomData, LevelBounds levelBounds)
         {
             float edgeY = 0;
             if (geomData.geomPosition == GeomPosition.Top)
@@ -153,13 +153,6 @@ namespace level.behaviours
             pg2d.points = collisionPoints;
             if (geomData.geomType == GeomType.Ocean)
                 pg2d.isTrigger = true;
-        }
-
-        public void OnTriggerEnter2D(Collider2D collider)
-        {
-            PlaneController pc = collider.GetComponent<PlaneController>();
-            if (pc != null)
-                pc.OceanCrash();
         }
     }
 }

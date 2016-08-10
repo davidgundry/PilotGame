@@ -25,6 +25,8 @@ namespace level
 
         public GameObject HoopPrefab;
         public GameObject PlayerPrefab;
+        public ParticleSystem splashParticleSystem;
+        public Material waterLineMaterial;
 
         private GameController gameController;
         private PlayerLevelData playerLevelData;
@@ -209,6 +211,16 @@ namespace level
             levelBehaviour.FreezePlay(false);
             inGameMenu.Destroy();
             timer.ClockRunning = true;
+        }
+
+        public ParticleSystem SplashParticleSystem()
+        {
+            return splashParticleSystem;
+        }
+
+        public Material WaterLineMaterial()
+        {
+            return waterLineMaterial;
         }
 
     }

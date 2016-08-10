@@ -79,11 +79,21 @@ namespace level
             for (int i = 0; i < geomData.Length; i++)
             {
                 GameObject g = new GameObject();
-                g.transform.parent = geomParent.transform;
-                g.AddComponent<GeomBehaviour>();
-                g.GetComponent<GeomBehaviour>().Create(geomData[i],levelBounds);
+                if (geomData[i].geomType == GeomType.Ocean)
+                {
+                    g.transform.parent = geomParent.transform;
+                    g.AddComponent<WaterBehaviour>();
+                    g.GetComponent<WaterBehaviour>().Create(geomData[i], levelBounds);
+                    geomBehaviours[i] = g.GetComponent<WaterBehaviour>();
+                }
+                else
+                {
+                    g.transform.parent = geomParent.transform;
+                    g.AddComponent<GeomBehaviour>();
+                    g.GetComponent<GeomBehaviour>().Create(geomData[i], levelBounds);
+                    geomBehaviours[i] = g.GetComponent<GeomBehaviour>();
+                }
                 g.name = geomData[i].name;
-                geomBehaviours[i] = g.GetComponent<GeomBehaviour>();
             }
             return geomBehaviours;
         }

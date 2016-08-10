@@ -5,12 +5,12 @@ namespace level
 {
     public class GeomMeshBuilder
     {
-        GeomData geomData;
-        float edgeY;
+        protected GeomData geomData;
+        protected float edgeY;
         const float backgroundZPosition = 10;
         const float defaultZPosition = 0;
 
-        private float zPosition = 0;
+        protected float zPosition = 0;
 
         public GeomMeshBuilder(GeomData geomData, LevelBounds levelBounds)
         {
@@ -19,7 +19,7 @@ namespace level
             SetZ();
         }
 
-        private void SetEdge(LevelBounds levelBounds)
+        protected void SetEdge(LevelBounds levelBounds)
         {
             switch (geomData.geomPosition)  
             {
@@ -32,7 +32,7 @@ namespace level
             }
         }
 
-        private void SetZ()
+        protected void SetZ()
         {
             if (geomData.geomType == GeomType.Background)
                 zPosition = backgroundZPosition;
