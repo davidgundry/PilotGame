@@ -8,9 +8,9 @@ namespace level
         protected GeomData geomData;
         protected float edgeY;
         const float backgroundZPosition = 10;
-        const float defaultZPosition = 0;
+        const float defaultZPosition = -1f;
 
-        protected float zPosition = 0;
+        protected float zPosition = -1f;
 
         public GeomMeshBuilder(GeomData geomData, LevelBounds levelBounds)
         {

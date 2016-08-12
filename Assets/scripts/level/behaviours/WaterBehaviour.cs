@@ -5,167 +5,219 @@ using player.behaviour;
 
 namespace level.behaviours
 {
+    public struct WaterNode
+    {
+        public readonly float x, y, velocity, acceleration;
+        public WaterNode(float x, float y, float velocity, float acceleration)
+        {
+            this.x = x;
+            this.y = y;
+            this.velocity = velocity;
+            this.acceleration = acceleration;
+        }
+
+        public WaterNode SetVelocity(float velocity)
+        {
+            return new WaterNode(this.x, this.y, velocity, this.acceleration);
+        }
+
+        public WaterNode ApplyForce(float force)
+        {
+            float newAcceleration = force;
+            float newY = this.y + this.velocity;
+            float newVelocity = this.velocity + acceleration;
+            float newX = this.x;
+
+
+            return new WaterNode(newX, newY, newVelocity, newAcceleration);
+        }
+    }
+
     [RequireComponent(typeof(MeshFilter))]
     public class WaterBehaviour : GeomBehaviour
     {
+        private WaterNode[] nodes;
+        private LineRenderer lineRenderer;
 
-        float[] xpositions;
-        float[] ypositions;
-        float[] velocities;
-        float[] accelerations;
-        LineRenderer Body;
+        private Mesh mesh;
+        private int quads;        
 
-        Mesh mesh;
-        int quads;
-        GameObject[] colliders;
-        
-
-        const float springconstant = 0.02f;
-        const float damping = 0.04f;
-        const float spread = 0.07f;
-        const float z = 0f;
+        const float springConstant = 0.02f;
+        const float damping = 0.06f;
+        const float spread = 0.09f;
+        const float z = -1f;
 
         float baseheight;
         float left;
         float bottom;
+        private int NodeCount { get; set; }
 
         private ParticleSystem particleSystem;
         private Material lineMaterial;
 
-        public void SpawnWater(float Left, float Width, float Top, float Bottom)
+        private void CreateLine()
         {
-            int edgecount = Mathf.RoundToInt(Width)*5;
-            int nodecount = edgecount + 1;
+            lineRenderer = gameObject.AddComponent<LineRenderer>();
+            lineRenderer.material = lineMaterial;
+            lineRenderer.material.renderQueue = 1000;
+            lineRenderer.SetVertexCount(NodeCount);
+            lineRenderer.SetWidth(0.7f, 0.7f);
+        }
 
-            Body = gameObject.AddComponent<LineRenderer>();
-            Body.material = lineMaterial;
-            Body.material.renderQueue = 1000;
-            Body.SetVertexCount(nodecount);
-            Body.SetWidth(0.7f, 0.7f);
+        public void SpawnWater(float left, float width, float baseheight, float bottom)
+        {
+            this.baseheight = baseheight;
+            this.bottom = bottom;
+            this.left = left;
 
-            xpositions = new float[nodecount];
-            ypositions = new float[nodecount];
-            velocities = new float[nodecount];
-            accelerations = new float[nodecount];
+            int edgecount = Mathf.RoundToInt(width)*5;
+            quads = edgecount;
+            NodeCount = edgecount + 1;
 
-            colliders = new GameObject[edgecount];
+            CreateLine();
+            InitialiseNodes(width);
+            CreateMesh();
+            UpdateLinePositions();
+        }
 
-            baseheight = Top;
-            bottom = Bottom;
-            left = Left;
+        private void InitialiseNodes(float width)
+        {
+            nodes = new WaterNode[NodeCount];
 
-            for (int i = 0; i < nodecount; i++)
+            for (int i = 0; i < NodeCount; i++)
             {
-                ypositions[i] = Top + Random.value;
-                xpositions[i] = Left + Width * i / edgecount;
-                accelerations[i] = 0;
-                velocities[i] = 0;
-                Body.SetPosition(i, new Vector3(xpositions[i], ypositions[i], z));
+                nodes[i] = new WaterNode(left + width * i / quads, baseheight, 0, 0);
             }
+        }
 
-
-            List<Vector3> vertices = new List<Vector3>();
-            List<Vector2> uvs = new List<Vector2>();
-            List<int> tris = new List<int>();
+        private void CreateMesh()
+        {
             mesh = new Mesh();
-            for (int i = 0; i < edgecount; i++)
-            {
-                vertices.Add(new Vector3(xpositions[i], ypositions[i], z));
-                vertices.Add(new Vector3(xpositions[i + 1], ypositions[i + 1], z));
-                vertices.Add(new Vector3(xpositions[i], bottom, z));
-                vertices.Add(new Vector3(xpositions[i + 1], bottom, z));
-
-                uvs.Add(new Vector2(0.25f, 0.45f));
-                uvs.Add(new Vector2(0.25f, 0.45f));
-                uvs.Add(new Vector2(0.25f, 0.45f));
-                uvs.Add(new Vector2(0.25f, 0.45f));
-
-                tris.AddRange(new int[6] { quads * 4 + 0, quads * 4 + 1, quads * 4 + 3, quads * 4 + 3, quads * 4 + 2, quads * 4 + 0 });
-                quads++;
-            }
-            mesh.SetVertices(vertices);
-            mesh.SetUVs(0,uvs);
-            mesh.SetTriangles(tris,0);
+            mesh.SetVertices(CreateMeshVertices());
+            mesh.SetUVs(0, CreateMeshUVs());
+            mesh.SetTriangles(CreateMeshTris(), 0);
             GetComponent<MeshFilter>().mesh = mesh;
         }
 
-        void UpdateMeshes()
+        private List<Vector3> CreateMeshVertices()
         {
             List<Vector3> vertices = new List<Vector3>();
             for (int i = 0; i < quads; i++)
             {
-                vertices.Add(new Vector3(xpositions[i], ypositions[i], z));
-                vertices.Add(new Vector3(xpositions[i + 1], ypositions[i + 1], z));
-                vertices.Add(new Vector3(xpositions[i], bottom, z));
-                vertices.Add(new Vector3(xpositions[i + 1], bottom, z));
+                vertices.Add(new Vector3(nodes[i].x, nodes[i].y, z));
+                vertices.Add(new Vector3(nodes[i+1].x, nodes[i + 1].y, z));
+                vertices.Add(new Vector3(nodes[i].x, bottom, z));
+                vertices.Add(new Vector3(nodes[i + 1].x, bottom, z));
             }
-            mesh.SetVertices(vertices);
+            return vertices;
+        }
+
+        private List<Vector2> CreateMeshUVs()
+        {
+            List<Vector2> uvs = new List<Vector2>();
+            for (int i = 0; i < quads; i++)
+            {
+                uvs.Add(new Vector2(0.25f, 0.45f));
+                uvs.Add(new Vector2(0.25f, 0.45f));
+                uvs.Add(new Vector2(0.25f, 0.45f));
+                uvs.Add(new Vector2(0.25f, 0.45f));
+            }
+            return uvs;
+        }
+
+        private List<int> CreateMeshTris()
+        {
+            List<int> tris = new List<int>();
+            for (int i = 0; i < quads; i++)
+            {
+                int trisInset = i * 4;
+                tris.AddRange(new int[6] { trisInset + 0, trisInset + 1, trisInset + 3, trisInset + 3, trisInset + 2, trisInset + 0 });
+            }
+            return tris;
+        }
+
+        private void UpdateMeshPositions()
+        {
+            mesh.SetVertices(CreateMeshVertices());
+        }
+
+        private void ApplySpringPhysics()
+        {
+            for (int i=0;i<NodeCount;i++)
+            {
+                float force = springConstant * (nodes[i].y - baseheight) + nodes[i].velocity * damping;
+                nodes[i] = nodes[i].ApplyForce(-force);
+            }
+        }
+
+        private void UpdateNodes(float[] deltaPositions, float[] deltaVelocities)
+        {
+            int index = 0;
+            foreach (WaterNode node in nodes)
+            {
+                nodes[index] = new WaterNode(node.x, node.y + deltaPositions[index], node.velocity + deltaVelocities[index], node.acceleration);
+                index++;
+            }
+        }
+
+        private void ApplySpreadAndWaves()
+        {
+            float[] deltaPositions = new float[NodeCount];
+            float[] deltaVelocities = new float[NodeCount];
+
+            for (int i = 0; i < NodeCount; i++)
+            {
+                if (i > 0)
+                {
+                    float leftDelta = spread * (nodes[i].y - nodes[i - 1].y);
+                    deltaVelocities[i - 1] += leftDelta;
+                    deltaPositions[i - 1] += leftDelta;
+                }
+                if (i < NodeCount - 1)
+                {
+                    float rightDelta = spread * (nodes[i].y - nodes[i + 1].y);
+                    deltaVelocities[i + 1] += rightDelta;
+                    deltaPositions[i + 1] += rightDelta;
+                }
+               deltaVelocities[i] += (Random.value - 0.5f) * 0.01f; // Waves
+            }
+
+            UpdateNodes(deltaPositions,deltaVelocities);
+        }
+
+        private void UpdateLinePositions()
+        {
+            int index = 0;
+            foreach (WaterNode node in nodes)
+            {
+                lineRenderer.SetPosition(index, new Vector3(node.x, node.y, z));
+                index++;
+            }
         }
 
         void FixedUpdate()
         {
-            int mass = 1;
-            for (int i = 0; i < xpositions.Length; i++)
-            {
-                float force = springconstant * (ypositions[i] - baseheight) + velocities[i] * damping;
-                accelerations[i] = -force / mass;
-                ypositions[i] += velocities[i];
-                velocities[i] += accelerations[i];
-                Body.SetPosition(i, new Vector3(xpositions[i], ypositions[i], z));
-            }
-
-            float[] leftDeltas = new float[xpositions.Length];
-            float[] rightDeltas = new float[xpositions.Length];
-
-            for (int j = 0; j < 8; j++)
-            {
-                for (int i = 0; i < xpositions.Length; i++)
-                {
-                    if (i > 0)
-                    {
-                        leftDeltas[i] = spread * (ypositions[i] - ypositions[i - 1]);
-                        velocities[i - 1] += leftDeltas[i];
-                    }
-                    if (i < xpositions.Length - 1)
-                    {
-                        rightDeltas[i] = spread * (ypositions[i] - ypositions[i + 1]);
-                        velocities[i + 1] += rightDeltas[i];
-                    }
-                }
-            }
-
-            for (int i = 0; i < xpositions.Length; i++)
-            {
-                if (i > 0)
-                {
-                    ypositions[i - 1] += leftDeltas[i];
-                }
-                if (i < xpositions.Length - 1)
-                {
-                    ypositions[i + 1] += rightDeltas[i];
-                }
-            }
-
-            UpdateMeshes();
+            ApplySpringPhysics();
+            ApplySpreadAndWaves();
+            UpdateMeshPositions();
+            UpdateLinePositions();
         }
 
 
-        public void Splash(float xpos, float velocity)
+        public void Splash(float xPosition, float velocity)
         {
-            if ((xpos >= xpositions[0]) && (xpos <= xpositions[xpositions.Length - 1]))
+            if ((xPosition >= nodes[0].x) && (xPosition <= nodes[NodeCount - 1].x))
             {
-                xpos -= xpositions[0];
-                int index = Mathf.RoundToInt((xpositions.Length - 1) * (xpos / (xpositions[xpositions.Length - 1] - xpositions[0])));
-                velocities[index] = velocity;
+                xPosition -= nodes[0].x;
+                int index = Mathf.RoundToInt((NodeCount - 1) * (xPosition / (nodes[NodeCount - 1].x - nodes[0].x)));
+                nodes[index] = nodes[index].SetVelocity(velocity);
 
-                //float lifetime =  0.93f + Mathf.Abs(velocity) * 0.07f;
-                particleSystem.startSpeed = 8 + 4 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
-                //particleSystem.startSpeed = 9 + 2 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
-                //particleSystem.startLifetime = lifetime;
-                Vector3 position = new Vector3(xpositions[index], ypositions[index] - 0.35f, 8);
-                Quaternion rotation = Quaternion.LookRotation(new Vector3(xpositions[Mathf.FloorToInt(xpositions.Length / 2)], baseheight + 8, 5) - position);
-                GameObject splish = Instantiate(particleSystem, position, rotation) as GameObject;
-                Destroy(splish, 0.5f);
+                //particleSystem.startSpeed = 8 + 8 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
+                Vector3 position = new Vector3(nodes[index].x, nodes[index].y - 0.35f, 8);
+                Quaternion rotation = Quaternion.LookRotation(new Vector3(nodes[Mathf.FloorToInt(NodeCount / 2)].x, baseheight + 8, 5) - position);
+                ParticleSystem particles = Instantiate(particleSystem);
+                particles.transform.position = position;
+                Destroy(particles, 2f);
             }
             
         }
@@ -181,11 +233,7 @@ namespace level.behaviours
                 edge = levelBounds.GeomTopEdge;
 
             SpawnWater(geomData.points[0].x, geomData.points[1].x - geomData.points[0].x, geomData.points[0].y, edge);
-
-            //MakeMesh(geomData, levelBounds);
-
             MakeCollider(geomData, levelBounds);
-            SetPhysicsMaterial(LoadPhysicsMaterial("GroundPhysics"));
 
             SetMaterial(LoadMaterial("Ground"));
         }

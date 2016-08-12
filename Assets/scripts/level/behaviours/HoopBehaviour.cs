@@ -11,6 +11,7 @@ namespace level.behaviours
     {
         private bool hitEdge = false;
         private bool throughHoop = false;
+        public ParticleSystem particleSystem;
 
         public void Create(HoopData hoopData)
         {
@@ -24,6 +25,7 @@ namespace level.behaviours
         public void OnTriggerEnter2D(Collider2D collider)
         {
             ThroughHoop(collider);
+            particleSystem.Play();
         }
 
         private void ThroughHoop(Collider2D collider)

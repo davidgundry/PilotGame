@@ -28,7 +28,10 @@ namespace level
                 CheckLevelBounds();
                 if (player.HasCrashed())
                 {
-                    levelSession.PlayerCrashed();
+                    if (player.InOcean)
+                        levelSession.PlayerSunk();
+                    else
+                        levelSession.PlayerCrashed();
                 }
             }
         }
@@ -213,17 +216,35 @@ namespace level
             if (frozen)
             {
                 player.Freeze();
+                player.enabled = false;
+                foreach (TrailRenderer trail in player.transform.GetComponentsInChildren<TrailRenderer>())
+                {
+                        trail.enabled = false;
+                }
                 foreach (CloudBehaviour cloud in cloudBehaviours)
                 {
                     cloud.enabled = false;
+                }
+                foreach (GeomBehaviour geom in geomBehaviours)
+                {
+                    geom.enabled = false;
                 }
             }
             else
             {
                 player.Unfreeze();
+                player.enabled = true;
+                foreach (TrailRenderer trail in player.transform.GetComponentsInChildren<TrailRenderer>())
+                {
+                    trail.enabled = true;
+                }
                 foreach (CloudBehaviour cloud in cloudBehaviours)
                 {
                     cloud.enabled = true;
+                }
+                foreach (GeomBehaviour geom in geomBehaviours)
+                {
+                    geom.enabled = true;
                 }
             }
         }

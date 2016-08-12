@@ -19,7 +19,7 @@ namespace player.behaviour
         Vector3 weightedOldPosition;
         public bool AutoPilot { get; set; }
         private float angle;
-        private bool inOcean;
+        public bool InOcean { get; private set; }
         private bool destroyed;
         private bool controlBlocked;
 
@@ -31,7 +31,7 @@ namespace player.behaviour
         private float Fuel { get { return fuel; } set { fuel = value; if (fuelGuage != null) fuelGuage.SetProportion(value); } }
         private const float fuelLossRate = 0.05f;
 
-        private float oldVelocity;
+        private float oldSpeed;
         private Coroutine interruptControlCoroutine;
         private Coroutine flashPlaneCoroutine;
 
@@ -60,7 +60,7 @@ namespace player.behaviour
         void Start()
         {
             weightedOldPosition = transform.position -  new Vector3(1f, 0f, 0f);
-            oldVelocity = RB.velocity.magnitude;
+            oldSpeed = RB.velocity.magnitude;
             smokeParticles.Clear();
             smokeParticles.Stop();
         }
@@ -79,7 +79,7 @@ namespace player.behaviour
 
             UpdatePlayerLevelData();
 
-            oldVelocity = RB.velocity.magnitude;
+            oldSpeed = RB.velocity.magnitude;
             if (speedBoostTimer > 0 )
                 speedBoostTimer -= Time.deltaTime;
         }
@@ -117,7 +117,7 @@ namespace player.behaviour
 
         private void CheckForGeomCrash()
         {
-            if (oldVelocity - RB.velocity.magnitude > 2f)
+            if (oldSpeed - RB.velocity.magnitude > 2f)
             {
                 GeomCrash();
             }
@@ -127,7 +127,7 @@ namespace player.behaviour
         {
             if (destroyed)
                 return true;
-            if (inOcean)
+            if (InOcean)
                 return true;
             //if (rb.velocity.x < 0)
             //    return true;
@@ -179,7 +179,7 @@ namespace player.behaviour
 
         public void OceanCrash()
         {
-            inOcean = true;
+            InOcean = true;
             RB.drag = 4;
         }
 
@@ -189,7 +189,7 @@ namespace player.behaviour
             TakeDamage(1);
             PlayerLevelData.Crashes++;
             RB.velocity = new Vector2(RB.velocity.x / 2, RB.velocity.y);
-            oldVelocity = RB.velocity.magnitude;
+            oldSpeed = RB.velocity.magnitude;
         }
 
         public void GeomCrash()

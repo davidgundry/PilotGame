@@ -108,6 +108,18 @@ namespace level
             }
         }
 
+        public void PlayerSunk()
+        {
+            if (levelSessionState != LevelSessionState.End)
+            {
+                timer.ClockRunning = false;
+                SetPlayerEndTime();
+                playerLevelData.LevelResult = LevelResult.Sunk;
+                levelSessionState = LevelSessionState.End;
+                StartCoroutine(ShowFailedMenu(playerLevelData));
+            }
+        }
+
         public void Pause()
         {
             if (levelSessionState == LevelSessionState.Playing)

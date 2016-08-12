@@ -6,7 +6,7 @@ using level.data;
 public class GameController : MonoBehaviour
 {
 
-    private static readonly string[] levelFileNames = new string[] { "tutorial-gap", "tutorial-mountain", "tutorial-hoop", "first-course", "second-course", "plane-sailing", "cave-route", "flying-plains" }; 
+    private static readonly string[] levelFileNames = new string[] { "tutorial-hoop","tutorial-gap", "tutorial-mountain", "tutorial-hoop", "first-course", "second-course", "plane-sailing", "cave-route", "flying-plains" }; 
 
     public int CurrentLevelID { get; set; }
     private LevelListData[] levelList;
