@@ -9,11 +9,18 @@ namespace player.behaviour
     public class FollowCamera : MonoBehaviour
     {
 
+        private const float springConstantX = 2f;
+        private const float springConstantY = 0.5f;
+        private const float damping = 0.7f;
+
         public Transform Target {get; set;}
         public Vector3 Offset {get; set;}
         public float MinY {get; set;}
         public float MaxY {get; set;}
         public float MinX { get; set; }
+
+        private float yVelocity = 0;
+        private float xVelocity = 0;
 
         public Camera Camera { get; private set; }
 
@@ -43,9 +50,26 @@ namespace player.behaviour
             MinX = levelBounds.LeftEdge + Camera.orthographicSize*Camera.aspect;
         }
 
-        void Update()
+        void FixedUpdate()
         {
-            transform.position = new Vector3(Mathf.Max(Target.position.x + Offset.x,MinX), Mathf.Min(Mathf.Max(Target.position.y + Offset.y, MinY),MaxY), Target.position.z + Offset.z);
+            float currentX = transform.position.x;
+            float currentY = transform.position.y;
+            
+
+            float dy = currentY - (Target.position.y + Offset.y);
+            float force = -dy * springConstantY;
+            yVelocity += force;
+            yVelocity *= damping;
+
+            float dx = currentX - (Target.position.x + Offset.x);
+            force = -dx * springConstantX;
+            xVelocity += force;
+            xVelocity *= damping;
+
+            float x = Mathf.Max(currentX + xVelocity * Time.deltaTime, MinX);
+            float y = Mathf.Min(Mathf.Max(currentY + yVelocity * Time.deltaTime, MinY), MaxY);
+
+            transform.position = new Vector3(x, y, Target.position.z + Offset.z);
         }
     }
 }
