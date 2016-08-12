@@ -45,8 +45,8 @@ namespace player.behaviour
 
         public void SetCameraBounds(LevelBounds levelBounds)
         {
-            MinY = levelBounds.BottomEdge;
-            MaxY = levelBounds.HardMaxHeight;
+            MinY = levelBounds.BottomEdge + Camera.orthographicSize/2;
+            MaxY = levelBounds.HardMaxHeight - Camera.orthographicSize/2;
             MinX = levelBounds.LeftEdge + Camera.orthographicSize*Camera.aspect;
         }
 
