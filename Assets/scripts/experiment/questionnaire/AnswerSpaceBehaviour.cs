@@ -6,7 +6,7 @@ namespace questionnaire
 {
     public abstract class AnswerSpaceBehaviour : MonoBehaviour
     {
-        public abstract string answer();
+        public abstract string Answer();
 
     }
 }

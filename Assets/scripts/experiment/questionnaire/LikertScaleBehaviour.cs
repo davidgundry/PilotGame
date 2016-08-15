@@ -18,7 +18,7 @@ namespace questionnaire.answer
             rightLabelText.text = liketScale.labelRight;
         }
 
-        public override string answer()
+        public override string Answer()
         {
             return buttonSpace.SelectedLabel;
         }

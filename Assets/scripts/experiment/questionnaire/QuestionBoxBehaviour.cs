@@ -12,11 +12,13 @@ namespace questionnaire
         public GameObject likertPrefab;
         public GameObject yesNoPrefab;
 
-        private AnswerSpaceBehaviour answerSpace;
+        public string Question { get; private set; }
+        public AnswerSpaceBehaviour AnswerSpace { get; private set; }
 
         public void Create(QuestionData questionData)
         {
             questionText.text = questionData.question;
+            Question = questionData.question;
 
             if (questionData.answer.GetType() == typeof(Likert))
             {
@@ -24,6 +26,7 @@ namespace questionnaire
                 answer.transform.SetParent(this.transform,false);
                 answer.GetComponent<LikertScaleBehaviour>().Create((Likert) questionData.answer);
                 answer.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 100);
+                AnswerSpace = answer.GetComponent<AnswerSpaceBehaviour>();
             }
             else if (questionData.answer.GetType() == typeof(YesNo))
             {
@@ -31,6 +34,7 @@ namespace questionnaire
                 answer.transform.SetParent(this.transform, false);
                 answer.GetComponent<YesNoBehaviour>().Create((YesNo) questionData.answer);
                 answer.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 100);
+                AnswerSpace = answer.GetComponent<AnswerSpaceBehaviour>();
             }
 
         }

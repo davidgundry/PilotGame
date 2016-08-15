@@ -13,7 +13,7 @@ namespace questionnaire.answer
             buttonSpace.Create(new string[2] { "Yes", "No" });
         }
 
-        public override string answer()
+        public override string Answer()
         {
             return buttonSpace.SelectedLabel;
         }

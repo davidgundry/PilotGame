@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 using questionnaire.data;
 using menu;
 
@@ -9,6 +10,7 @@ namespace questionnaire
     {
         public GameObject questionSpace;
         public GameObject QuestionBoxPrefab;
+        public List<QuestionBoxBehaviour> QuestionBoxes { get; set; }
 
         public void Create(QuestionData[] questions)
         {
@@ -22,6 +24,7 @@ namespace questionnaire
                 questionBox.Create(question);
                 questionBox.transform.SetParent(questionSpace.transform, false);
                 questionBox.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, inset, size);
+                QuestionBoxes.Add(questionBox);
                 inset += size + padding;
             }
         }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using menu;
 using questionnaire.data;
+using experiment;
 
 namespace questionnaire
 {
@@ -11,16 +12,20 @@ namespace questionnaire
         public GameObject questionnairePanePrefab;
         public UIPane startingPane;
         public UIPane endingPane;
+        private List<UIPane> paneList;
+
+        private ExperimentController experimentController;
 
         void Start()
         {
+            experimentController = GameObject.FindObjectOfType<ExperimentController>();
             Create();
         }
 
         void Create()
         {
             UIPanTransition panTransition = GetComponent<UIPanTransition>();
-            List<UIPane> paneList = new List<UIPane>();
+            paneList = new List<UIPane>();
 
             QuestionData[] questionData = new QuestionData[21]
             {
@@ -87,7 +92,24 @@ namespace questionnaire
 
         public void SubmitButton()
         {
+            SaveQuestionnaireData();
             Application.LoadLevel("experiment-end");
+        }
+
+        private void SaveQuestionnaireData()
+        {
+            foreach (UIPane pane in paneList)
+            {
+                QuestionnairePane qPane = pane as QuestionnairePane;
+                if (qPane != null)
+                {
+                    foreach (QuestionBoxBehaviour box in qPane.QuestionBoxes)
+                    {
+                        experimentController.Telemetry.UpdateUserData(box.Question, box.AnswerSpace.Answer());
+                    }
+                }
+            }
+            experimentController.Telemetry.UploadBacklogOfUserData();
         }
     }
 }

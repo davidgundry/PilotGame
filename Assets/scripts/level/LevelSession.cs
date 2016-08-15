@@ -47,7 +47,6 @@ namespace level
 
         private ExperimentController experimentController;
         private MicrophoneInput microphoneInput;
-        private int syllablesDetectedDuringPlay;
 
         void Awake()
         {
@@ -83,7 +82,7 @@ namespace level
                 microphoneInput.OnSyllablePeak += delegate()
                 {
                     if (levelSessionState == LevelSessionState.Playing)
-                        syllablesDetectedDuringPlay++;
+                        experimentController.SyllablesDetectedDuringPlay++;
                 };
             }
         }
@@ -97,7 +96,8 @@ namespace level
                     experimentController.Telemetry.SendStreamValue(LevelStream.Timer, timer.Time);
                     experimentController.Telemetry.SendStreamValue(LevelStream.MicrophoneInput, microphoneInput.Level);
                     experimentController.Telemetry.SendStreamValue(LevelStream.MicrophonePitch, microphoneInput.Pitch);
-                    experimentController.Telemetry.SendStreamValue(LevelStream.MicrophoneSyllables, syllablesDetectedDuringPlay);
+                    experimentController.Telemetry.SendStreamValue(LevelStream.MicrophoneSyllables, experimentController.SyllablesDetectedDuringPlay);
+                    experimentController.Telemetry.SendFrame();
                 }
             }
         }

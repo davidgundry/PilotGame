@@ -6,16 +6,15 @@ namespace experiment
 {
     public static class ExperimentEvent
     {
-        public const string ExperimentStart = "ES";
-        public const string ExperimentEnd = "EE";
-        public const string MenuShown = "MS";
-        public const string LoaderShown = "LS";
-        public const string LevelShown = "LvlS";
+        public const string ExperimentStart = "ExperimentStart";
+        public const string ExperimentEnd = "ExperimentEnd";
+        
     }
 
     public static class ExperimentKeys
     {
-        public const string LevelLoaded = "ll";
+        public const string LevelLoaded = "LevelLoaded";
+        public const string SceneLoaded = "SceneLoaded";
     }
 
     [RequireComponent(typeof(TelemetryMonitor))]
@@ -24,8 +23,11 @@ namespace experiment
         private TelemetryMonitor telemetryMonitor;
         public Telemetry Telemetry { get { return telemetryMonitor.Telemetry; } }
         public string DataKey { get { if (Telemetry.Exists) return telemetryMonitor.GetKey(); else return null; } }
-
+        public int SyllablesDetectedDuringPlay { get; set; }
+        
         private const string remoteURL = "";
+
+
 
         void Awake()
         {
@@ -42,18 +44,7 @@ namespace experiment
         void OnLevelWasLoaded()
         {
             if (Telemetry.Exists)
-                switch (Application.loadedLevelName)
-                {
-                    case "main":
-                        Telemetry.SendEvent(ExperimentEvent.LevelShown);
-                        break;
-                    case "main-menu":
-                        Telemetry.SendEvent(ExperimentEvent.MenuShown);
-                        break;
-                    case "load":
-                        Telemetry.SendEvent(ExperimentEvent.LoaderShown);
-                        break;
-                }
+                Telemetry.SendKeyValuePair(experiment.ExperimentKeys.SceneLoaded, Application.loadedLevelName);
         }
 
         private void ConfigureTelemetry()
