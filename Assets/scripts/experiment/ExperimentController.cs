@@ -11,7 +11,11 @@ namespace experiment
         public const string MenuShown = "MS";
         public const string LoaderShown = "LS";
         public const string LevelShown = "LvlS";
+    }
 
+    public static class ExperimentKeys
+    {
+        public const string LevelLoaded = "ll";
     }
 
     [RequireComponent(typeof(TelemetryMonitor))]

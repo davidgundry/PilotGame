@@ -523,6 +523,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1860810693}
   - 114: {fileID: 1860810694}
+  - 114: {fileID: 1860810695}
   m_Layer: 0
   m_Name: ExperimentController
   m_TagString: Untagged
@@ -553,6 +554,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da6ee098ae866d469bb6f3dc32a7308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1860810695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1860810692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f25b23af6b45b4ba757490f6c70d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showLogging: 0
 --- !u!1 &1915757972
 GameObject:
   m_ObjectHideFlags: 0

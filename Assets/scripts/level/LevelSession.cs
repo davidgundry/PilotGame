@@ -6,6 +6,9 @@ using player.data;
 using menu;
 using menu.inlevel;
 using hud;
+using experiment;
+using experiment.level;
+using MicTools;
 
 namespace level
 {
@@ -25,8 +28,11 @@ namespace level
 
         public GameObject HoopPrefab;
         public GameObject PlayerPrefab;
+
         public ParticleSystem splashParticleSystem;
+        public ParticleSystem SplashParticleSystem { get { return splashParticleSystem; } }
         public Material waterLineMaterial;
+        public Material WaterLineMaterial { get { return waterLineMaterial; } }
 
         private GameController gameController;
         private PlayerLevelData playerLevelData;
@@ -39,7 +45,9 @@ namespace level
         public LevelListData CurrentLevelListData { get { return gameController.CurrentLevel; } }
         public StarScore CurrentLevelStarScore { get { if (gameController.CurrentLevel.PlayerLevelRecord != null) return gameController.CurrentLevel.PlayerLevelRecord.starScore; else return StarScore.scores[0]; } }
 
-
+        private ExperimentController experimentController;
+        private MicrophoneInput microphoneInput;
+        private int syllablesDetectedDuringPlay;
 
         void Awake()
         {
@@ -62,18 +70,53 @@ namespace level
             levelData = LoadLevel("levels/" + gameController.CurrentLevel.filename);
             CreateLevel(levelData);
             StartCoroutine(ShowIntroMenu(levelData));
+            InitialiseExperimentLogging();
+        }
+
+        private void InitialiseExperimentLogging()
+        {
+            experimentController = GameObject.FindObjectOfType<ExperimentController>();
+            if (experimentController != null)
+            {
+                experimentController.Telemetry.SendKeyValuePair(experiment.ExperimentKeys.LevelLoaded, gameController.CurrentLevel.filename);
+                microphoneInput = GameObject.FindObjectOfType<MicrophoneInput>();
+                microphoneInput.OnSyllablePeak += delegate()
+                {
+                    if (levelSessionState == LevelSessionState.Playing)
+                        syllablesDetectedDuringPlay++;
+                };
+            }
+        }
+
+        private void ExperimentLogging()
+        {
+            if (experimentController != null)
+            {
+                if (levelSessionState == LevelSessionState.Playing)
+                {
+                    experimentController.Telemetry.SendStreamValue(LevelStream.Timer, timer.Time);
+                    experimentController.Telemetry.SendStreamValue(LevelStream.MicrophoneInput, microphoneInput.Level);
+                    experimentController.Telemetry.SendStreamValue(LevelStream.MicrophonePitch, microphoneInput.Pitch);
+                    experimentController.Telemetry.SendStreamValue(LevelStream.MicrophoneSyllables, syllablesDetectedDuringPlay);
+                }
+            }
         }
 
         void Update()
         {
             if (Input.GetKeyDown("p"))
                 Pause();
+
+            ExperimentLogging();
         }
 
         public void CrossedFinishLine()
         {
             if (levelSessionState != LevelSessionState.End)
             {
+                if (experimentController != null)
+                    experimentController.Telemetry.SendEvent(LevelEvent.CrossedFinishLine);
+
                 timer.ClockRunning = false;
                 SetPlayerEndTime();
                 playerLevelData.LevelResult = LevelResult.Complete;
@@ -88,6 +131,9 @@ namespace level
         {
             if (levelSessionState != LevelSessionState.End)
             {
+                if (experimentController != null)
+                    experimentController.Telemetry.SendEvent(LevelEvent.FellOffBottomOfScreen);
+
                 timer.ClockRunning = false;
                 SetPlayerEndTime();
                 playerLevelData.LevelResult = LevelResult.FellOffBottom;
@@ -100,6 +146,9 @@ namespace level
         {
             if (levelSessionState != LevelSessionState.End)
             {
+                if (experimentController != null)
+                    experimentController.Telemetry.SendEvent(LevelEvent.GeomCrash);
+
                 timer.ClockRunning = false;
                 SetPlayerEndTime();
                 playerLevelData.LevelResult = LevelResult.Crash;
@@ -112,6 +161,9 @@ namespace level
         {
             if (levelSessionState != LevelSessionState.End)
             {
+                if (experimentController != null)
+                    experimentController.Telemetry.SendEvent(LevelEvent.OceanCrash);
+
                 timer.ClockRunning = false;
                 SetPlayerEndTime();
                 playerLevelData.LevelResult = LevelResult.Sunk;
@@ -178,6 +230,9 @@ namespace level
 
         private IEnumerator ShowIntroMenu(LevelData levelData)
         {
+            if (experimentController != null)
+                experimentController.Telemetry.SendEvent(LevelEvent.ShowIntroMenu);
+
             levelSessionState = LevelSessionState.Intro;
             inGameMenu.InGameMenu = new LevelIntroMenu(levelData);
             FreezePlay(true);
@@ -185,12 +240,18 @@ namespace level
             inGameMenu.Destroy();
             FreezePlay(false);
             levelSessionState = LevelSessionState.Playing;
+
+            if (experimentController != null)
+                experimentController.Telemetry.SendEvent(LevelEvent.HideIntroMenu);
         }
 
         private IEnumerator ShowEndMenu(PlayerLevelData playerLevelData)
         {
             yield return new WaitForSeconds(1);
             levelEndMenu.Create(playerLevelData, levelData, gameController.CurrentLevel.PlayerLevelRecord);
+            if (experimentController != null)
+                experimentController.Telemetry.SendEvent(LevelEvent.ShowEndMenu);
+
             yield return new WaitForSeconds(1);
             FreezePlay(true);
         }
@@ -199,6 +260,9 @@ namespace level
         {
             yield return new WaitForSeconds(1);
             inGameMenu.InGameMenu = new LevelFailedMenu(playerLevelData);
+            if (experimentController != null)
+                experimentController.Telemetry.SendEvent(LevelEvent.ShowFailedMenu);
+
             yield return new WaitForSeconds(1);
             FreezePlay(true);
         }
@@ -211,6 +275,9 @@ namespace level
 
         private void EnPause()
         {
+            if (experimentController != null)
+                experimentController.Telemetry.SendEvent(LevelEvent.EnPause);
+
             levelSessionState = LevelSessionState.Paused;
             levelBehaviour.FreezePlay(true);
             inGameMenu.InGameMenu = new PauseMenu();
@@ -219,21 +286,16 @@ namespace level
 
         private void UnPause()
         {
+            if (experimentController != null)
+                experimentController.Telemetry.SendEvent(LevelEvent.UnPause);
+
             levelSessionState = LevelSessionState.Playing;
             levelBehaviour.FreezePlay(false);
             inGameMenu.Destroy();
             timer.ClockRunning = true;
         }
 
-        public ParticleSystem SplashParticleSystem()
-        {
-            return splashParticleSystem;
-        }
 
-        public Material WaterLineMaterial()
-        {
-            return waterLineMaterial;
-        }
 
     }
 }

@@ -5,12 +5,15 @@ using MicTools;
 
 namespace MicTools
 {
+public delegate void SyllableDetectedHandler();
+
 [RequireComponent(typeof(MicrophoneController))]
 [AddComponentMenu("MicrophoneTools/MicrophoneInput")]
 public class MicrophoneInput : MonoBehaviour
 {
-    public float pitch;
+    public float Pitch {get; set;}
     public int syllableCount;
+    public event SyllableDetectedHandler OnSyllablePeak;
 
     private MicrophoneController microphoneController;
     private Yin yin;
@@ -48,12 +51,13 @@ public class MicrophoneInput : MonoBehaviour
         float[] window = microphoneController.GetMostRecentSamples(SyllableDetectionAlgorithm.windowSize);
             
         if (yin != null)
-            pitch = yin.getPitch(window);
+            Pitch = yin.getPitch(window);
 
         if (syllableDetectionAlgorithm != null)
             if (syllableDetectionAlgorithm.Run(window, Time.deltaTime))
             {
-                gameObject.SendMessage("OnSoundEvent", SoundEvent.SyllablePeak, SendMessageOptions.DontRequireReceiver);
+                //gameObject.SendMessage("OnSoundEvent", SoundEvent.SyllablePeak, SendMessageOptions.DontRequireReceiver);
+                OnSyllablePeak.Invoke();
                 syllableCount++;
             }
     }

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using MicTools;
+using experiment;
+using experiment.level;
 
 namespace player.behaviour
 {
@@ -10,9 +12,11 @@ namespace player.behaviour
     {
 
         MicrophoneInput microphoneInput;
+        ExperimentController experimentController;
 
         void Awake()
         {
+            experimentController = GameObject.FindObjectOfType<ExperimentController>();
             microphoneInput = GetComponent<MicrophoneInput>();
         }
 
