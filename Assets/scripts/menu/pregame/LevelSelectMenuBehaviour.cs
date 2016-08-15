@@ -23,7 +23,7 @@ namespace menu.pregame
             if (gameController == null)
             {
                 Debug.LogError("No GameController found. This is probably because you are running the game without loading from the first menu. Trying to instantiate a new Game Controller");
-                gameController = GameObject.Instantiate<GameController>(Resources.Load<GameController>("prefabs/gameController"));
+                gameController = GameObject.Instantiate<GameController>(Resources.Load<GameController>("GameController"));
             }
         }
 

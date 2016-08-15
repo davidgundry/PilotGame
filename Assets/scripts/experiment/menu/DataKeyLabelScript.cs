@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using experiment;
 
-namespace menu.experiment
+namespace experiment.menu
 {
     [RequireComponent(typeof(Text))]
     public class DataKeyLabelScript : MonoBehaviour
@@ -11,7 +12,7 @@ namespace menu.experiment
             ExperimentController experimentController = GameObject.FindObjectOfType<ExperimentController>();
             if (experimentController != null)
             {
-                GetComponent<Text>().text = "Data Key: " + experimentController.DataKey();
+                GetComponent<Text>().text = "Data Key: " + experimentController.DataKey;
             }
             else
             {

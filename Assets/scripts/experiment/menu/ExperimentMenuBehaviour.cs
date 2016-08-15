@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using menu;
 
-namespace menu.experiment
+namespace experiment.menu
 {
     public class ExperimentMenuBehaviour : MonoBehaviour
     {
