@@ -181,7 +181,7 @@ namespace level
             levelSessionState = LevelSessionState.Intro;
             inGameMenu.InGameMenu = new LevelIntroMenu(levelData);
             FreezePlay(true);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
             inGameMenu.Destroy();
             FreezePlay(false);
             levelSessionState = LevelSessionState.Playing;
