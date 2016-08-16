@@ -109,7 +109,7 @@ namespace questionnaire
                     }
                 }
             }
-            experimentController.Telemetry.UploadBacklogOfUserData();
+            experimentController.Telemetry.UploadCurrentUserData();
         }
     }
 }

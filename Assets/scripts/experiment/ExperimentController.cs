@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TelemetryTools;
+using TelemetryTools.Behaviour;
 
 namespace experiment
 {
@@ -17,12 +18,12 @@ namespace experiment
         public const string SceneLoaded = "SceneLoaded";
     }
 
-    [RequireComponent(typeof(TelemetryMonitor))]
+    [RequireComponent(typeof(TelemetryController))]
     public class ExperimentController : MonoBehaviour
     {
-        private TelemetryMonitor telemetryMonitor;
+        private TelemetryController telemetryMonitor;
         public Telemetry Telemetry { get { return telemetryMonitor.Telemetry; } }
-        public string DataKey { get { if (Telemetry.Exists) return telemetryMonitor.GetKey(); else return null; } }
+        public string DataKey { get { if (Telemetry != null) return telemetryMonitor.GetKey(); else return null; } }
         public int SyllablesDetectedDuringPlay { get; set; }
         
         private const string remoteURL = "";
@@ -32,7 +33,7 @@ namespace experiment
         void Awake()
         {
             DontDestroyOnLoad(this);
-            telemetryMonitor = GetComponent<TelemetryMonitor>();
+            telemetryMonitor = GetComponent<TelemetryController>();
         }
 
         void Start()
@@ -43,13 +44,14 @@ namespace experiment
 
         void OnLevelWasLoaded()
         {
-            if (Telemetry.Exists)
+            if (Telemetry != null)
                 Telemetry.SendKeyValuePair(experiment.ExperimentKeys.SceneLoaded, Application.loadedLevelName);
         }
 
         private void ConfigureTelemetry()
         {
-            Telemetry.Create();
+            Telemetry Telemetry = new Telemetry();
+            telemetryMonitor.Telemetry = Telemetry;
             telemetryMonitor.SetRemoteURLs(remoteURL);
             Telemetry.KeyManager.ReuseOrCreateKey();
         }
