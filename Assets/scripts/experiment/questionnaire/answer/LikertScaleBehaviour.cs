@@ -11,7 +11,7 @@ namespace questionnaire.answer
         public Text rightLabelText;
         public ButtonSpaceBehaviour buttonSpace;
 
-        public void Create(Likert liketScale)
+        public void Create(LikertData liketScale)
         {
             buttonSpace.Create(liketScale.scaleLength);
             leftLabelText.text = liketScale.labelLeft;

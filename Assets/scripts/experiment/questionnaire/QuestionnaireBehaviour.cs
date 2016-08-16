@@ -29,30 +29,30 @@ namespace questionnaire
 
             QuestionData[] questionData = new QuestionData[21]
             {
-                new QuestionData("Have you played this game before?", new YesNo()),
-                new QuestionData("How familiar are you with similar games?", new Likert(5,"Not at all","Very familiar")),
-                new QuestionData("Were there other people nearby when you were playing?", new  YesNo()),
-                new QuestionData("Were you interrupted while playing?", new  YesNo()),
-                new QuestionData("Were you listening to music or other audio (besides in-game audio) while playing?", new  YesNo()),
-                new QuestionData("Do you have a microphone?", new  YesNo()),
+                new QuestionData("Have you played this game before?", new YesNoData()),
+                new QuestionData("How familiar are you with similar games?", new LikertData(5,"Not at all","Very familiar")),
+                new QuestionData("Were there other people nearby when you were playing?", new  YesNoData()),
+                new QuestionData("Were you interrupted while playing?", new  YesNoData()),
+                new QuestionData("Were you listening to music or other audio (besides in-game audio) while playing?", new  YesNoData()),
+                new QuestionData("Do you have a microphone?", new  YesNoData()),
 
-                new QuestionData("How noisy would you say that your environment was?", new Likert(5,"No Noise","Lots of Noise")),
-                new QuestionData("How worried were you about other people overhearing you when you were playing the game?", new Likert(5,"Not at all","Very worried")),
-                new QuestionData("How loud were you when playing the game?", new Likert(5,"Very quiet","Very loud")),
-                new QuestionData("To what extent were you worried about what you said being recorded?", new Likert(5,"Not at all","Very worried")),
-                new QuestionData("To what extent were you speaking naturally?", new Likert(5,"Not at all","Very much so")),
+                new QuestionData("How noisy would you say that your environment was?", new LikertData(5,"No Noise","Lots of Noise")),
+                new QuestionData("How worried were you about other people overhearing you when you were playing the game?", new LikertData(5,"Not at all","Very worried")),
+                new QuestionData("How loud were you when playing the game?", new LikertData(5,"Very quiet","Very loud")),
+                new QuestionData("To what extent were you worried about what you said being recorded?", new LikertData(5,"Not at all","Very worried")),
+                new QuestionData("To what extent were you speaking naturally?", new LikertData(5,"Not at all","Very much so")),
 
-                new QuestionData("How noisy would you say that your environment was?", new Likert(5,"No Noise","Lots of Noise")),
-                new QuestionData("How worried were you about other people overhearing you when you were playing the game?", new Likert(5,"Not at all","Very worried")),
-                new QuestionData("How loud were you when playing the game?", new Likert(5,"Very quiet","Very loud")),
-                new QuestionData("To what extent were you worried about what you said being recorded?", new Likert(5,"Not at all","Very worried")),
-                new QuestionData("To what extent were you speaking naturally?", new Likert(5,"Not at all","Very much so")),
+                new QuestionData("How noisy would you say that your environment was?", new LikertData(5,"No Noise","Lots of Noise")),
+                new QuestionData("How worried were you about other people overhearing you when you were playing the game?", new LikertData(5,"Not at all","Very worried")),
+                new QuestionData("How loud were you when playing the game?", new LikertData(5,"Very quiet","Very loud")),
+                new QuestionData("To what extent were you worried about what you said being recorded?", new LikertData(5,"Not at all","Very worried")),
+                new QuestionData("To what extent were you speaking naturally?", new LikertData(5,"Not at all","Very much so")),
 
-                new QuestionData("How noisy would you say that your environment was?", new Likert(5,"No Noise","Lots of Noise")),
-                new QuestionData("How worried were you about other people overhearing you when you were playing the game?", new Likert(5,"Not at all","Very worried")),
-                new QuestionData("How loud were you when playing the game?", new Likert(5,"Very quiet","Very loud")),
-                new QuestionData("To what extent were you worried about what you said being recorded?", new Likert(5,"Not at all","Very worried")),
-                new QuestionData("To what extent were you speaking naturally?", new Likert(5,"Not at all","Very much so"))
+                new QuestionData("How noisy would you say that your environment was?", new LikertData(5,"No Noise","Lots of Noise")),
+                new QuestionData("How worried were you about other people overhearing you when you were playing the game?", new LikertData(5,"Not at all","Very worried")),
+                new QuestionData("How loud were you when playing the game?", new LikertData(5,"Very quiet","Very loud")),
+                new QuestionData("To what extent were you worried about what you said being recorded?", new LikertData(5,"Not at all","Very worried")),
+                new QuestionData("To what extent were you speaking naturally?", new LikertData(5,"Not at all","Very much so"))
             };
 
 

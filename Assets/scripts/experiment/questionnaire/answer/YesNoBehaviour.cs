@@ -8,7 +8,7 @@ namespace questionnaire.answer
     {
         public ButtonSpaceBehaviour buttonSpace;
 
-        public void Create(YesNo yesNo)
+        public void Create(YesNoData yesNo)
         {
             buttonSpace.Create(new string[2] { "Yes", "No" });
         }

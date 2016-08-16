@@ -20,19 +20,19 @@ namespace questionnaire
             questionText.text = questionData.question;
             Question = questionData.question;
 
-            if (questionData.answer.GetType() == typeof(Likert))
+            if (questionData.answer.GetType() == typeof(LikertData))
             {
                 GameObject answer = Instantiate(likertPrefab);
                 answer.transform.SetParent(this.transform,false);
-                answer.GetComponent<LikertScaleBehaviour>().Create((Likert) questionData.answer);
+                answer.GetComponent<LikertScaleBehaviour>().Create((LikertData) questionData.answer);
                 answer.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 100);
                 AnswerSpace = answer.GetComponent<AnswerSpaceBehaviour>();
             }
-            else if (questionData.answer.GetType() == typeof(YesNo))
+            else if (questionData.answer.GetType() == typeof(YesNoData))
             {
                 GameObject answer = Instantiate(yesNoPrefab);
                 answer.transform.SetParent(this.transform, false);
-                answer.GetComponent<YesNoBehaviour>().Create((YesNo) questionData.answer);
+                answer.GetComponent<YesNoBehaviour>().Create((YesNoData) questionData.answer);
                 answer.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 100);
                 AnswerSpace = answer.GetComponent<AnswerSpaceBehaviour>();
             }
