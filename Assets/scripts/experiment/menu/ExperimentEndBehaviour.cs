@@ -30,7 +30,7 @@ namespace experiment.menu
             {
                 yield return new WaitForSeconds(0.2f);
                 uploadBar.SetRemainingCachedFiles(experimentController.Telemetry.CachedFiles);
-                if (experimentController.Telemetry.CachedFiles == 0)
+                if (experimentController.Telemetry.AllDataUploaded())
                     done = true;
             }
             async.allowSceneActivation = true;

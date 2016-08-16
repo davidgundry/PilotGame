@@ -16,16 +16,14 @@ namespace experiment.menu
 
         public void SetRemainingCachedFiles(int count)
         {
-            SetProportion(count / (float) startingCachedFiles);
+            SetFilledProportion(count / (float) startingCachedFiles);
         }
 
-        public void SetProportion(float proportion)
+        private void SetFilledProportion(float proportion)
         {
             float fullWidth = GetComponent<RectTransform>().rect.width;
             RectTransform rt = proportionCompleteBar.GetComponent<RectTransform>();
-            float width = 0;
-
-            width = proportion * fullWidth;
+            float width = proportion * fullWidth;
             rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, width);
         }
     }
