@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using menu;
 
@@ -8,9 +9,11 @@ namespace experiment.menu
     {
         public UploadBar uploadBar;
         private ExperimentController experimentController;
+        public Text connectionInfoText;
 
         void Start()
         {
+            connectionInfoText.text = "";
             AsyncOperation async = Application.LoadLevelAsync("main-menu");
             async.allowSceneActivation = false;
 
@@ -22,19 +25,26 @@ namespace experiment.menu
                 StartCoroutine(UpdateProgress(async));
             }
             else
-                async.allowSceneActivation = true;
+                ReadyToLeaveScene(async);
         }
 
         private IEnumerator UpdateProgress(AsyncOperation async)
         {
+            connectionInfoText.text = "Uploading data...";
             bool done = false;
             while (!done)
             {
                 yield return new WaitForSeconds(0.2f);
                 uploadBar.SetRemainingCachedFiles(experimentController.Telemetry.CachedFiles);
-                if (experimentController.Telemetry.AllDataUploaded())
+                if (experimentController.Telemetry.IsAllDataUploaded())
                     done = true;
             }
+            ReadyToLeaveScene(async);
+        }
+
+        private void ReadyToLeaveScene(AsyncOperation async)
+        {
+            GameObject.Destroy(experimentController);
             async.allowSceneActivation = true;
         }
     }

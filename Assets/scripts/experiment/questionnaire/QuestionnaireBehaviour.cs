@@ -105,11 +105,11 @@ namespace questionnaire
                 {
                     foreach (QuestionBoxBehaviour box in qPane.QuestionBoxes)
                     {
-                        experimentController.Telemetry.UpdateUserData(box.Question, box.AnswerSpace.Answer());
+                        experimentController.Telemetry.AddOrUpdateUserDataKeyValue(box.Question, box.AnswerSpace.Answer());
                     }
                 }
             }
-            experimentController.Telemetry.UploadCurrentUserData();
+            experimentController.Telemetry.UploadOrSaveCurrentUserData();
         }
     }
 }
