@@ -21,9 +21,9 @@ namespace experiment
     [RequireComponent(typeof(TelemetryController))]
     public class ExperimentController : MonoBehaviour
     {
-        private TelemetryController telemetryMonitor;
-        public Telemetry Telemetry { get { return telemetryMonitor.Telemetry; } }
-        public string DataKey { get { if (Telemetry != null) return telemetryMonitor.GetKey(); else return null; } }
+        private TelemetryController telemetryController;
+        public Telemetry Telemetry { get { return telemetryController.Telemetry; } }
+        public string DataKey { get { if (Telemetry != null) return telemetryController.GetKey(); else return null; } }
         public int SyllablesDetectedDuringPlay { get; set; }
         
         private const string remoteURL = "";
@@ -33,7 +33,7 @@ namespace experiment
         void Awake()
         {
             DontDestroyOnLoad(this);
-            telemetryMonitor = GetComponent<TelemetryController>();
+            telemetryController = GetComponent<TelemetryController>();
         }
 
         void Start()
@@ -50,9 +50,9 @@ namespace experiment
 
         private void ConfigureTelemetry()
         {
-            Telemetry Telemetry = new Telemetry();
-            telemetryMonitor.Telemetry = Telemetry;
-            telemetryMonitor.SetRemoteURLs(remoteURL);
+            Telemetry Telemetry = new Telemetry(telemetryController.FileAccessor);
+            telemetryController.Telemetry = Telemetry;
+            telemetryController.SetRemoteURLs(remoteURL);
             Telemetry.KeyManager.ReuseOrCreateKey();
         }
         
