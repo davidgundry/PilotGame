@@ -98,18 +98,21 @@ namespace questionnaire
 
         private void SaveQuestionnaireData()
         {
-            foreach (UIPane pane in paneList)
+            if (experimentController != null)
             {
-                QuestionnairePane qPane = pane as QuestionnairePane;
-                if (qPane != null)
+                foreach (UIPane pane in paneList)
                 {
-                    foreach (QuestionBoxBehaviour box in qPane.QuestionBoxes)
+                    QuestionnairePane qPane = pane as QuestionnairePane;
+                    if (qPane != null)
                     {
-                        experimentController.Telemetry.AddOrUpdateUserDataKeyValue(box.Question, box.AnswerSpace.Answer());
+                        foreach (QuestionBoxBehaviour box in qPane.QuestionBoxes)
+                        {
+                            experimentController.Telemetry.AddOrUpdateUserDataKeyValue(box.Question, box.AnswerSpace.Answer());
+                        }
                     }
                 }
+                experimentController.Telemetry.UploadOrSaveCurrentUserData();
             }
-            experimentController.Telemetry.UploadOrSaveCurrentUserData();
         }
     }
 }
