@@ -176,10 +176,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 27089276}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53ab21f859c48df45ad3532cdcc5e508, type: 3}
+  m_Script: {fileID: 11500000, guid: 1969714e695614f4181acd6fc9d0874a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitingBar: {fileID: 0}
+  uploadBar: {fileID: 243794358}
 --- !u!4 &27089278
 Transform:
   m_ObjectHideFlags: 0
@@ -279,6 +279,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 211889174}
+--- !u!114 &243794358 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11472104, guid: 6b71bbbf73d22e242809b44642611e1a,
+    type: 2}
+  m_PrefabInternal: {fileID: 357200262}
+  m_Script: {fileID: 11500000, guid: b71818889de9fca41b56cfd077d90f71, type: 3}
 --- !u!1001 &357200262
 Prefab:
   m_ObjectHideFlags: 0

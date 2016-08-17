@@ -11,16 +11,18 @@ namespace experiment.menu
 
         void Start()
         {
+            AsyncOperation async = Application.LoadLevelAsync("main-menu");
+            async.allowSceneActivation = false;
+
             experimentController = GameObject.FindObjectOfType<ExperimentController>();
             if (experimentController != null)
             {
                 experimentController.ExperimentEnd();
+                uploadBar.SetStartingCachedFiles(experimentController.Telemetry.CachedFiles);
+                StartCoroutine(UpdateProgress(async));
             }
-
-            AsyncOperation async = Application.LoadLevelAsync("main-menu");
-            async.allowSceneActivation = false;
-            uploadBar.SetStartingCachedFiles(experimentController.Telemetry.CachedFiles);
-            StartCoroutine(UpdateProgress(async));
+            else
+                async.allowSceneActivation = true;
         }
 
         private IEnumerator UpdateProgress(AsyncOperation async)
