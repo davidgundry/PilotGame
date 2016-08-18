@@ -32,7 +32,7 @@ namespace menu
             int percentage = (int)(proportionComplete * 100);
             childRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, fullWidth * proportionComplete);
             text.text = percentage + "%";
-            if (fullWidth * proportionComplete > textRect.rect.width)
+            if (fullWidth * proportionComplete > textRect.rect.width-5)
             {
                 textRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, textRect.rect.width);
                 text.alignment = TextAnchor.MiddleRight;

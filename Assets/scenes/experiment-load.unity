@@ -804,8 +804,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.20000005
-  m_Text: Thanks for taking part in the experiment. After 5 minutes, you will be asked
-    to complete a questionnaire.
+  m_Text: 
 --- !u!222 &1972264394
 CanvasRenderer:
   m_ObjectHideFlags: 0

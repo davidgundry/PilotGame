@@ -34,7 +34,7 @@ namespace experiment.menu
 
         public void ConsentButton()
         {
-            uiPanTransition.TransitionTo(3);
+            StartExperiment();
         }
     }   
 }

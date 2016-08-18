@@ -17,5 +17,15 @@ namespace menu.pregame
             waitingBar.StartWaitingBar(0);
         }
 
+        public void MicrophoneYesButton()
+        {
+
+        }
+
+        public void MicrophoneNoButton()
+        {
+
+        }
+
     }
 }

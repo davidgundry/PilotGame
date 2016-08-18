@@ -23,7 +23,7 @@ namespace experiment.menu
             { 
                 CheckMicrophone(async);
             };
-            waitingBar.StartWaitingBar(2);
+            waitingBar.StartWaitingBar(1f);
         }
 
         private void CheckMicrophone(AsyncOperation async)
@@ -44,7 +44,7 @@ namespace experiment.menu
 
         private IEnumerator AskMicrophoneAuthorisation()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.25f);
             Application.RequestUserAuthorization(UserAuthorization.Microphone);
         }
 
