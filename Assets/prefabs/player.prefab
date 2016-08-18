@@ -370,7 +370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bd64cd52edf504e945f00ea9c8cd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pitch: 0
   syllableCount: 0
 --- !u!114 &11420712
 MonoBehaviour:
@@ -383,7 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd720287d2053840ba3814c0cc3e8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  microphoneActive: 1
+  microphoneActive: 0
   logAudioData: 0
   testClip: {fileID: 0}
   saveDirectory: MicrophoneTools
@@ -2674,6 +2673,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: microphoneActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

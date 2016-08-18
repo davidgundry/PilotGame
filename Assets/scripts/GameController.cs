@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     public int SelectedLevelID { get; set; }
     public LevelListData SelectedLevel { get { return levelList[SelectedLevelID]; } }
 
+    public bool? UsingMicrophone { get; set; }
+
     public PlayerGameProgress PlayerGameProgress;
 
     void Awake()

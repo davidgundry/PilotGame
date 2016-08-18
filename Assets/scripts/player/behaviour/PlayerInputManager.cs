@@ -13,21 +13,41 @@ namespace player.behaviour
 
         MicrophoneInput microphoneInput;
         ExperimentController experimentController;
+        GameController gameController;
 
         void Awake()
         {
             experimentController = GameObject.FindObjectOfType<ExperimentController>();
             microphoneInput = GetComponent<MicrophoneInput>();
+            
+            gameController = GameObject.FindObjectOfType<GameController>();
+            MicrophoneController microphoneController = GetComponent<MicrophoneController>();
+            if (gameController.UsingMicrophone == false)
+            {
+                microphoneController.microphoneActive = false;
+                microphoneController.enabled = false;
+                microphoneInput.enabled = false;
+            }
+            else
+                microphoneController.microphoneActive = true;
         }
 
         public Vector2 PlayerForce(PlanePhysics planePhysics, float deltaTime)
         {
-            return KeyboardInput(planePhysics, deltaTime) + MicrophoneLevelInput(planePhysics,deltaTime);
+            if (gameController.UsingMicrophone == true)
+                return MicrophoneLevelInput(planePhysics, deltaTime);
+            else if (gameController.UsingMicrophone == false)
+                return KeyboardInput(planePhysics, deltaTime);
+            return MicrophoneLevelInput(planePhysics, deltaTime) + KeyboardInput(planePhysics, deltaTime);
         }
 
         public bool IsInput()
         {
-            return ((Input.GetKey("space")) || (microphoneInput.Level > 0.003f));
+            if (gameController.UsingMicrophone == true)
+                return (microphoneInput.Level > 0.003f);
+            else if (gameController.UsingMicrophone == false)
+                return (Input.GetKeyDown("space"));
+            return (microphoneInput.Level > 0.003f) || (Input.GetKeyDown("space"));
         }
 
         public float PlayerTurning()
@@ -56,8 +76,8 @@ namespace player.behaviour
 
         private Vector2 KeyboardInput(PlanePhysics planePhysics, float deltaTime)
         {
-            if (Input.GetKey("space"))
-                return (new Vector2(30000f, 0) * deltaTime);
+            if (Input.GetKeyDown("space"))
+                return (new Vector2(80000f, 0) * deltaTime);
             return new Vector2(0, 0);
         }
 

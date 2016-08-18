@@ -13,7 +13,7 @@ public class MicrophoneInput : MonoBehaviour
 {
     public float Pitch {get; set;}
     public int syllableCount;
-    public event SyllableDetectedHandler OnSyllablePeak;
+    public event SyllableDetectedHandler OnSyllablePeak = delegate { };
 
     private MicrophoneController microphoneController;
     private Yin yin;

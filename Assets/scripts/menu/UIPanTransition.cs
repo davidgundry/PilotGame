@@ -69,6 +69,16 @@ namespace menu
             }
         }
 
+        public void SkipTo(int paneID)
+        {
+            if ((paneID >= 0) && (paneID < panes.Length))
+            {
+                CurrentPane = paneID;
+                panes[paneID].Refresh();
+                StartCoroutine(Transition(paneID, 0f));
+            }
+        }
+
         private IEnumerator Transition(int paneID, float totalTime)
         {
             Vector2 origin = rt.localPosition;
