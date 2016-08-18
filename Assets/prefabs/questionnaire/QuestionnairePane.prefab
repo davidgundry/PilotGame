@@ -305,7 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBar: {fileID: 11442786}
   questionSpace: {fileID: 135542}
-  QuestionBoxPrefab: {fileID: 108760, guid: 316cc07d6bcee764a967603787243a93, type: 2}
+  questionBoxPrefab: {fileID: 108760, guid: 316cc07d6bcee764a967603787243a93, type: 2}
 --- !u!114 &11461716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -704,6 +704,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: QuestionBoxPrefab
+      value: 
+      objectReference: {fileID: 108760, guid: 316cc07d6bcee764a967603787243a93, type: 2}
+    - target: {fileID: 0}
+      propertyPath: questionBoxPrefab
       value: 
       objectReference: {fileID: 108760, guid: 316cc07d6bcee764a967603787243a93, type: 2}
     m_RemovedComponents: []

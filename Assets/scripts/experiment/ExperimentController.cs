@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿#if (!UNITY_WEBPLAYER)
+#define LOCALSAVEENABLED
+#endif
+
+
+using UnityEngine;
 using System.Collections;
 using TelemetryTools;
 using TelemetryTools.Behaviour;
@@ -50,7 +55,11 @@ namespace experiment
 
         private void ConfigureTelemetry()
         {
+#if LOCALSAVEENABLED
             Telemetry Telemetry = new Telemetry(telemetryController.FileAccessor);
+#else 
+            Telemetry Telemetry = new Telemetry();
+#endif
             telemetryController.Telemetry = Telemetry;
             telemetryController.SetRemoteURLs(remoteURL);
             Telemetry.KeyManager.ReuseOrCreateKey();
