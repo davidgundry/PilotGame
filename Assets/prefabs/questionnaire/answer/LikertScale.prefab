@@ -120,7 +120,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 172514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8dba32bb58bbf47a3d58d02e63aef9, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c21f025f22ec1942b369001d7e7aedd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   leftLabelText: {fileID: 11475214}
@@ -256,6 +256,18 @@ Prefab:
       propertyPath: m_FontData.m_FontSize
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: leftLabelText
+      value: 
+      objectReference: {fileID: 11475214}
+    - target: {fileID: 0}
+      propertyPath: rightLabelText
+      value: 
+      objectReference: {fileID: 11402660}
+    - target: {fileID: 0}
+      propertyPath: buttonSpace
+      value: 
+      objectReference: {fileID: 11423692}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 172514}

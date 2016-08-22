@@ -52,9 +52,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 143430}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d6a7d12acebd7d43ae9df4802ebf7d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c21f025f22ec1942b369001d7e7aedd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftLabelText: {fileID: 0}
+  rightLabelText: {fileID: 0}
   buttonSpace: {fileID: 11486490}
 --- !u!224 &22432870
 RectTransform:
@@ -126,6 +128,10 @@ Prefab:
       propertyPath: m_SizeDelta.x
       value: 944
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: buttonSpace
+      value: 
+      objectReference: {fileID: 11486490}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 143430}

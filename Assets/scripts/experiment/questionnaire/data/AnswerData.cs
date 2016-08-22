@@ -1,6 +1,7 @@
-﻿namespace questionnaire.data
+﻿using questionnaire.answer;
+namespace questionnaire.data
 {
-    public class AnswerData
+    public abstract class AnswerData
     {
 
     }

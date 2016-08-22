@@ -912,8 +912,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 1, y: .5}
   m_AnchorMax: {x: 1, y: .5}
-  m_AnchoredPosition: {x: -419, y: .00277519226}
-  m_SizeDelta: {x: 649, y: 150}
+  m_AnchoredPosition: {x: -285, y: .00277519226}
+  m_SizeDelta: {x: 380, y: 150}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &923895091
 MonoBehaviour:
@@ -1434,7 +1434,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: That's it! Questionnaire over.
+  m_Text: 'You''ve finished the questionnaire and the experiment! Now all that''s
+    left to do is to click ''submit''.
+
+
+    Thanks for helping my research, and supporting me to develop of future games.'
 --- !u!222 &1506253050
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1573,7 +1577,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Return to Game
+  m_Text: Submit
 --- !u!222 &1860165123
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1984,8 +1988,8 @@ MonoBehaviour:
   m_Text: 'Please now fill in the questionnaire.
 
 
-    Once you have done so, the experiment will be over. You can keep playing the game
-    if you like. You will be given this item as a reward:'
+    Once you have done so, the experiment will be over and you will be returned to
+    the game.'
 --- !u!222 &2080396323
 CanvasRenderer:
   m_ObjectHideFlags: 0

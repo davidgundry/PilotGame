@@ -1,16 +1,19 @@
 ﻿namespace questionnaire.data
 {
-    public class LikertData : AnswerData
+    public class LikertData : ButtonData
     {
-        public readonly int scaleLength;
-        public readonly string labelLeft;
-        public readonly string labelRight;
-
         public LikertData(int scaleLength, string labelLeft, string labelRight)
+            : base(ScaleOptions(scaleLength), labelLeft, labelRight)
         {
-            this.scaleLength = scaleLength;
-            this.labelLeft = labelLeft;
-            this.labelRight = labelRight;
+
+        }
+
+        private static string[] ScaleOptions(int scaleLength)
+        {
+            string[] options = new string[scaleLength];
+            for (int i=1;i<=scaleLength;i++)
+                options[i-1] = i.ToString();
+            return options;
         }
     }
 }

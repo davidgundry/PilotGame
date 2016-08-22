@@ -20,9 +20,14 @@ namespace experiment.menu
             experimentController = GameObject.FindObjectOfType<ExperimentController>();
             if (experimentController != null)
             {
-                experimentController.ExperimentEnd();
-                uploadBar.SetStartingCachedFiles(experimentController.Telemetry.CachedFiles);
-                StartCoroutine(UpdateProgress(async));
+                if (experimentController.AllDataUploaded())
+                    ReadyToLeaveScene(async);
+                else
+                {
+                    experimentController.ExperimentEnd();
+                    uploadBar.SetStartingCachedFiles(experimentController.Telemetry.CachedFiles);
+                    StartCoroutine(UpdateProgress(async));
+                }
             }
             else
                 ReadyToLeaveScene(async);
@@ -36,7 +41,7 @@ namespace experiment.menu
             {
                 yield return new WaitForSeconds(0.2f);
                 uploadBar.SetRemainingCachedFiles(experimentController.Telemetry.CachedFiles);
-                if (experimentController.Telemetry.IsAllDataUploaded())
+                if (experimentController.AllDataUploaded())
                     done = true;
             }
             ReadyToLeaveScene(async);

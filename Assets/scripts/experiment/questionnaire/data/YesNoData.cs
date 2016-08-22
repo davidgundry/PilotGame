@@ -1,12 +1,11 @@
 ﻿namespace questionnaire.data
 {
-    public class YesNoData : AnswerData
+    public class YesNoData : ButtonData
     {
-
-        public YesNoData()
+        private static readonly string[] options = new string[2] { "Yes", "No" };
+        public YesNoData() : base (options,"","")
         {
 
         }
-
     }
 }

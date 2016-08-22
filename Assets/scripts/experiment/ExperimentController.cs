@@ -73,6 +73,12 @@ namespace experiment
         public void ExperimentEnd()
         {
             Telemetry.SendEvent(ExperimentEvent.ExperimentEnd);
+            Telemetry.SendAllBuffered();
+        }
+
+        public bool AllDataUploaded()
+        {
+            return Telemetry.IsAllDataUploaded();
         }
 
     }

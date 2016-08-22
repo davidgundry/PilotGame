@@ -162,7 +162,7 @@ GameObject:
   - 4: {fileID: 27089278}
   - 114: {fileID: 27089277}
   m_Layer: 0
-  m_Name: ExperimentLoader
+  m_Name: ExperimentEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
