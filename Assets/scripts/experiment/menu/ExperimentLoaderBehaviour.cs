@@ -36,7 +36,7 @@ namespace experiment.menu
 
         private void CheckTelemetryKey(AsyncOperation async)
         {
-            if (!experimentController.Telemetry.KeyManager.CurrentKeyIsFetched)
+            if (!experimentController.Telemetry.CurrentKeyIsFetched)
                 StartCoroutine(WaitForTelemetryKey(async));
             else
                 LoadingDone(async);

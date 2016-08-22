@@ -55,14 +55,10 @@ namespace experiment
 
         private void ConfigureTelemetry()
         {
-#if LOCALSAVEENABLED
-            Telemetry Telemetry = new Telemetry(telemetryController.FileAccessor);
-#else 
-            Telemetry Telemetry = new Telemetry();
-#endif
+
+            Telemetry Telemetry = telemetryController.CreateTelemetry(remoteURL);
             telemetryController.Telemetry = Telemetry;
-            telemetryController.SetRemoteURLs(remoteURL);
-            Telemetry.KeyManager.ReuseOrCreateKey();
+            Telemetry.ReuseOrCreateKey();
         }
         
         public void ExperimentStart()
