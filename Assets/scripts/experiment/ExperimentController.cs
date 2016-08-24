@@ -56,7 +56,7 @@ namespace experiment
         private void ConfigureTelemetry()
         {
 
-            Telemetry Telemetry = telemetryController.CreateTelemetry(remoteURL);
+            Telemetry Telemetry = telemetryController.CreateTelemetry(new URL(remoteURL));
             telemetryController.Telemetry = Telemetry;
             Telemetry.ReuseOrCreateKey();
         }
