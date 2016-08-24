@@ -4,6 +4,7 @@
 	"length":200,
 	"height":25,
 	"playerStart":[10,6],
+	"targetTime":14,
 	"environment":
 	{
 		"wind":0.9,
@@ -164,12 +165,6 @@
 	],
 	"pickups":
 	[
-		{
-			"name":"oil1",
-			"type":"fuel",
-			"position":[127,4],
-			"rotation":0
-		},
 		{
 			"name":"coin1",
 			"type":"coin",

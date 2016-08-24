@@ -12,6 +12,7 @@ namespace level.data
         public readonly Vector2 playerStart;
         public readonly int coinCount;
         public readonly int pickupCount;
+        public readonly float targetTime;
 
         public readonly GeomData[] geomData;
         public readonly SpriteData[] spriteData;
@@ -35,6 +36,7 @@ namespace level.data
             this.pickupData = levelFileLoader.GetPickupData();
             this.hoopData = levelFileLoader.GetHoopData();
             this.environmentData = levelFileLoader.GetEnvironmentData();
+            this.targetTime = levelFileLoader.GetTargetTime();
 
             this.coinCount = CountCoins(this.pickupData);
             this.pickupCount = CountPickups(this.pickupData);

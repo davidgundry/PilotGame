@@ -8,13 +8,15 @@ namespace level.behaviours
     [RequireComponent(typeof(SpriteRenderer))]
     public class SpriteBehaviour : MonoBehaviour
     {
-
         private Vector3 Movement { get; set; }
+        private bool rock = false;
 
         public void Create(SpriteData spriteData)
         {
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = Resources.Load<Sprite>("sprites/" + spriteData.filePath);
+            if (spriteData.filePath == "balloon")
+                rock = true;
 
             transform.position = spriteData.position;
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, spriteData.rotation));
@@ -29,11 +31,16 @@ namespace level.behaviours
                 gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
             }
             gameObject.tag = "Sprite";
+
+            if (rock)
+                transform.Rotate(Vector3.forward, -7.5f);
         }
 
         void Update()
         {
             transform.position += Movement;
+            if (rock)
+                transform.Rotate(Vector3.forward, Mathf.Sin(Time.time*2)/6);
         }
 
         public void OnTriggerEnter2D(Collider2D collider)

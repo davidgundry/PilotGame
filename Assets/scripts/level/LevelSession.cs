@@ -28,6 +28,7 @@ namespace level
 
         public GameObject HoopPrefab;
         public GameObject PlayerPrefab;
+        public GameObject CoinPrefab;
 
         public ParticleSystem splashParticleSystem;
         public ParticleSystem SplashParticleSystem { get { return splashParticleSystem; } }
@@ -120,7 +121,8 @@ namespace level
                 timer.ClockRunning = false;
                 SetPlayerEndTime();
                 playerLevelData.LevelResult = LevelResult.Complete;
-                playerLevelData.StarScore = StarScoreCalculator.Calculate(levelData, playerLevelData);
+                StarScoreCalculator ssc = new StarScoreCalculator(levelData, playerLevelData);
+                playerLevelData.StarScore = ssc.GetScore();
                 levelSessionState = LevelSessionState.End;
                 UpdateLevelRecord();
                 StartCoroutine(ShowEndMenu(playerLevelData));

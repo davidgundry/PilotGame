@@ -76,6 +76,14 @@ namespace level
             return jsonNode["playerStart"].AsVector2();
         }
 
+        public float GetTargetTime()
+        {
+            if (jsonNode == null)
+                LoadAndParse();
+
+            return jsonNode["targetTime"].AsFloat;
+        }
+
 
         public GeomData[] GetGeomData()
         {

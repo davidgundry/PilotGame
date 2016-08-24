@@ -4,6 +4,7 @@
 	"length":145,
 	"height":30,
 	"playerStart":[20,6],
+	"targetTime":11,
 	"environment":
 	{
 		"wind":0.9,

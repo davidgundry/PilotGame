@@ -3,22 +3,49 @@ namespace player.data
 {
     public class StarScoreCalculator {
 
-        public static StarScore Calculate(LevelData levelData, PlayerLevelData playerLevelData)
+        private readonly LevelData levelData;
+        private readonly PlayerLevelData playerLevelData;
+
+        public StarScoreCalculator(LevelData levelData, PlayerLevelData playerLevelData)
         {
-            if (playerLevelData.Hoops < levelData.hoopCount)
-                return StarScore.scores[0];
-            if (levelData.coinCount == 0)
-                return StarScore.scores[3];
-
-            float coinProportion = playerLevelData.Coins / (float) levelData.coinCount;
-
-            if (coinProportion > 0.9)
-                return StarScore.scores[3];
-            else if (coinProportion > 0.4)
-                return StarScore.scores[2];
-
-            return StarScore.scores[1];
+            this.levelData = levelData;
+            this.playerLevelData = playerLevelData;
         }
 
+        public StarScore GetScore()
+        {
+            if ((AllHoops) && (AllCoins) && (InTime))
+                return StarScore.scores[3];
+            if ((AllHoops) && (AllCoins) && (!InTime))
+                return StarScore.scores[2];
+            if ((AllHoops) && (!AllCoins) && (!InTime))
+                return StarScore.scores[1];
+
+            return StarScore.scores[0];
+        }
+
+        private bool InTime
+        {
+            get
+            {
+                return playerLevelData.Time < levelData.targetTime;
+            }
+        }
+
+        private bool AllHoops
+        {
+            get
+            {
+                return playerLevelData.Hoops == levelData.hoopCount;
+            }
+        }
+
+        private bool AllCoins
+        {
+            get
+            {
+                return playerLevelData.Coins == levelData.coinCount;
+            }
+        }
     }
 }

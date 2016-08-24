@@ -118,19 +118,29 @@ namespace level
             return spriteBehaviours;
         }
 
-        private static PickupBehaviour[] CreatePickups(PickupData[] pickupData)
+        private PickupBehaviour[] CreatePickups(PickupData[] pickupData)
         {
             PickupBehaviour[] pickupBehaviours = new PickupBehaviour[pickupData.Length];
             GameObject pickupParent = new GameObject();
             pickupParent.name = "pickups";
             for (int i = 0; i < pickupData.Length; i++)
             {
-                GameObject g = new GameObject();
-                g.transform.parent = pickupParent.transform;
-                g.AddComponent<PickupBehaviour>();
-                g.GetComponent<PickupBehaviour>().Create(pickupData[i]);
-                g.name = pickupData[i].name;
-                pickupBehaviours[i] = g.GetComponent<PickupBehaviour>();
+                if (pickupData[i].pickupType == PickupType.Coin)
+                {
+                    GameObject g = Instantiate(levelSession.CoinPrefab);
+                    g.transform.SetParent(pickupParent.transform, false);
+                    g.transform.position = pickupData[i].position;
+                    g.name = pickupData[i].name;
+                }
+                else
+                {
+                    GameObject g = new GameObject();
+                    g.transform.parent = pickupParent.transform;
+                    g.AddComponent<PickupBehaviour>();
+                    g.GetComponent<PickupBehaviour>().Create(pickupData[i]);
+                    g.name = pickupData[i].name;
+                    pickupBehaviours[i] = g.GetComponent<PickupBehaviour>();
+                }
             }
             return pickupBehaviours;
         }
