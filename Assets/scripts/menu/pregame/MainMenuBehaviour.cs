@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace menu.pregame
 {
@@ -7,10 +8,17 @@ namespace menu.pregame
         GameController gameController;
         UIPanTransition uiPanTransition;
 
+        public Button levelsButton;
+
         void Start()
         {
             gameController = GameObject.FindObjectOfType<GameController>();
             uiPanTransition = GameObject.FindObjectOfType<UIPanTransition>();
+
+            if (gameController.UnlockedALevel)
+                levelsButton.interactable = true;
+            else
+                levelsButton.interactable = false;
         }
 
         public void StartGame()
@@ -21,7 +29,6 @@ namespace menu.pregame
         public void Levels()
         {
             uiPanTransition.TransitionTo(1);
-            //Application.LoadLevel("level-menu");
         }
 
         public override void Refresh()

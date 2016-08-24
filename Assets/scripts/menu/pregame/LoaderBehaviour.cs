@@ -6,9 +6,15 @@ namespace menu.pregame
 {
     public class LoaderBehaviour : MonoBehaviour
     {
-
         public WaitingBar waitingBar;
         UIPanTransition uiPanTransition;
+        public Button[] beginButtons;
+
+        public Button yesButton;
+        public Button noButtion;
+        public GameObject title;
+
+        private GameController gameController;
 
         private AsyncOperation async;
 
@@ -16,34 +22,36 @@ namespace menu.pregame
 
         void Start()
         {
-            GameController gameController = GameObject.FindObjectOfType<GameController>();
-            awaitingMicrophoneResponse = (gameController.UsingMicrophone == null);
-
+            gameController = GameObject.FindObjectOfType<GameController>();
             uiPanTransition = GameObject.FindObjectOfType<UIPanTransition>();
-            if (awaitingMicrophoneResponse)
-                uiPanTransition.SkipTo(0);
-            else
-                uiPanTransition.SkipTo(1);
 
-            async = Application.LoadLevelAsync("main");
-            async.allowSceneActivation = false;
-            waitingBar.OnComplete += delegate()
-            {
-                if (!awaitingMicrophoneResponse)
-                    ChangeScene();
-                else
-                    StartCoroutine(WaitForPlayerInput());
-            };
-            waitingBar.StartWaitingBar(0);
+            awaitingMicrophoneResponse = (gameController.UsingMicrophone == null);
+            waitingBar.gameObject.SetActive(false);
+            HideBeginButtons();
+            StartLevelLoading();
+
+            if (awaitingMicrophoneResponse)
+                StartCoroutine(WaitForPlayerMicChoice());
+            else
+                ShowControlsPane();
         }
 
-        private IEnumerator WaitForPlayerInput()
+        public void MicrophoneYesButton()
         {
-            while (awaitingMicrophoneResponse)
-            {
-                yield return new WaitForSeconds(0.1f);
-            }
-            waitingBar.StartWaitingBar(2);
+            gameController.UsingMicrophone = true;
+            Application.RequestUserAuthorization(UserAuthorization.Microphone);
+            HideChoiceButtonsAndTitle();
+        }
+
+        public void MicrophoneNoButton()
+        {
+            gameController.UsingMicrophone = false;
+            awaitingMicrophoneResponse = false;
+        }
+
+        public void BeginButton()
+        {
+            ChangeScene();
         }
 
         private void ChangeScene()
@@ -51,23 +59,79 @@ namespace menu.pregame
             async.allowSceneActivation = true;
         }
 
-        public void MicrophoneYesButton()
+        private IEnumerator WaitForPlayerMicChoice()
         {
-            GameController gameController = GameObject.FindObjectOfType<GameController>();
-            gameController.UsingMicrophone = true;
-            uiPanTransition.SkipTo(1);
-            awaitingMicrophoneResponse = false;
-            Application.RequestUserAuthorization(UserAuthorization.Microphone);
-
+            ShowMicQuestionPane();
+            while (awaitingMicrophoneResponse)
+            {
+                if (Application.HasUserAuthorization(UserAuthorization.Microphone))
+                    awaitingMicrophoneResponse = false;
+                    
+                yield return new WaitForSeconds(0.1f);
+            }
+            ShowControlsPane();
         }
 
-        public void MicrophoneNoButton()
+        private void StartWaitingBar()
         {
-            GameController gameController = GameObject.FindObjectOfType<GameController>();
-            gameController.UsingMicrophone = false;
-            uiPanTransition.SkipTo(2);
-            awaitingMicrophoneResponse = false;
+            waitingBar.gameObject.SetActive(true);
+            waitingBar.OnComplete += delegate()
+            {
+                waitingBar.gameObject.SetActive(false);
+                ShowBeginButtons();
+            };
+            waitingBar.StartWaitingBar(2);
         }
 
+        private void StartLevelLoading()
+        {
+            async = Application.LoadLevelAsync("main");
+            async.allowSceneActivation = false;
+        }
+
+        private void ShowControlsPane()
+        {
+            if (gameController.UsingMicrophone == true)
+                uiPanTransition.SkipTo(1);
+            else if (gameController.UsingMicrophone == false)
+                uiPanTransition.SkipTo(2);
+
+            StartWaitingBar();
+        }
+
+        private void ShowMicQuestionPane()
+        {
+            uiPanTransition.SkipTo(0);
+        }
+
+        private void HideChoiceButtonsAndTitle()
+        {
+            yesButton.gameObject.SetActive(false);
+            noButtion.gameObject.SetActive(false);
+            title.SetActive(false);
+        }
+
+        private void ShowChoiceButtonsAndTitle()
+        {
+            yesButton.gameObject.SetActive(true);
+            noButtion.gameObject.SetActive(true);
+            title.SetActive(true);
+        }
+
+        private void HideBeginButtons()
+        {
+            foreach (Button b in beginButtons)
+            {
+                b.gameObject.SetActive(false);
+            }
+        }
+
+        private void ShowBeginButtons()
+        {
+            foreach (Button b in beginButtons)
+            {
+                b.gameObject.SetActive(true);
+            }
+        }
     }
 }

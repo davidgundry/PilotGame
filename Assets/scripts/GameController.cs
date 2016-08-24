@@ -6,7 +6,7 @@ using level.data;
 public class GameController : MonoBehaviour
 {
 
-    private static readonly string[] levelFileNames = new string[] {"tutorial-mountain","tutorial-gap", "tutorial-mountain", "tutorial-hoop", "first-course", "second-course", "plane-sailing", "cave-route"}; 
+    private static readonly string[] levelFileNames = new string[] {"tutorial-gap", "tutorial-mountain", "tutorial-hoop", "first-course", "second-course", "plane-sailing", "cave-route"}; 
 
     public int CurrentLevelID { get; set; }
     private LevelListData[] levelList;
@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
 
     public int SelectedLevelID { get; set; }
     public LevelListData SelectedLevel { get { return levelList[SelectedLevelID]; } }
+    public bool UnlockedALevel { get; set; }
 
     public bool? UsingMicrophone { get; set; }
 
@@ -29,7 +30,8 @@ public class GameController : MonoBehaviour
         foreach (string filename in levelFileNames)
         {
             levelList[i] = new LevelListData(filename, new LevelData(new LevelFileLoader("levels/" + filename)));
-            levelList[i].Locked = false; //For testing purposes
+            //levelList[i].Locked = false; //For testing purposes
+            //UnlockedALevel = true;//For testing purposes
             i++;
         }
         PlayerGameProgress = new PlayerGameProgress(LevelList);
@@ -80,6 +82,7 @@ public class GameController : MonoBehaviour
     {
         UpdateLevelRecord(levelID, playerLevelRecord);
         UnlockLevel(levelID + 1);
+        UnlockedALevel = true;
     }
 
     private void UnlockLevel(int levelID, bool unlocked = true)

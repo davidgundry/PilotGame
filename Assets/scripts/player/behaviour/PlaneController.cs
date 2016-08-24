@@ -10,6 +10,7 @@ namespace player.behaviour
     public class PlaneController : MonoBehaviour
     {
         public ParticleSystem smokeParticles;
+        public ParticleSystem particleSystem;
 
         PlanePhysics planePhysics;
         PlayerInputManager playerInputManager;
@@ -308,6 +309,7 @@ namespace player.behaviour
             RB.freezeRotation = true;
             enabled = false;
             smokeParticles.Pause();
+            particleSystem.Pause();
         }
 
         public void Unfreeze()
@@ -316,6 +318,7 @@ namespace player.behaviour
             RB.freezeRotation = false;
             enabled = true;
             RB.velocity = pauseVelocityHolder;
+            particleSystem.Play();
         }
     }
 }

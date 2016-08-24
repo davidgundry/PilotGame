@@ -1310,6 +1310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progressBar: {fileID: 0}
+  levelsButton: {fileID: 1266820535}
 --- !u!224 &933254517 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22488596, guid: 9a2ec8faf10339947a8834324becc648,

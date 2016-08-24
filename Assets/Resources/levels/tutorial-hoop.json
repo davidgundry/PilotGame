@@ -10,7 +10,7 @@
 		"wind":0.9,
 		"shadowAngle":0.1,
 		"palate":"day",
-		"cloudCount":0,
+		"cloudCount":7,
 	}
 	"geom":
 	[

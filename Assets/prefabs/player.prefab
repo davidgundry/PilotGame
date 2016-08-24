@@ -410,6 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smokeParticles: {fileID: 19801866}
+  particleSystem: {fileID: 19831340}
 --- !u!198 &19801866
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -2683,6 +2684,10 @@ Prefab:
       propertyPath: m_LinearDrag
       value: .5
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: particleSystem
+      value: 
+      objectReference: {fileID: 19831340}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101262}

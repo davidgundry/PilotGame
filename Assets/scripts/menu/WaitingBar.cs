@@ -8,7 +8,7 @@ namespace menu
     {
 
         public delegate void OnCompleteEventHandler();
-        public event OnCompleteEventHandler OnComplete;
+        public event OnCompleteEventHandler OnComplete = delegate() { };
 
         public Image proportionCompleteBar;
         public bool Done { get; private set; }
