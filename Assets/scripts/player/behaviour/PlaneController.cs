@@ -118,7 +118,7 @@ namespace player.behaviour
 
         private void CheckForGeomCrash()
         {
-            if (oldSpeed - RB.velocity.magnitude > 2f)
+            if (oldSpeed - RB.velocity.magnitude > 4f)
             {
                 GeomCrash();
             }
@@ -145,7 +145,7 @@ namespace player.behaviour
 
         private void PlayerForces()
         {
-            float boostMultiplier = 1;
+            float boostMultiplier = 1.5f;
             if (speedBoostTimer > 0.2)
                 boostMultiplier = 20;
             else if (speedBoostTimer > 0)
@@ -156,7 +156,8 @@ namespace player.behaviour
 
         private void ApplyPlayerTurning()
         {
-           angle = playerInputManager.PlayerTurning();
+            angle = playerInputManager.PlayerTurning();
+            //transform.Rotate(Vector3.forward,playerInputManager.PlayerTurning());
         }
 
         private void RotateToDirection()
@@ -243,7 +244,7 @@ namespace player.behaviour
 
         void OnTriggerEnter2D(Collider2D collider)
         {
-            if ((collider.gameObject.tag != "Sprite") && (collider.gameObject.tag != "Ocean") && (collider.gameObject.tag != "Hoop"))
+            if ((collider.gameObject.tag != "Sprite") && (collider.gameObject.tag != "Ocean") && (collider.gameObject.tag != "Hoop") && (collider.gameObject.tag != "Pickup"))
                 if (upsideDown)
                     PlaneDestroyed();
         }

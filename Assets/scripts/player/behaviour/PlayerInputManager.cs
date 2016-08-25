@@ -53,11 +53,11 @@ namespace player.behaviour
         public float PlayerTurning()
         {
             if (Input.GetKey("up"))
-                return 15f;
+                return 26f;
             else if (Input.GetKey("down"))
-                return -12f;
+                return -10f;
 
-            return Input.acceleration.x*10 + 2;
+            return Input.acceleration.x*10 + 4;
         }
 
 

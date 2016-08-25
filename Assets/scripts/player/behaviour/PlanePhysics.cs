@@ -23,7 +23,7 @@ namespace player.behaviour
 
         public Vector2 PassiveForce(Vector2 velocity, float deltaTime, float angle) //Vector2 position
         {
-            float ad = (velocity.magnitude / SpeedMultiplier) * density;
+            float ad = 50;// (velocity.magnitude / SpeedMultiplier) * density;
             float vv = (velocity.magnitude / SpeedMultiplier) * angle;
             float lift = ad * vv;// * (1 / (position.y + 1));
             return (new Vector2(0, lift) * deltaTime);
