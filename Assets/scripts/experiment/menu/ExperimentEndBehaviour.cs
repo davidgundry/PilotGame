@@ -49,7 +49,7 @@ namespace experiment.menu
 
         private void ReadyToLeaveScene(AsyncOperation async)
         {
-            GameObject.Destroy(experimentController);
+            experimentController.DestroyExperiment();
             async.allowSceneActivation = true;
         }
     }

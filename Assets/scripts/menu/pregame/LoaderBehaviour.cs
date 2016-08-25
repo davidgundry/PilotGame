@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using experiment;
 
 namespace menu.pregame
 {
@@ -31,7 +32,7 @@ namespace menu.pregame
             StartLevelLoading();
 
             if (awaitingMicrophoneResponse)
-                StartCoroutine(WaitForPlayerMicChoice());
+                ShowMicQuestionPane();
             else
                 ShowControlsPane();
         }
@@ -41,12 +42,19 @@ namespace menu.pregame
             gameController.UsingMicrophone = true;
             Application.RequestUserAuthorization(UserAuthorization.Microphone);
             HideChoiceButtonsAndTitle();
+            StartCoroutine(WaitForPlayerMicChoice());
         }
 
         public void MicrophoneNoButton()
         {
             gameController.UsingMicrophone = false;
             awaitingMicrophoneResponse = false;
+            ShowControlsPane();
+            ExperimentController experimentController = GameObject.FindObjectOfType<ExperimentController>();
+            if (experimentController != null)
+            {
+                experimentController.NoMicrophoneSelected();
+            }
         }
 
         public void BeginButton()
@@ -61,13 +69,11 @@ namespace menu.pregame
 
         private IEnumerator WaitForPlayerMicChoice()
         {
-            ShowMicQuestionPane();
             while (awaitingMicrophoneResponse)
             {
                 if (Application.HasUserAuthorization(UserAuthorization.Microphone))
                     awaitingMicrophoneResponse = false;
-                    
-                yield return new WaitForSeconds(0.1f);
+                yield return Application.RequestUserAuthorization(UserAuthorization.Microphone);
             }
             ShowControlsPane();
         }

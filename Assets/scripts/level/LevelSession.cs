@@ -92,6 +92,7 @@ namespace level
         {
             if (experimentController != null)
             {
+                experimentController.StartPlay();
                 if (levelSessionState == LevelSessionState.Playing)
                 {
                     experimentController.Telemetry.SendStreamValue(LevelStream.Timer, timer.Time);
@@ -140,8 +141,24 @@ namespace level
                 SetPlayerEndTime();
                 playerLevelData.LevelResult = LevelResult.FellOffBottom;
                 levelSessionState = LevelSessionState.End;
-                StartCoroutine(ShowFailedMenu(playerLevelData));
+                ShowFailedMenuUnlessExperimentTimeUp();
             }
+        }
+
+        private void ShowFailedMenuUnlessExperimentTimeUp()
+        {
+            if (experimentController != null)
+            {
+                if (experimentController.TimeUp)
+                {
+                    playerLevelData.StarScore = StarScore.scores[0];
+                    StartCoroutine(ShowEndMenu(playerLevelData));
+                }
+                else
+                    StartCoroutine(ShowFailedMenu(playerLevelData));
+            }
+            else
+                StartCoroutine(ShowFailedMenu(playerLevelData));
         }
 
         public void PlayerCrashed()
@@ -155,7 +172,7 @@ namespace level
                 SetPlayerEndTime();
                 playerLevelData.LevelResult = LevelResult.Crash;
                 levelSessionState = LevelSessionState.End;
-                StartCoroutine(ShowFailedMenu(playerLevelData));
+                ShowFailedMenuUnlessExperimentTimeUp();
             }
         }
 
@@ -170,7 +187,7 @@ namespace level
                 SetPlayerEndTime();
                 playerLevelData.LevelResult = LevelResult.Sunk;
                 levelSessionState = LevelSessionState.End;
-                StartCoroutine(ShowFailedMenu(playerLevelData));
+                ShowFailedMenuUnlessExperimentTimeUp();
             }
         }
 

@@ -2,8 +2,8 @@
 	"name":"Second Course",
 	"subtitle":"Cave flying for the first time",
 	"length":200,
-	"height":23,
-	"playerStart":[15,1.5],
+	"height":26,
+	"playerStart":[20,1.5],
 	"targetTime":15,
 	"environment":
 	{
@@ -22,16 +22,28 @@
 			"pivotEndPoints":2,
 			"points":
 			[
-				[0,9],
-				[5,8],
-				[8,0]
-				[47,0],
-				[50,6],
-				[90,6],
-				[120,0],
-				[150,0],
-				[152,-3],
-				[154,-8]
+				[0,-1],
+				[13,-1],
+				[16,3]
+				[47,3],
+				[50,9],
+				[90,9],
+				[120,3],
+				[150,3],
+				[152,0],
+				[154,-5]
+			]
+		},
+		{
+			"name":"ocean",
+			"type":"ocean",
+			"position":"bottom", 
+			"pivotStartPoints":0,
+			"pivotEndPoints":0,
+			"points":
+			[
+				[0,2],
+				[17,2]
 			]
 		},
 		{
@@ -42,10 +54,22 @@
 			"pivotEndPoints":0,
 			"points":
 			[
-				[166,-8],
-				[168,-3],
-				[170,0],
-				[300,0]
+				[166,-5],
+				[168,0],
+				[170,3],
+				[300,3]
+			]
+		},
+		{
+			"name":"ocean",
+			"type":"ocean",
+			"position":"bottom", 
+			"pivotStartPoints":0,
+			"pivotEndPoints":0,
+			"points":
+			[
+				[150,2],
+				[170,2]
 			]
 		},
 		{
@@ -56,19 +80,19 @@
 			"pivotEndPoints":0,
 			"points":
 			[
-				[80,6],
-				[83,10],
-				[85,9.5],
-				[87.5,14],
-				[90,13],
-				[94,16],
-				[97,12],
-				[100,15],
-				[105,12],
-				[108,9],
-				[111,11],
-				[120,3],
-				[126,0]
+				[80,9],
+				[83,13],
+				[85,12.5],
+				[87.5,17],
+				[90,16],
+				[94,19],
+				[97,15],
+				[100,18],
+				[105,15],
+				[108,12],
+				[111,14],
+				[120,6],
+				[126,3]
 			]
 		},
 		{
@@ -79,15 +103,15 @@
 			"pivotEndPoints":2,
 			"points":
 			[
-				[120,20],
-				[122,16],
-				[124,12],
-				[130,10],
-				[135,7],
-				[140,7],
-				[145,10],
-				[147,16],
-				[150,20]
+				[120,23],
+				[122,19],
+				[124,15],
+				[130,13],
+				[135,10],
+				[140,10],
+				[145,13],
+				[147,19],
+				[150,23]
 			]
 		}
 		
@@ -130,6 +154,9 @@
 				[170,16],
 				[180,20],
 				[200,10],
+				[230,15],
+				[250,12],
+				[300,20],
 			]
 		}
 	]
@@ -138,37 +165,37 @@
 		{
 			"name":"earlycoin1",
 			"type":"coin",
-			"position":[50,10],
+			"position":[50,13],
 			"rotation":0
 		},
 		{
 			"name":"earlycoin2",
 			"type":"coin",
-			"position":[60,12],
+			"position":[60,15],
 			"rotation":0
 		},
 		{
 			"name":"plungecoin1",
 			"type":"coin",
-			"position":[120,10],
+			"position":[120,13],
 			"rotation":0
 		},
 		{
 			"name":"plungecoin2",
 			"type":"coin",
-			"position":[130,4],
+			"position":[130,7],
 			"rotation":0
 		},
 		{
 			"name":"endcoin1",
 			"type":"coin",
-			"position":[180,10.5],
+			"position":[180,13.5],
 			"rotation":0
 		},
 		{
 			"name":"endcoin2",
 			"type":"coin",
-			"position":[190,9],
+			"position":[190,12],
 			"rotation":0
 		}
 	],
@@ -176,31 +203,31 @@
 	[
 		{
 			"name":"hoop1",
-			"position":[92,20],
+			"position":[92,23],
 			"rotation":0,
 			"scale":[1,1]
 		},
 		{
 			"name":"hoop2",
-			"position":[102,22],
+			"position":[102,25],
 			"rotation":0,
 			"scale":[1,1]
 		},
 		{
 			"name":"hoop3",
-			"position":[112,20],
+			"position":[112,23],
 			"rotation":0,
 			"scale":[1,1]
 		},
 		{
 			"name":"endhoop1",
-			"position":[165,9],
+			"position":[165,12],
 			"rotation":0,
 			"scale":[1,1]
 		},
 		{
 			"name":"endhoop1",
-			"position":[175,12],
+			"position":[175,15],
 			"rotation":0,
 			"scale":[1,1]
 		}

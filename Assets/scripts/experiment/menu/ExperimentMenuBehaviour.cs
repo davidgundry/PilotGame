@@ -24,7 +24,10 @@ namespace experiment.menu
 
         public void SkipToGame()
         {
-            Application.LoadLevel("main-menu");
+            if (GameObject.FindObjectOfType<GameController>().UnlockedALevel)
+                Application.LoadLevel("main-menu");
+            else
+                Application.LoadLevel("load");
         }
 
         public void ToPane(int paneID)

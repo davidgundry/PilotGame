@@ -41,12 +41,14 @@ namespace player.behaviour
             Camera.clearFlags = CameraClearFlags.SolidColor;
             Camera.backgroundColor = new Color(0.75f,0.93f,0.98f,1);
             Offset = new Vector3(Camera.orthographicSize/1.5f, 0, -10);
+
+            transform.position = Target.position + Offset;
         }
 
         public void SetCameraBounds(LevelBounds levelBounds)
         {
-            MinY = levelBounds.BottomEdge + Camera.orthographicSize/2;
-            MaxY = levelBounds.HardMaxHeight - Camera.orthographicSize/2;
+            MinY = levelBounds.BottomEdge + Camera.orthographicSize;
+            MaxY = levelBounds.HardMaxHeight - Camera.orthographicSize + 2;
             MinX = levelBounds.LeftEdge + Camera.orthographicSize*Camera.aspect;
         }
 

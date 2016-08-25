@@ -2,8 +2,8 @@
 	"name":"The Gap",
 	"subtitle":"Flying School: First Lesson",
 	"length":100,
-	"height":23,
-	"playerStart":[10,7.3],
+	"height":20,
+	"playerStart":[20,7.3],
 	"targetTime":7,
 	"environment":
 	{

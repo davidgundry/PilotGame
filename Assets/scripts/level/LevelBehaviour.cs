@@ -57,6 +57,7 @@ namespace level
         {
             this.levelSession = levelSession;
             player = CreatePlayer(playerLevelData);
+            SetPlayerPosition(levelData);
             followCamera = CreateCamera(player);
             levelBounds = CreateLevelBounds(levelData, followCamera);
             followCamera.SetCameraBounds(levelBounds);
@@ -70,7 +71,6 @@ namespace level
             CreateCloudLine(levelData);
             cloudBehaviours = CreateClouds(levelBounds, levelData.environmentData);
 
-            SetPlayerPosition(levelData);
             created = true;
         }
 
@@ -198,7 +198,7 @@ namespace level
 
         private static LevelBounds CreateLevelBounds(LevelData levelData, FollowCamera camera)
         {
-            return new LevelBounds(levelData.length, 0, 0, levelData.height, levelData.height+0.5f, camera.Camera.orthographicSize, camera.Camera.orthographicSize*camera.Camera.aspect);
+            return new LevelBounds(levelData.length, 0, 0, levelData.height,camera.Camera.orthographicSize, camera.Camera.orthographicSize*camera.Camera.aspect);
         }
 
         private static CloudBehaviour[] CreateClouds(LevelBounds levelBounds,EnvironmentData environmentData)

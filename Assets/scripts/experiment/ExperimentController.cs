@@ -30,9 +30,12 @@ namespace experiment
         public Telemetry Telemetry { get { return telemetryController.Telemetry; } }
         public string DataKey { get { if (Telemetry != null) return telemetryController.GetKey(); else return null; } }
         public int SyllablesDetectedDuringPlay { get; set; }
-        
-        private const string remoteURL = "";
+        public bool TimeUp { get { if (TimerStarted) { return (startTime + duration) - Time.time < 0; } else return false; } }
+        private float startTime = 0;
+        private bool TimerStarted { get { return startTime != 0; } }
+        private float duration = 0.1f * 60;
 
+        private const string remoteURL = "";
 
 
         void Awake()
@@ -47,15 +50,43 @@ namespace experiment
             ExperimentStart();
         }
 
+        void Update()
+        {
+            StartCoroutine(CheckTimer());
+        }
+
+        private IEnumerator CheckTimer()
+        {
+            while (true)
+            {
+                if (TimeUp)
+                    if (Application.loadedLevelName != "main")
+                        if (Application.loadedLevelName != "questionnaire")
+                            Application.LoadLevel("questionnaire");
+                yield return new WaitForSeconds(1);
+            }
+        }
+
         void OnLevelWasLoaded()
         {
             if (Telemetry != null)
                 Telemetry.SendKeyValuePair(experiment.ExperimentKeys.SceneLoaded, Application.loadedLevelName);
         }
 
+        public void StartPlay()
+        {
+            if (startTime == 0)
+                startTime = Time.time;
+        }
+
+        public void NoMicrophoneSelected()
+        {
+            telemetryController.EndTelemetry();
+            DestroyExperiment();
+        }
+
         private void ConfigureTelemetry()
         {
-
             Telemetry Telemetry = telemetryController.CreateTelemetry(new URL(remoteURL));
             telemetryController.Telemetry = Telemetry;
             Telemetry.ReuseOrCreateKey();
@@ -70,6 +101,17 @@ namespace experiment
         {
             Telemetry.SendEvent(ExperimentEvent.ExperimentEnd);
             Telemetry.SendAllBuffered();
+        }
+
+        public void ShowQuestionnaire()
+        {
+            Application.LoadLevel("questionnaire");
+        }
+
+        public void DestroyExperiment()
+        {
+            telemetryController.EndTelemetry();
+            GameObject.Destroy(gameObject);
         }
 
         public bool AllDataUploaded()

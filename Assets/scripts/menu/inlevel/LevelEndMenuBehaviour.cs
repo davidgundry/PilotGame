@@ -5,6 +5,7 @@ using player;
 using player.data;
 using menu.inlevel;
 using level.data;
+using experiment;
 
 namespace menu.inlevel
 {
@@ -14,6 +15,7 @@ namespace menu.inlevel
         public StatsContainerBehaviour statsContainer;
         public Button retryButton;
         public Button nextButton;
+        public Button menuButton;
         public Image background;
 
         void Awake()
@@ -28,6 +30,7 @@ namespace menu.inlevel
             retryButton.gameObject.SetActive(active);
             nextButton.gameObject.SetActive(active);
             background.gameObject.SetActive(active);
+            menuButton.gameObject.SetActive(active);
         }
 
         public void Create(PlayerLevelData playerLevelData, LevelData levelData, PlayerLevelRecord playerLevelRecord)
@@ -54,11 +57,30 @@ namespace menu.inlevel
             statsContainer.gameObject.SetActive(true);
             statsContainer.Create(playerLevelData, levelData, playerLevelRecord);
             yield return new WaitForSeconds(0.5f);
+            ExperimentController experiment = GameObject.FindObjectOfType<ExperimentController>();
+            if (experiment != null)
+            {
+                if (experiment.TimeUp)
+                {
+                    nextButton.onClick.RemoveAllListeners();
+                    nextButton.onClick.AddListener(delegate() { experiment.ShowQuestionnaire(); });
+                    nextButton.gameObject.SetActive(true);
+                }
+                else
+                    ShowButtons(playerLevelData);
+            }
+            else
+                ShowButtons(playerLevelData);
+             
+        }
+
+        private void ShowButtons(PlayerLevelData playerLevelData)
+        {
             retryButton.gameObject.SetActive(true);
+            menuButton.gameObject.SetActive(true);
 
             if (playerLevelData.StarScore > StarScore.scores[0])
                 nextButton.gameObject.SetActive(true);
-             
         }
     }
 }

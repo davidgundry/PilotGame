@@ -10,54 +10,47 @@ namespace experiment.menu
         ExperimentController experimentController;
         public WaitingBar waitingBar;
         public Text connectionInfoText;
+        public GameObject startButton;
+        public GameObject explainText;
+        private AsyncOperation async;
 
         void Start()
         {
+            startButton.SetActive(false);
+            explainText.SetActive(false);
             connectionInfoText.text = "";
             experimentController = GameObject.FindObjectOfType<ExperimentController>();
-            StartCoroutine(AskMicrophoneAuthorisation());
 
-            AsyncOperation async = Application.LoadLevelAsync("main-menu");  
+            async = Application.LoadLevelAsync("load");  
             async.allowSceneActivation = false;
-            waitingBar.OnComplete += delegate()
-            { 
-                CheckMicrophone(async);
-            };
-            waitingBar.StartWaitingBar(1f);
+            StartCoroutine(WaitForMicrophoneAuthorisation());
+            waitingBar.StartWaitingBar(0);
         }
 
-        private void CheckMicrophone(AsyncOperation async)
-        {
-            if (!Application.HasUserAuthorization(UserAuthorization.Microphone))
-                StartCoroutine(WaitForMicrophoneAuthorisation(async));
-            else
-                CheckTelemetryKey(async);
-        }
-
-        private void CheckTelemetryKey(AsyncOperation async)
+        private void CheckTelemetryKey()
         {
             if (!experimentController.Telemetry.CurrentKeyIsFetched)
-                StartCoroutine(WaitForTelemetryKey(async));
+                StartCoroutine(WaitForTelemetryKey());
             else
-                LoadingDone(async);
+                LoadingDone();
         }
 
-        private IEnumerator AskMicrophoneAuthorisation()
-        {
-            yield return new WaitForSeconds(0.25f);
-            Application.RequestUserAuthorization(UserAuthorization.Microphone);
-        }
-
-        private IEnumerator WaitForMicrophoneAuthorisation(AsyncOperation async)
+        private IEnumerator WaitForMicrophoneAuthorisation()
         {
             while (!Application.HasUserAuthorization(UserAuthorization.Microphone))
             {
-                yield return new WaitForSeconds(0.2f);
+                yield return Application.RequestUserAuthorization(UserAuthorization.Microphone);
             }
-            CheckTelemetryKey(async);
+            explainText.SetActive(true);
+            waitingBar.OnComplete += delegate()
+            {
+                CheckTelemetryKey();
+            };
+            waitingBar.StartWaitingBar(1f);
+            
         }
 
-        private IEnumerator WaitForTelemetryKey(AsyncOperation async)
+        private IEnumerator WaitForTelemetryKey()
         {
             connectionInfoText.text = "Waiting for server...";
             /*while (!experimentController.Telemetry.KeyManager.CurrentKeyIsFetched)
@@ -65,10 +58,17 @@ namespace experiment.menu
                 yield return new WaitForSeconds(0.2f);
             }*/
             yield return new WaitForSeconds(0.2f);
-            LoadingDone(async);
+            LoadingDone();
         }
 
-        private void LoadingDone(AsyncOperation async)
+        private void LoadingDone()
+        {
+            connectionInfoText.gameObject.SetActive(false);
+            waitingBar.gameObject.SetActive(false);
+            startButton.SetActive(true);
+        }        
+
+        public void StartButton()
         {
             async.allowSceneActivation = true;
         }

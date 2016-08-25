@@ -18,11 +18,11 @@ namespace level
         public float GeomBottomEdge { get { return 0 - HalfCameraHeight; } }
 
 
-        public LevelBounds(float levelLength, float bottomEdge, float leftEdge, float softMaxHeight, float hardMaxHeight, float halfCameraHeight, float halfCameraWidth)
+        public LevelBounds(float levelLength, float bottomEdge, float leftEdge, float height, float halfCameraHeight, float halfCameraWidth)
         {
             this.LevelLength = levelLength;
-            this.SoftMaxHeight = softMaxHeight;
-            this.HardMaxHeight = hardMaxHeight;
+            this.SoftMaxHeight = height - 0f;
+            this.HardMaxHeight = height;
             this.HalfCameraHeight = halfCameraHeight;
             this.HalfCameraWidth = halfCameraWidth;
             this.BottomEdge = bottomEdge;
