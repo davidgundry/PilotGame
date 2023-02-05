@@ -2,7 +2,7 @@
 
 PilotGame is a speech-powered plane-flying game. It was developed during my PhD research into designing games for collecting human-subject data.
 
-[Play it online](https://davidgundry.itch.io)
+[Play it online](https://davidgundry.itch.io/pilotgame)
 
 >**Note:** The game was originally built for web using the Unity Plugin. Unity has now switched to building to WebGL, which does not provide access to the microphone. While there are workarounds I have not gone back to implement these. Microphone access has been disabled to allow the game to be demonstrated.
 
