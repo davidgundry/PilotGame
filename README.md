@@ -1,6 +1,6 @@
 # PilotGame
 
-PilotGame is a speech-powered plane-flying game. It was developed during my PhD into applied games for collecting spoken lingustic data.
+PilotGame is a speech-powered plane-flying game. It was developed during my PhD research into designing games for collecting human-subject data.
 
 [Play it online](https://davidgundry.itch.io)
 
