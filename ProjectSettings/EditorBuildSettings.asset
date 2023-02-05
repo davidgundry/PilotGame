@@ -7,19 +7,29 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/scenes/front-page.unity
-  - enabled: 1
+    guid: 9297f3e10e9c8264ab307dda3cd6113b
+  - enabled: 0
     path: Assets/scenes/experiment-menu.unity
-  - enabled: 1
+    guid: 78d2f7ebf5a8eb444bf195c274ce2d51
+  - enabled: 0
     path: Assets/scenes/experiment-load.unity
+    guid: 4e1939b1b49bb594a8f99d6101dda178
   - enabled: 1
     path: Assets/scenes/main-menu.unity
+    guid: 28a80de5325123944afbfe79cd325a21
   - enabled: 1
     path: Assets/scenes/load.unity
+    guid: 4f5a5e2cd03f4c2439dd63dd7c0a4e4d
   - enabled: 1
     path: Assets/scenes/main.unity
+    guid: e3c72aa004e40234eb717d89904fc184
   - enabled: 1
     path: Assets/scenes/complete.unity
-  - enabled: 1
+    guid: 98e417da2b973d14a975fca41ea54b66
+  - enabled: 0
     path: Assets/scenes/questionnaire.unity
-  - enabled: 1
+    guid: f34179cecc086fb478f909095b2c6d69
+  - enabled: 0
     path: Assets/scenes/experiment-end.unity
+    guid: 3e7e9795213a733409c73751d205d7a5
+  m_configObjects: {}

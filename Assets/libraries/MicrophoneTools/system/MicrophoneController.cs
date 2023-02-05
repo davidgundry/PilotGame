@@ -5,7 +5,6 @@ using MicTools;
 using System;
 using System.IO;
 
-
 namespace MicTools
 {
 /// <summary>
@@ -161,14 +160,14 @@ public class MicrophoneController : MonoBehaviour
                 }
                 else if (Application.HasUserAuthorization(UserAuthorization.Microphone))
                 {
-                    if (Microphone.devices.Length > 0)
+                    if (false) // (Microphone.devices.Length > 0) // TODO: Microphone not available on WebGL
                     {
                         if (microphoneUI != null)
                         {
                             if (microphoneUI.UseDefaultMic())
                                 UseDefaultDevice();
-                            else
-                                microphoneUI.ChooseDevice(Microphone.devices);
+                           // else
+                               // microphoneUI.ChooseDevice(Microphone.devices);  // TODO: Microphone not available on WebGL
                         }
                         else
                             UseDefaultDevice();
@@ -244,7 +243,7 @@ public class MicrophoneController : MonoBehaviour
         }
         else
         {
-            audioClip = Microphone.Start(microphoneDeviceName, true, 1, sampleRate);
+            //audioClip = Microphone.Start(microphoneDeviceName, true, 1, sampleRate);  // TODO: Microphone not available on WebGL
             channels = 1; // Fetching the number of channels from the audio clip gives incorrect
                           // results, possibly due to a Unity bug
         }
@@ -265,7 +264,7 @@ public class MicrophoneController : MonoBehaviour
             Destroy(audioClip);
         else
         {
-            Microphone.End(microphoneDeviceName);
+            // Microphone.End(microphoneDeviceName);  // TODO: Microphone not available on WebGL
             audioClip = null;
         }
 
@@ -308,9 +307,9 @@ public class MicrophoneController : MonoBehaviour
     {
         if (Application.HasUserAuthorization(UserAuthorization.Microphone))
         {
-            if ((id >= 0) && (Microphone.devices.Length > 0))
+            if ((id >= 0) && (false))  //(Microphone.devices.Length > 0))  // TODO: Microphone not available on WebGL
             {
-                microphoneDeviceName = Microphone.devices[id];
+                // microphoneDeviceName = Microphone.devices[id];  // TODO: Microphone not available on WebGL
                 LogMT.Log("MicrophoneController: Using microphone: " + microphoneDeviceName);
                 microphoneDeviceSet = true;
                 SetSamplingRate();
@@ -330,7 +329,7 @@ public class MicrophoneController : MonoBehaviour
     {
         if (Application.HasUserAuthorization(UserAuthorization.Microphone))
         {
-            if (Microphone.devices.Length > 0)
+            if (false) // (Microphone.devices.Length > 0)  // TODO: Microphone not available on WebGL
             {
                 microphoneDeviceName = "";
                 microphoneDeviceSet = true;
@@ -386,8 +385,8 @@ public class MicrophoneController : MonoBehaviour
     /// </summary>
     private void SetSamplingRate()
     {
-        int min, max;
-        Microphone.GetDeviceCaps(microphoneDeviceName, out min, out max);
+        int min, max = 0;
+        // Microphone.GetDeviceCaps(microphoneDeviceName, out min, out max);  // TODO: Microphone not available on WebGL
 
         if (max == 0)
             sampleRate = defaultSampleRate;

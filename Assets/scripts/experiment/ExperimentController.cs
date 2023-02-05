@@ -81,7 +81,7 @@ namespace experiment
 
         public void NoMicrophoneSelected()
         {
-            telemetryController.EndTelemetry();
+            //telemetryController.EndTelemetry();
             DestroyExperiment();
         }
 
@@ -110,7 +110,7 @@ namespace experiment
 
         public void DestroyExperiment()
         {
-            telemetryController.EndTelemetry();
+            //telemetryController.EndTelemetry();
             GameObject.Destroy(gameObject);
         }
 

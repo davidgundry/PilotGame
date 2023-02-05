@@ -5,6 +5,6 @@ public class FrontPageBehaviour : MonoBehaviour {
 
     public void StartButton()
     {
-        Application.LoadLevel("experiment-menu");
+        Application.LoadLevel("main-menu");
     }
 }
